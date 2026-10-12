@@ -1,16 +1,22 @@
 package com.scholarship;
 
+import com.scholarship.algorithms.*;
 import com.scholarship.expression.ExpressionParser;
 import com.scholarship.model.ActionRecord;
 import com.scholarship.model.StudentRecord;
+import com.scholarship.searchsort.*;
 import com.scholarship.service.ScholarshipService;
 import com.scholarship.test.TestSuite;
 
 import java.util.*;
 
 /**
- * Interactive Console Application for Phase 1: Linear Data Structures
- * Student Scholarship Eligibility and Merit System (26MCC1L211: CLO1)
+ * Interactive Console Application for All 4 DSA Practical Phases:
+ * Course: 26MCC1L211: Data Structures and Algorithms Practical
+ * - Phase 1: Linear Data Structures (CLO1)
+ * - Phase 2: Hierarchical and Graph Structures (CLO2)
+ * - Phase 3: Searching and Sorting Operations (CLO2)
+ * - Phase 4: Basic Algorithmic Problem Solving (CLO3)
  */
 public class Main {
 
@@ -22,7 +28,7 @@ public class Main {
 
         while (true) {
             displayMenu();
-            System.out.print("Enter your choice (0-17): ");
+            System.out.print("Enter your choice (0-23): ");
             String choice = scanner.nextLine().trim();
 
             switch (choice) {
@@ -43,44 +49,58 @@ public class Main {
                 case "15": handleCategoryHierarchy(service); break;
                 case "16": handleWorkflowGraph(service); break;
                 case "17": handleGraphTraversals(service); break;
+                case "18": handleSearchOperations(service); break;
+                case "19": handleSortOperations(service); break;
+                case "20": handleAlgorithmBenchmark(service); break;
+                case "21": handleGreedyAllocation(service); break;
+                case "22": handleDPOptimization(service); break;
+                case "23": handleBacktrackingAssignment(service); break;
                 case "0":
                     System.out.println("\nExiting Student Scholarship System. Goodbye!\n");
                     return;
                 default:
-                    System.out.println("[ERROR] Invalid choice. Please enter a number between 0 and 17.");
+                    System.out.println("[ERROR] Invalid choice. Please enter a number between 0 and 23.");
             }
         }
     }
 
     private static void printBanner() {
         System.out.println("================================================================================");
-        System.out.println("   STUDENT SCHOLARSHIP ELIGIBILITY & MERIT SYSTEM (PHASE 1 & 2 - JAVA)");
-        System.out.println("   Linear Data Structures (CLO1) & Hierarchical/Graph Structures (CLO2)");
-        System.out.println("   [ Linked List | Stack | Queue | BST | Category Binary Tree | Workflow Graph ]");
+        System.out.println("   STUDENT SCHOLARSHIP ELIGIBILITY & MERIT SYSTEM (ALL 4 PHASES - JAVA)");
+        System.out.println("   Course: 26MCC1L211 Data Structures and Algorithms Practical");
+        System.out.println("   [ CLO1: Linear DSA | CLO2: Trees & Graphs | CLO2: Search/Sort | CLO3: Algorithms ]");
         System.out.println("================================================================================");
     }
 
     private static void displayMenu() {
         System.out.println("\n  === PHASE 1: LINEAR DATA STRUCTURES (CLO1) ===");
-        System.out.println("  [1] View All Stored Student Records (Linked List Traversal)");
-        System.out.println("  [2] Submit New Scholarship Application (Enqueue to FIFO Queue)");
-        System.out.println("  [3] View Application Verification Queue (FIFO Display)");
-        System.out.println("  [4] Process Next Application (Evaluate & Store in Sorted Linked List)");
+        System.out.println("  [1] View Stored Student Records (Linked List Traversal)");
+        System.out.println("  [2] Submit Application (Enqueue to FIFO Queue)");
+        System.out.println("  [3] View Application Queue (FIFO Display)");
+        System.out.println("  [4] Process Next Application (Evaluate & Store in Linked List)");
         System.out.println("  [5] Search Student Record (Linear Search in Linked List)");
-        System.out.println("  [6] Delete Student Record from Storage (Linked List Deletion)");
+        System.out.println("  [6] Delete Student Record (Linked List Deletion)");
         System.out.println("  [7] Undo Last Action (LIFO Action Stack Pop)");
         System.out.println("  [8] View Action History (Audit Stack Display)");
-        System.out.println("  [9] Test / Configure Merit Formula (Stack-Based Expression Evaluator)");
+        System.out.println("  [9] Test Merit Formula (Stack-Based Expression Evaluator)");
         System.out.println("\n  === PHASE 2: HIERARCHICAL & GRAPH STRUCTURES (CLO2) ===");
-        System.out.println("  [13] Binary Search Tree (BST): Fast Search O(log N), Insert, 3-Case Delete, Tree View");
+        System.out.println("  [13] Binary Search Tree (BST): Fast Search O(log N), 3-Case Delete, Tree View");
         System.out.println("  [14] Tree Traversals: Inorder, Preorder, Postorder (BST & Category Tree)");
-        System.out.println("  [15] Scholarship Category Binary Tree Hierarchy & Student Eligibility Check");
+        System.out.println("  [15] Scholarship Category Binary Tree Hierarchy & Eligibility Check");
         System.out.println("  [16] Verification Workflow Graph: Adjacency List & Matrix View");
-        System.out.println("  [17] Graph Traversals: BFS Level Traversal & DFS Deep Audit Traversal");
+        System.out.println("  [17] Graph Traversals: BFS Level Traversal & DFS Route Audit");
+        System.out.println("\n  === PHASE 3: SEARCHING & SORTING OPERATIONS (CLO2) ===");
+        System.out.println("  [18] Search Operations: Linear Search vs Binary Search Comparison");
+        System.out.println("  [19] Sorting Operations: Merge Sort, Quick Sort, Insertion Sort");
+        System.out.println("  [20] Algorithm Performance Benchmark & Complexity Comparison Matrix");
+        System.out.println("\n  === PHASE 4: BASIC ALGORITHMIC PROBLEM SOLVING (CLO3) ===");
+        System.out.println("  [21] Greedy Technique: Optimal Scholarship Fund Budget Allocation");
+        System.out.println("  [22] Dynamic Programming: 0/1 Knapsack Discrete Grant Maximizer");
+        System.out.println("  [23] Backtracking Technique: Multi-Constraint Committee Panel Assignment");
         System.out.println("\n  === SYSTEM UTILITIES ===");
-        System.out.println("  [10] Run Automated Quick Demo (Full Phase 1 & Phase 2 End-to-End Walkthrough)");
+        System.out.println("  [10] Run Automated Quick Demo (Full End-to-End Walkthrough Across All 4 Phases)");
         System.out.println("  [11] Load Sample Student Dataset");
-        System.out.println("  [12] Run Automated Unit Test Suite (CLO1 & CLO2)");
+        System.out.println("  [12] Run Automated Unit Test Suite (150 Tests: CLO1, CLO2, CLO3)");
         System.out.println("  [0] Exit\n");
     }
 
@@ -373,8 +393,73 @@ public class Main {
         List<String> path = service.findWorkflowVerificationPath("PortalSubmission", "FundDisburse");
         System.out.println("  * End-to-End Approval Route: " + String.join(" -> ", path));
 
+        // =====================================================================
+        // PHASE 3 DEMONSTRATION: SEARCHING & SORTING OPERATIONS (CLO2)
+        // =====================================================================
+        System.out.println("\n--- [PHASE 3] SEARCHING & SORTING OPERATIONS DEMONSTRATION ---");
+
+        // Step 14: Search Comparison
+        System.out.println("\n[Step 14] Search Comparison: Linear Search vs Binary Search for 'STU1001':");
+        var linRes = service.searchStudentLinear("STU1001");
+        var binRes = service.searchStudentBinary("STU1001");
+        System.out.printf("  * Linear Search: Found = %b | Comparisons = %d | Time = %d ns\n",
+                linRes.isFound(), linRes.comparisons, linRes.executionTimeNs);
+        System.out.printf("  * Binary Search: Found = %b | Comparisons = %d | Time = %d ns\n",
+                binRes.isFound(), binRes.comparisons, binRes.executionTimeNs);
+
+        // Step 15: Merge Sort Ranking
+        System.out.println("\n[Step 15] Merge Sort Merit Ranking (Descending by Merit Score):");
+        StudentRecord[] sortedByMerit = service.sortStudentsMerge(true);
+        for (int i = 0; i < sortedByMerit.length; i++) {
+            System.out.printf("  Rank #%d: [%s] %-16s | Merit: %.2f | CGPA: %.2f\n",
+                    i + 1, sortedByMerit[i].getStudentId(), sortedByMerit[i].getName(),
+                    sortedByMerit[i].getMeritScore(), sortedByMerit[i].getGpa());
+        }
+
+        // Step 16: Empirical Algorithm Benchmark
+        System.out.println("\n[Step 16] Algorithm Benchmark Matrix (50 Synthetic Students):");
+        var benchReport = service.runAlgorithmBenchmark(50);
+        AlgorithmBenchmark.printComparisonTable(benchReport);
+
+        // =====================================================================
+        // PHASE 4 DEMONSTRATION: BASIC ALGORITHMIC PROBLEM SOLVING (CLO3)
+        // =====================================================================
+        System.out.println("\n--- [PHASE 4] BASIC ALGORITHMIC PROBLEM SOLVING DEMONSTRATION ---");
+
+        // Step 17: Greedy Budget Allocation
+        System.out.println("\n[Step 17] Greedy Technique: Optimal Fund Allocation (Continuous/Fractional Budgeting):");
+        double fundBudget = 100000.0;
+        List<Double> reqGrants = List.of(60000.0, 50000.0, 40000.0);
+        var greedyRes = service.allocateBudgetGreedy(fundBudget, reqGrants);
+        System.out.printf("  Total Budget: ₹%,.0f | Allocated: ₹%,.0f | Merit Yield: %.2f\n",
+                greedyRes.totalBudget, greedyRes.spentBudget, greedyRes.totalMeritYield);
+        for (var item : greedyRes.allocations) {
+            System.out.println("  -> " + item);
+        }
+
+        // Step 18: Dynamic Programming Discrete Grant Optimization
+        System.out.println("\n[Step 18] Dynamic Programming: 0/1 Knapsack Discrete Scholarship Selection:");
+        int[] grantCosts = {2, 3}; // In units of 10k: 20k, 30k
+        int budgetCap = 4; // 40k budget
+        var dpRes = service.optimizeDiscreteGrantsDP(grantCosts, budgetCap);
+        System.out.printf("  Budget Cap: %d units | Spent: %d units | Max Merit Achieved: %.2f\n",
+                dpRes.totalBudget, dpRes.spentBudget, dpRes.maxMeritAchieved);
+        for (var sel : dpRes.selectedStudents) {
+            System.out.printf("  -> [AWARDED FULL GRANT] [%s] %s (Merit: %.2f)\n",
+                    sel.getStudentId(), sel.getName(), sel.getMeritScore());
+        }
+
+        // Step 19: Backtracking Committee Assignment
+        System.out.println("\n[Step 19] Backtracking Technique: Multi-Constraint Committee Panel Assignment:");
+        List<BacktrackingCommitteeAssigner.SlotRequirement> slots = List.of(
+                new BacktrackingCommitteeAssigner.SlotRequirement("AcademicHonorsPanel", 85.0),
+                new BacktrackingCommitteeAssigner.SlotRequirement("WelfareEvaluationPanel", 80.0)
+        );
+        var btRes = service.assignCommitteeBacktracking(slots);
+        System.out.print(btRes);
+
         System.out.println("\n================================================================================");
-        System.out.println(" QUICK DEMO COMPLETE - BOTH PHASE 1 & PHASE 2 VERIFIED (JAVA)!");
+        System.out.println(" QUICK DEMO COMPLETE - ALL 4 PRACTICAL PHASES VERIFIED (JAVA)!");
         System.out.println("================================================================================");
     }
 
@@ -538,6 +623,140 @@ public class Main {
                 System.out.println("  " + String.join(" -> ", path));
             }
         }
+    }
+
+    // =========================================================================
+    // Phase 3 Handlers: Searching & Sorting Operations (CLO2)
+    // =========================================================================
+
+    private static void handleSearchOperations(ScholarshipService service) {
+        System.out.println("\n--- SEARCHING OPERATIONS COMPARISON (CLO2) ---");
+        System.out.print("Enter Student ID to search (e.g. STU1001): ");
+        String id = scanner.nextLine().trim();
+        if (id.isEmpty()) id = "STU1001";
+
+        var linRes = service.searchStudentLinear(id);
+        var binRes = service.searchStudentBinary(id);
+
+        System.out.println("\n--- Search Performance Comparison ---");
+        System.out.printf("  %-16s | Found: %-5b | Comparisons: %-4d | Runtime: %,d ns\n",
+                "Linear Search", linRes.isFound(), linRes.comparisons, linRes.executionTimeNs);
+        System.out.printf("  %-16s | Found: %-5b | Comparisons: %-4d | Runtime: %,d ns\n",
+                "Binary Search", binRes.isFound(), binRes.comparisons, binRes.executionTimeNs);
+
+        if (binRes.isFound()) {
+            StudentRecord s = binRes.record;
+            System.out.printf("\n[RECORD DETAILS] %s (ID: %s) | Category: %s | Merit Score: %.2f | CGPA: %.2f\n",
+                    s.getName(), s.getStudentId(), s.getCategory(), s.getMeritScore(), s.getGpa());
+        } else {
+            System.out.println("[NOT FOUND] Student record does not exist in storage.");
+        }
+    }
+
+    private static void handleSortOperations(ScholarshipService service) {
+        System.out.println("\n--- SORTING OPERATIONS (CLO2) ---");
+        System.out.println("  [1] Merge Sort: Rank Students by Merit Score (Descending)");
+        System.out.println("  [2] Quick Sort: Sort Students by Student ID (Ascending)");
+        System.out.println("  [3] Insertion Sort: Sort Students by CGPA (Descending)");
+        System.out.print("Enter choice (1-3): ");
+        String opt = scanner.nextLine().trim();
+
+        StudentRecord[] sorted;
+        if (opt.equals("1")) {
+            sorted = service.sortStudentsMerge(true);
+            System.out.println("\n--- MERGE SORT RESULTS (RANKED BY MERIT SCORE) ---");
+            for (int i = 0; i < sorted.length; i++) {
+                System.out.printf("  Rank #%2d: [%s] %-16s | Merit Score: %.2f | Category: %s\n",
+                        i + 1, sorted[i].getStudentId(), sorted[i].getName(), sorted[i].getMeritScore(), sorted[i].getCategory());
+            }
+        } else if (opt.equals("2")) {
+            sorted = service.sortStudentsQuick(true);
+            System.out.println("\n--- QUICK SORT RESULTS (SORTED BY STUDENT ID) ---");
+            for (StudentRecord s : sorted) {
+                System.out.printf("  [%s] %-16s | CGPA: %.2f | Status: %s\n",
+                        s.getStudentId(), s.getName(), s.getGpa(), s.getStatus());
+            }
+        } else if (opt.equals("3")) {
+            sorted = service.sortStudentsInsertion();
+            System.out.println("\n--- INSERTION SORT RESULTS (SORTED BY CGPA) ---");
+            for (StudentRecord s : sorted) {
+                System.out.printf("  CGPA: %.2f | [%s] %-16s | Merit: %.2f\n",
+                        s.getGpa(), s.getStudentId(), s.getName(), s.getMeritScore());
+            }
+        }
+    }
+
+    private static void handleAlgorithmBenchmark(ScholarshipService service) {
+        System.out.println("\n--- ALGORITHM COMPLEXITY BENCHMARK MATRIX (CLO2) ---");
+        System.out.print("Enter synthetic dataset size (e.g. 100, 500, 1000) [Default: 100]: ");
+        String input = scanner.nextLine().trim();
+        int size = input.isEmpty() ? 100 : Integer.parseInt(input);
+
+        var report = service.runAlgorithmBenchmark(size);
+        AlgorithmBenchmark.printComparisonTable(report);
+    }
+
+    // =========================================================================
+    // Phase 4 Handlers: Basic Algorithmic Problem Solving (CLO3)
+    // =========================================================================
+
+    private static void handleGreedyAllocation(ScholarshipService service) {
+        System.out.println("\n--- PHASE 4: GREEDY SCHOLARSHIP FUND ALLOCATION (CLO3) ---");
+        System.out.print("Enter total endowment budget (in INR, e.g. 150000) [Default: 150000]: ");
+        String input = scanner.nextLine().trim();
+        double budget = input.isEmpty() ? 150000.0 : Double.parseDouble(input);
+
+        List<Double> requested = Arrays.asList(50000.0, 45000.0, 40000.0, 60000.0, 35000.0, 50000.0, 30000.0, 75000.0);
+        var result = service.allocateBudgetGreedy(budget, requested);
+
+        System.out.println("\n================================================================================");
+        System.out.printf(" GREEDY ALLOCATION SUMMARY | Budget: ₹%,.0f | Spent: ₹%,.0f | Remaining: ₹%,.0f\n",
+                result.totalBudget, result.spentBudget, result.remainingBudget);
+        System.out.printf(" Total Academic Merit Yield Supported: %.2f\n", result.totalMeritYield);
+        System.out.println("================================================================================");
+        for (var item : result.allocations) {
+            System.out.println("  " + item);
+        }
+        System.out.println("================================================================================");
+    }
+
+    private static void handleDPOptimization(ScholarshipService service) {
+        System.out.println("\n--- PHASE 4: DYNAMIC PROGRAMMING DISCRETE GRANT OPTIMIZATION (CLO3) ---");
+        System.out.print("Enter total discrete budget capacity (in ₹10,000 units, e.g. 10 for ₹100,000) [Default: 8]: ");
+        String input = scanner.nextLine().trim();
+        int cap = input.isEmpty() ? 8 : Integer.parseInt(input);
+
+        // Grant costs in units of 10,000: e.g. 2 = 20k, 3 = 30k, 4 = 40k, etc.
+        int[] costs = {2, 3, 2, 4, 1, 3, 2, 4};
+        var dpRes = service.optimizeDiscreteGrantsDP(costs, cap);
+
+        System.out.println("\n================================================================================");
+        System.out.printf(" DP 0/1 KNAPSACK OPTIMAL SELECTION | Budget: %d units | Spent: %d units\n",
+                dpRes.totalBudget, dpRes.spentBudget);
+        System.out.printf(" Maximum Academic Merit Achieved: %.2f\n", dpRes.maxMeritAchieved);
+        System.out.println("================================================================================");
+        for (StudentRecord s : dpRes.selectedStudents) {
+            System.out.printf("  [AWARDED 100%%] [%s] %-16s | Merit: %.2f | Category: %s\n",
+                    s.getStudentId(), s.getName(), s.getMeritScore(), s.getCategory());
+        }
+        System.out.println("================================================================================");
+    }
+
+    private static void handleBacktrackingAssignment(ScholarshipService service) {
+        System.out.println("\n--- PHASE 4: BACKTRACKING COMMITTEE ASSIGNMENT (CLO3) ---");
+        List<BacktrackingCommitteeAssigner.SlotRequirement> slots = Arrays.asList(
+                new BacktrackingCommitteeAssigner.SlotRequirement("MeritHonorsChair", 85.0),
+                new BacktrackingCommitteeAssigner.SlotRequirement("NeedGrantEvaluator", 75.0),
+                new BacktrackingCommitteeAssigner.SlotRequirement("ActivitiesDelegate", 70.0)
+        );
+
+        System.out.println("Target Committee Evaluation Panels to assign:");
+        for (var sl : slots) {
+            System.out.println("  * " + sl);
+        }
+
+        var res = service.assignCommitteeBacktracking(slots);
+        System.out.println("\n" + res);
     }
 
     private static void handleLoadSampleData(ScholarshipService service) {

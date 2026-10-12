@@ -211,6 +211,20 @@ public class StudentLinkedList {
         return list;
     }
 
+    /**
+     * Traverses the list and returns records as an array.
+     */
+    public StudentRecord[] toArray() {
+        StudentRecord[] arr = new StudentRecord[size];
+        ListNode curr = head;
+        int i = 0;
+        while (curr != null && i < size) {
+            arr[i++] = curr.data;
+            curr = curr.next;
+        }
+        return arr;
+    }
+
     public void clear() {
         head = null;
         size = 0;

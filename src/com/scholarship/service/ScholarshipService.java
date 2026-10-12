@@ -1,5 +1,8 @@
 package com.scholarship.service;
 
+import com.scholarship.algorithms.BacktrackingCommitteeAssigner;
+import com.scholarship.algorithms.DynamicProgrammingScholarship;
+import com.scholarship.algorithms.GreedyScholarshipAllocator;
 import com.scholarship.datastructures.LinkedQueue;
 import com.scholarship.datastructures.LinkedStack;
 import com.scholarship.datastructures.StudentLinkedList;
@@ -7,22 +10,20 @@ import com.scholarship.expression.ExpressionParser;
 import com.scholarship.graph.VerificationWorkflowGraph;
 import com.scholarship.model.ActionRecord;
 import com.scholarship.model.StudentRecord;
+import com.scholarship.searchsort.AlgorithmBenchmark;
+import com.scholarship.searchsort.SearchAlgorithms;
+import com.scholarship.searchsort.SortAlgorithms;
 import com.scholarship.tree.ScholarshipCategoryTree;
 import com.scholarship.tree.StudentBST;
 
 import java.util.*;
 
 /**
- * Coordinates Phase 1 and Phase 2 Data Structures:
- * Phase 1:
- * - Singly Linked List (Storage & Sorted CRUD)
- * - Linked Queue (FIFO Application Pipeline)
- * - Linked Stack (LIFO Undo/Audit History)
- * - Stack Expression Parser (Dynamic Merit Formula Evaluation)
- * Phase 2:
- * - Binary Tree (Scholarship Category Hierarchy with Inorder, Preorder, Postorder Traversals)
- * - Binary Search Tree (O(log N) Student Record Access, BST Search, Insert, 3-Case Delete)
- * - Verification Workflow Graph (Adjacency List & Matrix, BFS Level Inspection, DFS Audit)
+ * Unified Coordinator for all 4 DSA Practical Phases:
+ * Phase 1: Linear Data Structures (Linked List, FIFO Queue, LIFO Stack, Expression Parser)
+ * Phase 2: Hierarchical & Graph Structures (BST, Category Binary Tree, Workflow Graph)
+ * Phase 3: Searching & Sorting Operations (Linear & Binary Search, Merge/Quick/Insertion Sort, Benchmark)
+ * Phase 4: Basic Algorithmic Problem Solving (Greedy, Dynamic Programming, Backtracking)
  */
 public class ScholarshipService {
 
@@ -412,5 +413,67 @@ public class ScholarshipService {
 
     public List<String> findWorkflowVerificationPath(String source, String destination) {
         return workflowGraph.findVerificationPath(source, destination);
+    }
+
+    // =========================================================================
+    // 8. Phase 3: Searching & Sorting Operations (CLO2)
+    // =========================================================================
+
+    public SearchAlgorithms.SearchResult searchStudentLinear(String studentId) {
+        StudentRecord[] array = studentStorage.toArray();
+        return SearchAlgorithms.linearSearchById(array, studentId);
+    }
+
+    public SearchAlgorithms.SearchResult searchStudentBinary(String studentId) {
+        StudentRecord[] array = studentStorage.toArray();
+        SortAlgorithms.quickSort(array, SortAlgorithms.BY_ID_ASC);
+        return SearchAlgorithms.binarySearchById(array, studentId);
+    }
+
+    public List<StudentRecord> searchStudentsByName(String query) {
+        StudentRecord[] array = studentStorage.toArray();
+        return SearchAlgorithms.linearSearchByName(array, query);
+    }
+
+    public StudentRecord[] sortStudentsMerge(boolean descending) {
+        StudentRecord[] array = studentStorage.toArray();
+        SortAlgorithms.mergeSort(array, descending ? SortAlgorithms.BY_MERIT_DESC : SortAlgorithms.BY_MERIT_ASC);
+        return array;
+    }
+
+    public StudentRecord[] sortStudentsQuick(boolean byId) {
+        StudentRecord[] array = studentStorage.toArray();
+        SortAlgorithms.quickSort(array, byId ? SortAlgorithms.BY_ID_ASC : SortAlgorithms.BY_GPA_DESC);
+        return array;
+    }
+
+    public StudentRecord[] sortStudentsInsertion() {
+        StudentRecord[] array = studentStorage.toArray();
+        SortAlgorithms.insertionSort(array, SortAlgorithms.BY_GPA_DESC);
+        return array;
+    }
+
+    public AlgorithmBenchmark.BenchmarkReport runAlgorithmBenchmark(int size) {
+        return AlgorithmBenchmark.runBenchmark(size);
+    }
+
+    // =========================================================================
+    // 9. Phase 4: Basic Algorithmic Problem Solving (CLO3)
+    // =========================================================================
+
+    public GreedyScholarshipAllocator.AllocationResult allocateBudgetGreedy(double totalBudget, List<Double> requests) {
+        List<StudentRecord> students = studentStorage.toList();
+        return GreedyScholarshipAllocator.allocateBudget(students, requests, totalBudget);
+    }
+
+    public DynamicProgrammingScholarship.DPResult optimizeDiscreteGrantsDP(int[] grantCosts, int budgetCapacity) {
+        List<StudentRecord> students = studentStorage.toList();
+        return DynamicProgrammingScholarship.solveDiscreteGrants(students, grantCosts, budgetCapacity);
+    }
+
+    public BacktrackingCommitteeAssigner.AssignmentResult assignCommitteeBacktracking(List<BacktrackingCommitteeAssigner.SlotRequirement> slots) {
+        List<StudentRecord> students = studentStorage.toList();
+        BacktrackingCommitteeAssigner assigner = new BacktrackingCommitteeAssigner();
+        return assigner.assignCommitteeSlots(students, slots);
     }
 }

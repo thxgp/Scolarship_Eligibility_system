@@ -1,5 +1,8 @@
 package com.scholarship.test;
 
+import com.scholarship.algorithms.BacktrackingCommitteeAssigner;
+import com.scholarship.algorithms.DynamicProgrammingScholarship;
+import com.scholarship.algorithms.GreedyScholarshipAllocator;
 import com.scholarship.datastructures.LinkedQueue;
 import com.scholarship.datastructures.LinkedStack;
 import com.scholarship.datastructures.StudentLinkedList;
@@ -8,6 +11,9 @@ import com.scholarship.graph.GraphAdjacencyList;
 import com.scholarship.graph.GraphAdjacencyMatrix;
 import com.scholarship.graph.VerificationWorkflowGraph;
 import com.scholarship.model.StudentRecord;
+import com.scholarship.searchsort.AlgorithmBenchmark;
+import com.scholarship.searchsort.SearchAlgorithms;
+import com.scholarship.searchsort.SortAlgorithms;
 import com.scholarship.service.ScholarshipService;
 import com.scholarship.tree.BinaryTree;
 import com.scholarship.tree.BinaryTreeNode;
@@ -21,9 +27,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
- * Built-in Unit Test Suite for Phase 1 (Java).
- * Validates all operations across StudentLinkedList, LinkedStack, LinkedQueue,
- * ExpressionParser, and ScholarshipService.
+ * Built-in Unit Test Suite for Phases 1, 2, 3, and 4 (Java).
+ * Validates CLO1, CLO2, and CLO3.
  */
 public class TestSuite {
 
@@ -47,11 +52,17 @@ public class TestSuite {
         testStudentBSTOperations();
         testGraphAdjacencyRepresentations();
         testGraphTraversalsAndWorkflows();
+        testSearchingOperations();
+        testSortingOperations();
+        testAlgorithmBenchmark();
+        testGreedyScholarshipAllocation();
+        testDynamicProgrammingScholarship();
+        testBacktrackingCommitteeAssignment();
 
         System.out.println("\n--------------------------------------------------");
         System.out.printf("Test Execution Summary: %d PASSED, %d FAILED\n", testsPassed, testsFailed);
         if (testsFailed == 0) {
-            System.out.println("[SUCCESS] ALL TESTS COMPLETED SUCCESSFULLY! (CLO1 & CLO2 Verified)");
+            System.out.println("[SUCCESS] ALL TESTS COMPLETED SUCCESSFULLY! (CLO1, CLO2 & CLO3 Verified)");
         } else {
             System.out.println("[FAILURE] Some unit tests failed.");
         }
@@ -376,5 +387,176 @@ public class TestSuite {
         assertEquals("PortalSubmission", path.get(0), "Path starts at PortalSubmission");
         assertEquals("FundDisburse", path.get(path.size() - 1), "Path terminates at FundDisburse");
         assertTrue(path.contains("DocVerification"), "Path passes through DocVerification");
+    }
+
+    // =========================================================================
+    // Phase 3 Tests: Searching & Sorting Operations (CLO2)
+    // =========================================================================
+
+    private static void testSearchingOperations() {
+        System.out.println("\n10. Testing Searching Operations (Linear & Binary Search)...");
+        StudentRecord s1 = new StudentRecord("STU1001", "Aarav Sharma", 9.5, 300000, 95, 85, "Merit-Based", "Approved");
+        StudentRecord s2 = new StudentRecord("STU1002", "Bob Marley", 8.2, 250000, 90, 75, "Need-Based", "Approved");
+        StudentRecord s3 = new StudentRecord("STU1003", "Charlie Chaplin", 7.8, 400000, 88, 80, "General", "Approved");
+        StudentRecord s4 = new StudentRecord("STU1004", "David Beckham", 8.8, 200000, 92, 95, "Sports/ECA", "Approved");
+        StudentRecord[] records = {s1, s2, s3, s4};
+
+        // Linear Search
+        var linFound = SearchAlgorithms.linearSearchById(records, "STU1003");
+        assertTrue(linFound.isFound(), "Linear search finds STU1003");
+        assertEquals(2, linFound.index, "Linear search found at index 2");
+
+        var linNotFound = SearchAlgorithms.linearSearchById(records, "STU9999");
+        assertTrue(!linNotFound.isFound(), "Linear search returns not found for STU9999");
+
+        var nameMatches = SearchAlgorithms.linearSearchByName(records, "Charlie");
+        assertEquals(1, nameMatches.size(), "Linear search by name finds Charlie");
+
+        // Binary Search (records already sorted by ID ascending)
+        var binFound = SearchAlgorithms.binarySearchById(records, "STU1003");
+        assertTrue(binFound.isFound(), "Binary search finds STU1003");
+        assertEquals(2, binFound.index, "Binary search found at index 2");
+        assertTrue(binFound.comparisons <= 3, "Binary search comparisons O(log N) <= 3");
+
+        var binNotFound = SearchAlgorithms.binarySearchById(records, "STU9999");
+        assertTrue(!binNotFound.isFound(), "Binary search returns not found for STU9999");
+
+        // Binary Search Cutoff
+        StudentRecord[] sortedByMerit = {
+                new StudentRecord("S1", "One", 6.0, 0, 70, 60, "General", "Approved", 65.0, ""),
+                new StudentRecord("S2", "Two", 7.0, 0, 80, 70, "General", "Approved", 75.0, ""),
+                new StudentRecord("S3", "Three", 8.0, 0, 90, 80, "General", "Approved", 85.0, ""),
+                new StudentRecord("S4", "Four", 9.0, 0, 95, 90, "General", "Approved", 95.0, "")
+        };
+        int cutoffIdx = SearchAlgorithms.binarySearchCutoffBound(sortedByMerit, 80.0);
+        assertEquals(2, cutoffIdx, "Binary search cutoff finds first student with merit >= 80 at index 2");
+    }
+
+    private static void testSortingOperations() {
+        System.out.println("\n11. Testing Sorting Operations (Merge, Quick, Insertion Sort)...");
+        StudentRecord s1 = new StudentRecord("STU1003", "Charlie", 7.5, 0, 80, 70, "General", "Approved", 75.0, "");
+        StudentRecord s2 = new StudentRecord("STU1001", "Alice", 9.5, 0, 98, 95, "Merit-Based", "Approved", 95.0, "");
+        StudentRecord s3 = new StudentRecord("STU1004", "David", 6.5, 0, 75, 65, "General", "Approved", 68.0, "");
+        StudentRecord s4 = new StudentRecord("STU1002", "Bob", 8.5, 0, 90, 85, "Need-Based", "Approved", 88.0, "");
+
+        // Merge Sort (Merit Descending)
+        StudentRecord[] arrMerge = {s1, s2, s3, s4};
+        var mMetrics = SortAlgorithms.mergeSort(arrMerge, SortAlgorithms.BY_MERIT_DESC);
+        assertEquals("Alice", arrMerge[0].getName(), "Merge sort rank 1 is Alice (95.0)");
+        assertEquals("Bob", arrMerge[1].getName(), "Merge sort rank 2 is Bob (88.0)");
+        assertEquals("Charlie", arrMerge[2].getName(), "Merge sort rank 3 is Charlie (75.0)");
+        assertEquals("David", arrMerge[3].getName(), "Merge sort rank 4 is David (68.0)");
+        assertTrue(mMetrics.comparisons > 0, "Merge sort performed comparisons");
+
+        // Quick Sort (Student ID Ascending)
+        StudentRecord[] arrQuick = {s1, s2, s3, s4};
+        var qMetrics = SortAlgorithms.quickSort(arrQuick, SortAlgorithms.BY_ID_ASC);
+        assertEquals("STU1001", arrQuick[0].getStudentId(), "Quick sort first ID is STU1001");
+        assertEquals("STU1002", arrQuick[1].getStudentId(), "Quick sort second ID is STU1002");
+        assertEquals("STU1003", arrQuick[2].getStudentId(), "Quick sort third ID is STU1003");
+        assertEquals("STU1004", arrQuick[3].getStudentId(), "Quick sort fourth ID is STU1004");
+        assertTrue(qMetrics.comparisons > 0, "Quick sort performed comparisons");
+
+        // Insertion Sort (GPA Descending)
+        StudentRecord[] arrInsert = {s1, s2, s3, s4};
+        var iMetrics = SortAlgorithms.insertionSort(arrInsert, SortAlgorithms.BY_GPA_DESC);
+        assertEquals(9.5, arrInsert[0].getGpa(), "Insertion sort highest GPA is 9.5");
+        assertEquals(8.5, arrInsert[1].getGpa(), "Insertion sort second GPA is 8.5");
+        assertEquals(7.5, arrInsert[2].getGpa(), "Insertion sort third GPA is 7.5");
+        assertEquals(6.5, arrInsert[3].getGpa(), "Insertion sort fourth GPA is 6.5");
+    }
+
+    private static void testAlgorithmBenchmark() {
+        System.out.println("\n12. Testing Algorithm Complexity Benchmarking...");
+        var report = AlgorithmBenchmark.runBenchmark(50);
+        assertEquals(50, report.datasetSize, "Benchmark ran on 50 records");
+        assertTrue(report.mergeSortMetrics.executionTimeNs >= 0, "Merge sort measured runtime");
+        assertTrue(report.quickSortMetrics.executionTimeNs >= 0, "Quick sort measured runtime");
+        assertTrue(report.insertionSortMetrics.executionTimeNs >= 0, "Insertion sort measured runtime");
+        assertTrue(report.binarySearchResult.isFound(), "Binary search found target in benchmark dataset");
+        assertTrue(report.binarySearchResult.comparisons <= 8, "Binary search on 50 items takes <= 8 comparisons");
+    }
+
+    // =========================================================================
+    // Phase 4 Tests: Basic Algorithmic Problem Solving (CLO3)
+    // =========================================================================
+
+    private static void testGreedyScholarshipAllocation() {
+        System.out.println("\n13. Testing Phase 4: Greedy Scholarship Allocation (Fractional Knapsack)...");
+        StudentRecord s1 = new StudentRecord("STU1", "Student 1", 9.0, 0, 90, 80, "General", "Approved", 90.0, "");
+        StudentRecord s2 = new StudentRecord("STU2", "Student 2", 8.0, 0, 85, 75, "General", "Approved", 80.0, "");
+        StudentRecord s3 = new StudentRecord("STU3", "Student 3", 7.0, 0, 80, 70, "General", "Approved", 70.0, "");
+        List<StudentRecord> students = List.of(s1, s2, s3);
+
+        // Requested: S1=50,000 (ratio: 90/50k = 0.0018), S2=25,000 (ratio: 80/25k = 0.0032), S3=50,000 (ratio: 70/50k = 0.0014)
+        List<Double> requests = List.of(50000.0, 25000.0, 50000.0);
+        double budget = 60000.0;
+
+        var result = GreedyScholarshipAllocator.allocateBudget(students, requests, budget);
+        assertEquals(60000.0, result.spentBudget, "Greedy algorithm fully allocated available 60,000 budget");
+        assertEquals(0.0, result.remainingBudget, "Remaining budget is 0");
+        assertEquals(2, result.allocations.size(), "2 students received funding");
+
+        // S2 has highest ratio (0.0032) -> must be awarded first with full 25,000
+        assertEquals("STU2", result.allocations.get(0).student.getStudentId(), "First awarded student is STU2 (highest merit-to-grant ratio)");
+        assertEquals(25000.0, result.allocations.get(0).allocatedAmount, "STU2 received full requested amount 25,000");
+        assertEquals(1.0, result.allocations.get(0).fractionAwarded, "STU2 fraction is 1.0 (Full Grant)");
+
+        // S1 has next highest ratio (0.0018) -> gets remaining 35,000 (35k / 50k = 70%)
+        assertEquals("STU1", result.allocations.get(1).student.getStudentId(), "Second awarded student is STU1");
+        assertEquals(35000.0, result.allocations.get(1).allocatedAmount, "STU1 received remaining 35,000");
+        assertEquals(0.70, Math.round(result.allocations.get(1).fractionAwarded * 100.0) / 100.0, "STU1 received 70% fractional grant");
+    }
+
+    private static void testDynamicProgrammingScholarship() {
+        System.out.println("\n14. Testing Phase 4: Dynamic Programming Discrete Grant Optimization (0/1 Knapsack)...");
+        StudentRecord s1 = new StudentRecord("STU1", "Alice", 7.0, 0, 80, 70, "General", "Approved", 60.0, "");
+        StudentRecord s2 = new StudentRecord("STU2", "Bob", 8.0, 0, 85, 75, "General", "Approved", 100.0, "");
+        StudentRecord s3 = new StudentRecord("STU3", "Charlie", 9.0, 0, 90, 80, "General", "Approved", 120.0, "");
+        List<StudentRecord> students = List.of(s1, s2, s3);
+
+        // Grant costs in discrete units (e.g. 10k units): S1=2 (20k), S2=3 (30k), S3=4 (40k)
+        int[] costs = {2, 3, 4};
+        int budget = 5; // 50,000 total budget
+
+        var dpResult = DynamicProgrammingScholarship.solveDiscreteGrants(students, costs, budget);
+        // Optimal subset is S1 (cost 2, merit 60) + S2 (cost 3, merit 100) = cost 5, merit 160.
+        assertEquals(160.0, dpResult.maxMeritAchieved, "DP optimal merit achieved is 160.0");
+        assertEquals(5, dpResult.spentBudget, "DP optimal budget spent is 5");
+        assertEquals(2, dpResult.selectedStudents.size(), "DP selected exactly 2 students");
+        assertTrue(dpResult.selectedStudents.stream().anyMatch(s -> s.getStudentId().equals("STU1")), "DP selected STU1");
+        assertTrue(dpResult.selectedStudents.stream().anyMatch(s -> s.getStudentId().equals("STU2")), "DP selected STU2");
+    }
+
+    private static void testBacktrackingCommitteeAssignment() {
+        System.out.println("\n15. Testing Phase 4: Backtracking Multi-Constraint Committee Assignment...");
+        StudentRecord s1 = new StudentRecord("STU1", "Alice", 9.2, 0, 95, 85, "Merit-Based", "Approved", 92.0, "");
+        StudentRecord s2 = new StudentRecord("STU2", "Bob", 8.5, 0, 90, 80, "Need-Based", "Approved", 85.0, "");
+        StudentRecord s3 = new StudentRecord("STU3", "Charlie", 7.8, 0, 88, 75, "Sports/ECA", "Approved", 78.0, "");
+        StudentRecord s4 = new StudentRecord("STU4", "David", 7.2, 0, 80, 70, "General", "Approved", 72.0, "");
+        List<StudentRecord> pool = List.of(s1, s2, s3, s4);
+
+        List<BacktrackingCommitteeAssigner.SlotRequirement> slots = List.of(
+                new BacktrackingCommitteeAssigner.SlotRequirement("AcademicLead", 90.0),
+                new BacktrackingCommitteeAssigner.SlotRequirement("WelfareRep", 80.0),
+                new BacktrackingCommitteeAssigner.SlotRequirement("ActivitiesRep", 75.0)
+        );
+
+        BacktrackingCommitteeAssigner assigner = new BacktrackingCommitteeAssigner();
+        var result = assigner.assignCommitteeSlots(pool, slots);
+
+        assertTrue(result.success, "Backtracking successfully found valid slot assignment");
+        assertEquals(3, result.slotAssignments.size(), "All 3 slots assigned");
+        assertEquals("STU1", result.slotAssignments.get("AcademicLead").getStudentId(), "AcademicLead assigned to STU1");
+        assertEquals("STU2", result.slotAssignments.get("WelfareRep").getStudentId(), "WelfareRep assigned to STU2");
+        assertEquals("STU3", result.slotAssignments.get("ActivitiesRep").getStudentId(), "ActivitiesRep assigned to STU3");
+
+        // Test infeasible assignment constraint pruning
+        List<BacktrackingCommitteeAssigner.SlotRequirement> impossibleSlots = List.of(
+                new BacktrackingCommitteeAssigner.SlotRequirement("ImpossibleTier", 99.5)
+        );
+        var impossibleResult = assigner.assignCommitteeSlots(pool, impossibleSlots);
+        assertTrue(!impossibleResult.success, "Backtracking correctly identifies infeasible assignment");
+        assertTrue(impossibleResult.branchesPruned > 0, "Branches pruned due to constraint failure");
     }
 }
