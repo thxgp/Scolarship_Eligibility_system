@@ -22,7 +22,7 @@ public class Main {
 
         while (true) {
             displayMenu();
-            System.out.print("Enter your choice (0-12): ");
+            System.out.print("Enter your choice (0-17): ");
             String choice = scanner.nextLine().trim();
 
             switch (choice) {
@@ -38,25 +38,31 @@ public class Main {
                 case "10": handleQuickDemo(service); break;
                 case "11": handleLoadSampleData(service); break;
                 case "12": handleRunTests(); break;
+                case "13": handleBSTOperations(service); break;
+                case "14": handleTreeTraversals(service); break;
+                case "15": handleCategoryHierarchy(service); break;
+                case "16": handleWorkflowGraph(service); break;
+                case "17": handleGraphTraversals(service); break;
                 case "0":
                     System.out.println("\nExiting Student Scholarship System. Goodbye!\n");
                     return;
                 default:
-                    System.out.println("[ERROR] Invalid choice. Please enter a number between 0 and 12.");
+                    System.out.println("[ERROR] Invalid choice. Please enter a number between 0 and 17.");
             }
         }
     }
 
     private static void printBanner() {
         System.out.println("================================================================================");
-        System.out.println("   STUDENT SCHOLARSHIP ELIGIBILITY & MERIT SYSTEM (PHASE 1 - JAVA)");
-        System.out.println("   Linear Data Structures Implementation (CLO1: 26MCC1L211)");
-        System.out.println("   [ Singly Linked List | LIFO Action Stack | FIFO Pipeline Queue | Expression Parser ]");
+        System.out.println("   STUDENT SCHOLARSHIP ELIGIBILITY & MERIT SYSTEM (PHASE 1 & 2 - JAVA)");
+        System.out.println("   Linear Data Structures (CLO1) & Hierarchical/Graph Structures (CLO2)");
+        System.out.println("   [ Linked List | Stack | Queue | BST | Category Binary Tree | Workflow Graph ]");
         System.out.println("================================================================================");
     }
 
     private static void displayMenu() {
-        System.out.println("\n  [1] View All Stored Student Records (Linked List Traversal)");
+        System.out.println("\n  === PHASE 1: LINEAR DATA STRUCTURES (CLO1) ===");
+        System.out.println("  [1] View All Stored Student Records (Linked List Traversal)");
         System.out.println("  [2] Submit New Scholarship Application (Enqueue to FIFO Queue)");
         System.out.println("  [3] View Application Verification Queue (FIFO Display)");
         System.out.println("  [4] Process Next Application (Evaluate & Store in Sorted Linked List)");
@@ -65,9 +71,16 @@ public class Main {
         System.out.println("  [7] Undo Last Action (LIFO Action Stack Pop)");
         System.out.println("  [8] View Action History (Audit Stack Display)");
         System.out.println("  [9] Test / Configure Merit Formula (Stack-Based Expression Evaluator)");
-        System.out.println("  [10] Run Automated Quick Demo (Full End-to-End Walkthrough)");
+        System.out.println("\n  === PHASE 2: HIERARCHICAL & GRAPH STRUCTURES (CLO2) ===");
+        System.out.println("  [13] Binary Search Tree (BST): Fast Search O(log N), Insert, 3-Case Delete, Tree View");
+        System.out.println("  [14] Tree Traversals: Inorder, Preorder, Postorder (BST & Category Tree)");
+        System.out.println("  [15] Scholarship Category Binary Tree Hierarchy & Student Eligibility Check");
+        System.out.println("  [16] Verification Workflow Graph: Adjacency List & Matrix View");
+        System.out.println("  [17] Graph Traversals: BFS Level Traversal & DFS Deep Audit Traversal");
+        System.out.println("\n  === SYSTEM UTILITIES ===");
+        System.out.println("  [10] Run Automated Quick Demo (Full Phase 1 & Phase 2 End-to-End Walkthrough)");
         System.out.println("  [11] Load Sample Student Dataset");
-        System.out.println("  [12] Run Automated Unit Test Suite");
+        System.out.println("  [12] Run Automated Unit Test Suite (CLO1 & CLO2)");
         System.out.println("  [0] Exit\n");
     }
 
@@ -318,9 +331,213 @@ public class Main {
         System.out.println("  * Postfix (RPN): " + String.join(" ", demoParse.postfixTokens));
         System.out.printf("  * Computed Score: %.2f\n", demoParse.result);
 
+        // =====================================================================
+        // PHASE 2 DEMONSTRATION: HIERARCHICAL & GRAPH STRUCTURES (CLO2)
+        // =====================================================================
+        System.out.println("\n--- [PHASE 2] HIERARCHICAL & GRAPH STRUCTURES DEMONSTRATION ---");
+
+        // Step 9: BST Fast Lookup
+        System.out.println("\n[Step 9] Binary Search Tree (BST) Fast O(log N) Access:");
+        service.syncBSTFromStorage();
+        StudentRecord bstStudent = service.searchStudentFastBST("STU1001");
+        if (bstStudent != null) {
+            System.out.printf("  [BST MATCH] Found ID: %s | Name: %s | Merit: %.2f | Height of BST: %d\n",
+                    bstStudent.getStudentId(), bstStudent.getName(), bstStudent.getMeritScore(), service.getStudentBST().height());
+        }
+
+        // Step 10: BST In-Order Traversal
+        System.out.println("\n[Step 10] BST In-Order Traversal (Sorted by Student ID):");
+        List<StudentRecord> sortedBst = service.getBSTInorderStudents();
+        for (StudentRecord s : sortedBst) {
+            System.out.printf("  -> [%s] %-16s | Merit: %.2f | Status: %s\n",
+                    s.getStudentId(), s.getName(), s.getMeritScore(), s.getStatus());
+        }
+
+        // Step 11: Category Binary Tree
+        System.out.println("\n[Step 11] Scholarship Category Hierarchy (Binary Tree):");
+        service.getCategoryTree().displayHierarchy();
+
+        // Step 12: Graph Representations (Adjacency List & Matrix)
+        System.out.println("\n[Step 12] Dual Verification Workflow Graph Representations:");
+        service.getWorkflowGraph().getAdjacencyList().printGraph();
+        System.out.println();
+        service.getWorkflowGraph().getAdjacencyMatrix().printMatrix();
+
+        // Step 13: Graph Traversals (BFS & DFS)
+        System.out.println("\n[Step 13] Graph Traversal Execution:");
+        List<String> bfsOrder = service.runWorkflowBFS("PortalSubmission");
+        System.out.println("  * BFS (Breadth-First using LinkedQueue): " + String.join(" -> ", bfsOrder));
+        List<String> dfsOrder = service.runWorkflowDFS("PortalSubmission");
+        System.out.println("  * DFS (Depth-First using LinkedStack):   " + String.join(" -> ", dfsOrder));
+
+        List<String> path = service.findWorkflowVerificationPath("PortalSubmission", "FundDisburse");
+        System.out.println("  * End-to-End Approval Route: " + String.join(" -> ", path));
+
         System.out.println("\n================================================================================");
-        System.out.println(" QUICK DEMO COMPLETE - ALL LINEAR DATA STRUCTURES VERIFIED (JAVA)!");
+        System.out.println(" QUICK DEMO COMPLETE - BOTH PHASE 1 & PHASE 2 VERIFIED (JAVA)!");
         System.out.println("================================================================================");
+    }
+
+    // =========================================================================
+    // Phase 2 Handlers: Hierarchical & Graph Structures
+    // =========================================================================
+
+    private static void handleBSTOperations(ScholarshipService service) {
+        System.out.println("\n--- BINARY SEARCH TREE (BST) OPERATIONS (CLO2) ---");
+        System.out.println("  [1] Fast Search Student Record by ID (O(log N))");
+        System.out.println("  [2] Delete Student Record from BST (3 Cases Demonstration)");
+        System.out.println("  [3] Display BST Visual Structure");
+        System.out.println("  [4] Resync BST from Linked List Storage");
+        System.out.println("  [5] Find Min and Max Student Records by ID");
+        System.out.print("Enter choice (1-5): ");
+        String opt = scanner.nextLine().trim();
+
+        if (opt.equals("1")) {
+            System.out.print("Enter Student ID to search in BST: ");
+            String id = scanner.nextLine().trim();
+            StudentRecord record = service.searchStudentFastBST(id);
+            if (record != null) {
+                System.out.printf("[BST FOUND] ID: %s | Name: %s | Merit: %.2f | Status: %s | GPA: %.2f\n",
+                        record.getStudentId(), record.getName(), record.getMeritScore(), record.getStatus(), record.getGpa());
+            } else {
+                System.out.println("[NOT FOUND] No student with ID '" + id + "' found in BST.");
+            }
+        } else if (opt.equals("2")) {
+            System.out.print("Enter Student ID to delete from BST: ");
+            String id = scanner.nextLine().trim();
+            boolean deleted = service.getStudentBST().delete(id);
+            if (deleted) {
+                System.out.println("[OK] Successfully deleted '" + id + "' from BST. Remaining BST size: " + service.getStudentBST().size());
+            } else {
+                System.out.println("[ERROR] Student ID '" + id + "' not found in BST.");
+            }
+        } else if (opt.equals("3")) {
+            System.out.println("\n--- Current Binary Search Tree Visual Representation ---");
+            service.getStudentBST().printTree();
+            System.out.printf("Tree Metrics -> Total Nodes: %d | Height: %d\n",
+                    service.getStudentBST().size(), service.getStudentBST().height());
+        } else if (opt.equals("4")) {
+            int count = service.syncBSTFromStorage();
+            System.out.println("[OK] Resynced " + count + " records from Linked List into BST.");
+        } else if (opt.equals("5")) {
+            StudentRecord min = service.getStudentBST().findMin();
+            StudentRecord max = service.getStudentBST().findMax();
+            System.out.println("  * Min Student ID (Leftmost in BST): " + (min != null ? min.getStudentId() + " (" + min.getName() + ")" : "None"));
+            System.out.println("  * Max Student ID (Rightmost in BST): " + (max != null ? max.getStudentId() + " (" + max.getName() + ")" : "None"));
+        }
+    }
+
+    private static void handleTreeTraversals(ScholarshipService service) {
+        System.out.println("\n--- TREE TRAVERSALS (INORDER, PREORDER, POSTORDER) (CLO2) ---");
+        System.out.println("  [1] BST Traversals (Student Records)");
+        System.out.println("  [2] Category Tree Traversals (Scholarship Schemes)");
+        System.out.print("Enter choice (1-2): ");
+        String opt = scanner.nextLine().trim();
+
+        if (opt.equals("1")) {
+            System.out.println("\n1. In-Order Traversal (LNR - Ascending by Student ID):");
+            for (StudentRecord s : service.getBSTInorderStudents()) {
+                System.out.printf("   [%s] %-16s (Score: %.2f)\n", s.getStudentId(), s.getName(), s.getMeritScore());
+            }
+            System.out.println("\n2. Pre-Order Traversal (NLR - Root First):");
+            for (StudentRecord s : service.getBSTPreorderStudents()) {
+                System.out.printf("   [%s] %-16s\n", s.getStudentId(), s.getName());
+            }
+            System.out.println("\n3. Post-Order Traversal (LRN - Leaves First):");
+            for (StudentRecord s : service.getBSTPostorderStudents()) {
+                System.out.printf("   [%s] %-16s\n", s.getStudentId(), s.getName());
+            }
+        } else if (opt.equals("2")) {
+            System.out.println("\n1. Category Pre-Order Traversal (Top-Down Governance):");
+            for (var c : service.getCategoryTree().getPreorderTravesal()) {
+                System.out.println("   " + c);
+            }
+            System.out.println("\n2. Category In-Order Traversal (LNR):");
+            for (var c : service.getCategoryTree().getInorderTraversal()) {
+                System.out.println("   " + c);
+            }
+            System.out.println("\n3. Category Post-Order Traversal (Bottom-Up Rollup):");
+            for (var c : service.getCategoryTree().getPostorderTraversal()) {
+                System.out.println("   " + c);
+            }
+        }
+    }
+
+    private static void handleCategoryHierarchy(ScholarshipService service) {
+        System.out.println("\n--- SCHOLARSHIP CATEGORY BINARY TREE (CLO2) ---");
+        service.getCategoryTree().displayHierarchy();
+
+        System.out.print("\nWould you like to check category eligibility for a stored student? (y/n): ");
+        String ans = scanner.nextLine().trim();
+        if (ans.equalsIgnoreCase("y")) {
+            System.out.print("Enter Student ID: ");
+            String id = scanner.nextLine().trim();
+            StudentRecord student = service.searchStudent(id);
+            if (student == null) {
+                student = service.searchStudentFastBST(id);
+            }
+
+            if (student != null) {
+                var eligible = service.findEligibleCategoriesForStudent(student);
+                System.out.printf("\nEligibility results for %s (GPA: %.2f, Income: ₹%,.0f, ECA: %.1f):\n",
+                        student.getName(), student.getGpa(), student.getFamilyIncome(), student.getExtracurricularScore());
+                if (eligible.isEmpty()) {
+                    System.out.println("  (No direct category criteria matched)");
+                } else {
+                    for (var cat : eligible) {
+                        System.out.printf("  [QUALIFIED] %s -> Grant: ₹%,.0f | Criteria: %s\n",
+                                cat.getName(), cat.getGrantAmount(), cat.getDescription());
+                    }
+                }
+            } else {
+                System.out.println("[ERROR] Student not found.");
+            }
+        }
+    }
+
+    private static void handleWorkflowGraph(ScholarshipService service) {
+        System.out.println("\n--- VERIFICATION WORKFLOW GRAPH REPRESENTATIONS (CLO2) ---");
+        service.getWorkflowGraph().displayWorkflowRepresentations();
+    }
+
+    private static void handleGraphTraversals(ScholarshipService service) {
+        System.out.println("\n--- GRAPH TRAVERSALS & PATH FINDING (CLO2) ---");
+        System.out.println("  [1] Breadth-First Search (BFS) Traversal");
+        System.out.println("  [2] Depth-First Search (DFS) Traversal");
+        System.out.println("  [3] Find End-to-End Verification Routing Path");
+        System.out.print("Enter choice (1-3): ");
+        String opt = scanner.nextLine().trim();
+
+        if (opt.equals("1")) {
+            System.out.print("Enter starting stage (press Enter for 'PortalSubmission'): ");
+            String start = scanner.nextLine().trim();
+            if (start.isEmpty()) start = "PortalSubmission";
+            List<String> bfs = service.runWorkflowBFS(start);
+            System.out.println("\n[BFS Traversal Order (using custom LinkedQueue)]:");
+            System.out.println("  " + String.join(" -> ", bfs));
+        } else if (opt.equals("2")) {
+            System.out.print("Enter starting stage (press Enter for 'PortalSubmission'): ");
+            String start = scanner.nextLine().trim();
+            if (start.isEmpty()) start = "PortalSubmission";
+            List<String> dfs = service.runWorkflowDFS(start);
+            System.out.println("\n[DFS Traversal Order (using custom LinkedStack)]:");
+            System.out.println("  " + String.join(" -> ", dfs));
+        } else if (opt.equals("3")) {
+            System.out.print("Enter source stage (default: PortalSubmission): ");
+            String src = scanner.nextLine().trim();
+            if (src.isEmpty()) src = "PortalSubmission";
+            System.out.print("Enter target stage (default: FundDisburse): ");
+            String dest = scanner.nextLine().trim();
+            if (dest.isEmpty()) dest = "FundDisburse";
+
+            List<String> path = service.findWorkflowVerificationPath(src, dest);
+            if (path.isEmpty()) {
+                System.out.printf("[UNREACHABLE] No valid verification route exists from '%s' to '%s'.\n", src, dest);
+            } else {
+                System.out.printf("[ROUTE FOUND] Path (%d stages):\n", path.size());
+                System.out.println("  " + String.join(" -> ", path));
+            }
+        }
     }
 
     private static void handleLoadSampleData(ScholarshipService service) {

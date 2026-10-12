@@ -4,8 +4,15 @@ import com.scholarship.datastructures.LinkedQueue;
 import com.scholarship.datastructures.LinkedStack;
 import com.scholarship.datastructures.StudentLinkedList;
 import com.scholarship.expression.ExpressionParser;
+import com.scholarship.graph.GraphAdjacencyList;
+import com.scholarship.graph.GraphAdjacencyMatrix;
+import com.scholarship.graph.VerificationWorkflowGraph;
 import com.scholarship.model.StudentRecord;
 import com.scholarship.service.ScholarshipService;
+import com.scholarship.tree.BinaryTree;
+import com.scholarship.tree.BinaryTreeNode;
+import com.scholarship.tree.ScholarshipCategoryTree;
+import com.scholarship.tree.StudentBST;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -36,11 +43,15 @@ public class TestSuite {
         testQueueOperations();
         testExpressionParser();
         testScholarshipServiceWorkflow();
+        testBinaryTreeAndCategoryHierarchy();
+        testStudentBSTOperations();
+        testGraphAdjacencyRepresentations();
+        testGraphTraversalsAndWorkflows();
 
         System.out.println("\n--------------------------------------------------");
         System.out.printf("Test Execution Summary: %d PASSED, %d FAILED\n", testsPassed, testsFailed);
         if (testsFailed == 0) {
-            System.out.println("[SUCCESS] ALL TESTS COMPLETED SUCCESSFULLY! (CLO1 Verified)");
+            System.out.println("[SUCCESS] ALL TESTS COMPLETED SUCCESSFULLY! (CLO1 & CLO2 Verified)");
         } else {
             System.out.println("[FAILURE] Some unit tests failed.");
         }
@@ -208,5 +219,162 @@ public class TestSuite {
         assertTrue(uRes.success, "Undo succeeded");
         assertEquals(0, service.getStudentStorage().size(), "Record removed from Linked List after undo");
         assertEquals(2, service.getApplicationQueue().size(), "Record restored to front of Queue after undo");
+    }
+
+    // =========================================================================
+    // Phase 2 Tests: Hierarchical & Graph Structures (CLO2)
+    // =========================================================================
+
+    private static void testBinaryTreeAndCategoryHierarchy() {
+        System.out.println("\n6. Testing Binary Tree & Category Hierarchy...");
+        BinaryTreeNode<String> n4 = new BinaryTreeNode<>("D");
+        BinaryTreeNode<String> n5 = new BinaryTreeNode<>("E");
+        BinaryTreeNode<String> n2 = new BinaryTreeNode<>("B", n4, n5);
+        BinaryTreeNode<String> n3 = new BinaryTreeNode<>("C");
+        BinaryTreeNode<String> root = new BinaryTreeNode<>("A", n2, n3);
+
+        BinaryTree<String> tree = new BinaryTree<>(root);
+        assertEquals(5, tree.size(), "Binary tree size is 5");
+        assertEquals(3, tree.height(), "Binary tree height is 3");
+
+        // Traversals
+        List<String> in = tree.inorder();
+        assertEquals(List.of("D", "B", "E", "A", "C"), in, "In-Order traversal (LNR) matches D B E A C");
+
+        List<String> pre = tree.preorder();
+        assertEquals(List.of("A", "B", "D", "E", "C"), pre, "Pre-Order traversal (NLR) matches A B D E C");
+
+        List<String> post = tree.postorder();
+        assertEquals(List.of("D", "E", "B", "C", "A"), post, "Post-Order traversal (LRN) matches D E B C A");
+
+        List<String> level = tree.levelOrder();
+        assertEquals(List.of("A", "B", "C", "D", "E"), level, "Level-Order traversal (Queue) matches A B C D E");
+
+        // Category tree tests
+        ScholarshipCategoryTree catTree = new ScholarshipCategoryTree();
+        assertEquals(7, catTree.getTree().size(), "Scholarship category tree contains 7 nodes");
+        assertEquals(3, catTree.getTree().height(), "Scholarship category tree height is 3");
+
+        var stemCat = catTree.findByCode("STEM-01");
+        assertTrue(stemCat != null, "Found category by code STEM-01");
+        assertEquals(75000.0, stemCat.getGrantAmount(), "STEM grant amount is 75000");
+
+        // Eligibility check
+        StudentRecord highMeritStudent = new StudentRecord("TEST01", "Top Student", 3.9, 500000.0, 95.0, 90.0, "Merit-Based", "Pending");
+        var eligibleCats = catTree.findEligibleCategories(highMeritStudent);
+        assertTrue(eligibleCats.stream().anyMatch(c -> c.getCode().equals("STEM-01")), "Top student qualifies for STEM-01");
+    }
+
+    private static void testStudentBSTOperations() {
+        System.out.println("\n7. Testing Student Binary Search Tree (BST) Operations...");
+        StudentBST bst = new StudentBST();
+        assertTrue(bst.isEmpty(), "BST initially empty");
+        assertEquals(0, bst.size(), "Initial BST size is 0");
+
+        StudentRecord s1 = new StudentRecord("STU1005", "Eve", 8.0, 300000.0, 90.0, 75.0, "General", "Approved");
+        StudentRecord s2 = new StudentRecord("STU1002", "Bob", 8.5, 250000.0, 92.0, 80.0, "General", "Approved");
+        StudentRecord s3 = new StudentRecord("STU1008", "Hank", 9.0, 200000.0, 95.0, 85.0, "General", "Approved");
+        StudentRecord s4 = new StudentRecord("STU1001", "Alice", 9.5, 150000.0, 98.0, 90.0, "General", "Approved");
+        StudentRecord s5 = new StudentRecord("STU1003", "Charlie", 7.8, 400000.0, 85.0, 70.0, "General", "Approved");
+
+        bst.insert(s1);
+        bst.insert(s2);
+        bst.insert(s3);
+        bst.insert(s4);
+        bst.insert(s5);
+
+        assertEquals(5, bst.size(), "BST size after 5 insertions is 5");
+
+        // Search O(log N)
+        StudentRecord foundAlice = bst.search("STU1001");
+        assertTrue(foundAlice != null, "BST search finds STU1001");
+        assertEquals("Alice", foundAlice.getName(), "Found student name is Alice");
+
+        StudentRecord foundNone = bst.search("STU9999");
+        assertTrue(foundNone == null, "BST search returns null for non-existent STU9999");
+
+        // In-Order Traversal yields sorted order by ID
+        List<StudentRecord> inorder = bst.inorder();
+        assertEquals(5, inorder.size(), "Inorder list size is 5");
+        assertEquals("STU1001", inorder.get(0).getStudentId(), "First element in inorder is STU1001");
+        assertEquals("STU1002", inorder.get(1).getStudentId(), "Second element in inorder is STU1002");
+        assertEquals("STU1003", inorder.get(2).getStudentId(), "Third element in inorder is STU1003");
+        assertEquals("STU1005", inorder.get(3).getStudentId(), "Fourth element in inorder is STU1005");
+        assertEquals("STU1008", inorder.get(4).getStudentId(), "Fifth element in inorder is STU1008");
+
+        // Min and Max
+        assertEquals("STU1001", bst.findMin().getStudentId(), "findMin returns leftmost STU1001");
+        assertEquals("STU1008", bst.findMax().getStudentId(), "findMax returns rightmost STU1008");
+
+        // Deletion Case 1: Leaf node (STU1001)
+        boolean delLeaf = bst.delete("STU1001");
+        assertTrue(delLeaf, "Delete leaf node STU1001 succeeded");
+        assertEquals(4, bst.size(), "BST size after leaf deletion is 4");
+        assertTrue(!bst.contains("STU1001"), "STU1001 is no longer in BST");
+
+        // Deletion Case 2: Node with 1 child (STU1002 now has only right child STU1003)
+        boolean delOneChild = bst.delete("STU1002");
+        assertTrue(delOneChild, "Delete node with 1 child STU1002 succeeded");
+        assertEquals(3, bst.size(), "BST size after 1-child deletion is 3");
+        assertTrue(!bst.contains("STU1002"), "STU1002 is no longer in BST");
+        assertTrue(bst.contains("STU1003"), "Child STU1003 remains in BST");
+
+        // Deletion Case 3: Node with 2 children (STU1005 is root with STU1003 on left and STU1008 on right)
+        boolean delRoot = bst.delete("STU1005");
+        assertTrue(delRoot, "Delete node with 2 children (root STU1005) succeeded");
+        assertEquals(2, bst.size(), "BST size after 2-children deletion is 2");
+        assertTrue(!bst.contains("STU1005"), "STU1005 is no longer in BST");
+        assertEquals("STU1003", bst.findMin().getStudentId(), "New min is STU1003");
+        assertEquals("STU1008", bst.findMax().getStudentId(), "New max is STU1008");
+    }
+
+    private static void testGraphAdjacencyRepresentations() {
+        System.out.println("\n8. Testing Graph Adjacency List & Matrix Representations...");
+        GraphAdjacencyList adjList = new GraphAdjacencyList();
+        adjList.addEdge("A", "B", 5, true);
+        adjList.addEdge("A", "C", 3, true);
+        adjList.addEdge("B", "D", 2, true);
+
+        assertEquals(4, adjList.getVertexCount(), "Adjacency List has 4 vertices");
+        assertTrue(adjList.hasEdge("A", "B"), "Adjacency List has edge A -> B");
+        assertTrue(adjList.hasEdge("A", "C"), "Adjacency List has edge A -> C");
+        assertTrue(!adjList.hasEdge("B", "A"), "Directed edge does not have reverse B -> A");
+        assertEquals(List.of("C", "B"), adjList.getNeighbors("A"), "Neighbors of A retrieved correctly");
+
+        GraphAdjacencyMatrix adjMatrix = new GraphAdjacencyMatrix();
+        adjMatrix.addEdge("A", "B", 5, true);
+        adjMatrix.addEdge("A", "C", 3, true);
+        adjMatrix.addEdge("B", "D", 2, true);
+
+        assertEquals(4, adjMatrix.getVertexCount(), "Adjacency Matrix has 4 vertices");
+        assertTrue(adjMatrix.hasEdge("A", "B"), "Adjacency Matrix has edge A -> B");
+        assertEquals(5, adjMatrix.getWeight("A", "B"), "Weight A -> B is 5");
+        assertEquals(0, adjMatrix.getWeight("B", "A"), "Directed edge weight B -> A is 0");
+    }
+
+    private static void testGraphTraversalsAndWorkflows() {
+        System.out.println("\n9. Testing Verification Workflow Graph (BFS & DFS Traversals)...");
+        VerificationWorkflowGraph wf = new VerificationWorkflowGraph();
+
+        // BFS Traversal (using LinkedQueue)
+        List<String> bfsOrder = wf.bfs(VerificationWorkflowGraph.STAGE_PORTAL);
+        assertTrue(!bfsOrder.isEmpty(), "BFS traversal produces non-empty list");
+        assertEquals("PortalSubmission", bfsOrder.get(0), "BFS starts at PortalSubmission");
+        assertEquals("DocVerification", bfsOrder.get(1), "BFS second stage is DocVerification");
+        assertTrue(bfsOrder.contains("FundDisburse"), "BFS reaches FundDisburse milestone");
+
+        // DFS Traversal (using LinkedStack)
+        List<String> dfsOrder = wf.dfs(VerificationWorkflowGraph.STAGE_PORTAL);
+        assertTrue(!dfsOrder.isEmpty(), "DFS traversal produces non-empty list");
+        assertEquals("PortalSubmission", dfsOrder.get(0), "DFS starts at PortalSubmission");
+        assertTrue(dfsOrder.contains("FundDisburse"), "DFS reaches FundDisburse milestone");
+
+        // Reachability & Route finding
+        assertTrue(wf.isReachable("PortalSubmission", "FundDisburse"), "FundDisburse is reachable from PortalSubmission");
+        List<String> path = wf.findVerificationPath("PortalSubmission", "FundDisburse");
+        assertTrue(!path.isEmpty(), "Valid verification path found from Portal to Disbursement");
+        assertEquals("PortalSubmission", path.get(0), "Path starts at PortalSubmission");
+        assertEquals("FundDisburse", path.get(path.size() - 1), "Path terminates at FundDisburse");
+        assertTrue(path.contains("DocVerification"), "Path passes through DocVerification");
     }
 }

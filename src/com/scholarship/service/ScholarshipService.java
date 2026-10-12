@@ -4,17 +4,25 @@ import com.scholarship.datastructures.LinkedQueue;
 import com.scholarship.datastructures.LinkedStack;
 import com.scholarship.datastructures.StudentLinkedList;
 import com.scholarship.expression.ExpressionParser;
+import com.scholarship.graph.VerificationWorkflowGraph;
 import com.scholarship.model.ActionRecord;
 import com.scholarship.model.StudentRecord;
+import com.scholarship.tree.ScholarshipCategoryTree;
+import com.scholarship.tree.StudentBST;
 
 import java.util.*;
 
 /**
- * Coordinates all Phase 1 Linear Data Structures:
+ * Coordinates Phase 1 and Phase 2 Data Structures:
+ * Phase 1:
  * - Singly Linked List (Storage & Sorted CRUD)
  * - Linked Queue (FIFO Application Pipeline)
  * - Linked Stack (LIFO Undo/Audit History)
  * - Stack Expression Parser (Dynamic Merit Formula Evaluation)
+ * Phase 2:
+ * - Binary Tree (Scholarship Category Hierarchy with Inorder, Preorder, Postorder Traversals)
+ * - Binary Search Tree (O(log N) Student Record Access, BST Search, Insert, 3-Case Delete)
+ * - Verification Workflow Graph (Adjacency List & Matrix, BFS Level Inspection, DFS Audit)
  */
 public class ScholarshipService {
 
@@ -23,18 +31,27 @@ public class ScholarshipService {
     private final StudentLinkedList studentStorage;
     private final LinkedQueue<StudentRecord> applicationQueue;
     private final LinkedStack<ActionRecord> actionHistoryStack;
+    private final StudentBST studentBST;
+    private final ScholarshipCategoryTree categoryTree;
+    private final VerificationWorkflowGraph workflowGraph;
     private String activeFormula;
 
     public ScholarshipService() {
         this.studentStorage = new StudentLinkedList();
         this.applicationQueue = new LinkedQueue<>();
         this.actionHistoryStack = new LinkedStack<>();
+        this.studentBST = new StudentBST();
+        this.categoryTree = new ScholarshipCategoryTree();
+        this.workflowGraph = new VerificationWorkflowGraph();
         this.activeFormula = DEFAULT_FORMULA;
     }
 
     public StudentLinkedList getStudentStorage() { return studentStorage; }
     public LinkedQueue<StudentRecord> getApplicationQueue() { return applicationQueue; }
     public LinkedStack<ActionRecord> getActionHistoryStack() { return actionHistoryStack; }
+    public StudentBST getStudentBST() { return studentBST; }
+    public ScholarshipCategoryTree getCategoryTree() { return categoryTree; }
+    public VerificationWorkflowGraph getWorkflowGraph() { return workflowGraph; }
     public String getActiveFormula() { return activeFormula; }
 
     // =========================================================================
@@ -112,6 +129,8 @@ public class ScholarshipService {
 
         // Insert into Singly Linked List (Sorted by Merit Score)
         studentStorage.insertSortedByMerit(student);
+        // Also insert/index into Binary Search Tree for O(log N) fast access
+        studentBST.insert(student);
 
         // Record Undo action in Stack
         ActionRecord action = new ActionRecord(
@@ -142,6 +161,7 @@ public class ScholarshipService {
         } else {
             studentStorage.insertAtTail(student);
         }
+        studentBST.insert(student);
 
         ActionRecord action = new ActionRecord(
                 "ADD_DIRECT",
@@ -164,6 +184,7 @@ public class ScholarshipService {
     public boolean deleteStudent(String studentId) {
         StudentRecord deleted = studentStorage.deleteById(studentId);
         if (deleted != null) {
+            studentBST.delete(studentId);
             ActionRecord action = new ActionRecord(
                     "DELETE_STUDENT",
                     studentId,
@@ -218,8 +239,9 @@ public class ScholarshipService {
 
         switch (lastAction.getActionType()) {
             case "PROCESS_APPLICATION": {
-                // Delete from linked list and return to front of queue
+                // Delete from linked list and BST, return to front of queue
                 studentStorage.deleteById(lastAction.getStudentId());
+                studentBST.delete(lastAction.getStudentId());
                 StudentRecord restored = lastAction.getNewStudentState();
                 if (restored != null) {
                     restored.setStatus("Pending");
@@ -247,6 +269,7 @@ public class ScholarshipService {
             case "DELETE_STUDENT": {
                 if (lastAction.getPreviousStudentState() != null) {
                     studentStorage.insertSortedByMerit(lastAction.getPreviousStudentState());
+                    studentBST.insert(lastAction.getPreviousStudentState());
                     return new UndoResult(true, "Restored deleted student " + lastAction.getPreviousStudentState().getName() + " to storage.");
                 }
                 return new UndoResult(false, "Failed to restore deleted record: missing previous state.");
@@ -254,6 +277,7 @@ public class ScholarshipService {
 
             case "ADD_DIRECT": {
                 studentStorage.deleteById(lastAction.getStudentId());
+                studentBST.delete(lastAction.getStudentId());
                 return new UndoResult(true, "Reverted direct addition of student " + lastAction.getStudentId() + ".");
             }
 
@@ -262,6 +286,7 @@ public class ScholarshipService {
                     StudentRecord record = studentStorage.searchById(lastAction.getStudentId());
                     if (record != null) {
                         record.setStatus(lastAction.getPreviousStudentState().getStatus());
+                        studentBST.insert(record);
                         return new UndoResult(true, "Reverted status of " + lastAction.getStudentId() + " back to '" + record.getStatus() + "'.");
                     }
                 }
@@ -319,6 +344,7 @@ public class ScholarshipService {
 
             studentStorage.insertSortedByMerit(r);
         }
+        studentBST.syncFromLinkedList(studentStorage);
         return records.size();
     }
 
@@ -342,8 +368,49 @@ public class ScholarshipService {
                 applicationQueue.enqueue(s);
             } else {
                 studentStorage.insertSortedByMerit(s);
+                studentBST.insert(s);
             }
         }
         return samples.size();
+    }
+
+    // =========================================================================
+    // 7. Phase 2: Hierarchical (Tree) and Graph Operations (CLO2)
+    // =========================================================================
+
+    public StudentRecord searchStudentFastBST(String studentId) {
+        return studentBST.search(studentId);
+    }
+
+    public List<StudentRecord> getBSTInorderStudents() {
+        return studentBST.inorder();
+    }
+
+    public List<StudentRecord> getBSTPreorderStudents() {
+        return studentBST.preorder();
+    }
+
+    public List<StudentRecord> getBSTPostorderStudents() {
+        return studentBST.postorder();
+    }
+
+    public int syncBSTFromStorage() {
+        return studentBST.syncFromLinkedList(studentStorage);
+    }
+
+    public List<ScholarshipCategoryTree.CategoryData> findEligibleCategoriesForStudent(StudentRecord student) {
+        return categoryTree.findEligibleCategories(student);
+    }
+
+    public List<String> runWorkflowBFS(String startStage) {
+        return workflowGraph.bfs(startStage != null ? startStage : VerificationWorkflowGraph.STAGE_PORTAL);
+    }
+
+    public List<String> runWorkflowDFS(String startStage) {
+        return workflowGraph.dfs(startStage != null ? startStage : VerificationWorkflowGraph.STAGE_PORTAL);
+    }
+
+    public List<String> findWorkflowVerificationPath(String source, String destination) {
+        return workflowGraph.findVerificationPath(source, destination);
     }
 }

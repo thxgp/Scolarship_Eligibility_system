@@ -1,20 +1,35 @@
-# Student Scholarship Eligibility and Merit System (Phase 1 - Java)
+# Student Scholarship Eligibility and Merit System (Phase 1 & Phase 2 - Java)
 **Course**: 26MCC1L211: Data Structures and Algorithms Practical  
-**Topic**: Linear Data Structures Implementation (CLO1)
+**Topics**: 
+- **Phase 1**: Linear Data Structures Implementation (CLO1)
+- **Phase 2**: Hierarchical and Graph Structures (CLO2)
 
 ---
 
 ## 📌 Project Overview
-The **Student Scholarship Eligibility and Merit System** is implemented in **Java 21** using pure, node-based **Linear Data Structures** without high-level Java collection wrappers (e.g. no `java.util.LinkedList` or `java.util.Stack`).
+The **Student Scholarship Eligibility and Merit System** is developed in **Java 21** using pure, node-based data structures without relying on high-level collection wrappers (such as `java.util.LinkedList`, `java.util.Stack`, `java.util.TreeSet`, etc.).
 
-### Phase 1 Core Implementations:
-1. **`StudentRecord` & `ActionRecord`** (`com.scholarship.model`): Input schema, category eligibility rules, and state preservation.
-2. **`StudentLinkedList`** (`com.scholarship.datastructures`): Custom Singly Linked List with head/tail insert, sorted insert by merit score, delete by ID, search by ID/name, and tabular traversal.
-3. **`LinkedQueue<T>`** (`com.scholarship.datastructures`): Pure FIFO queue with front and rear pointers ($O(1)$ enqueue & dequeue) for the student application verification pipeline.
-4. **`LinkedStack<T>`** (`com.scholarship.datastructures`): Pure LIFO stack with top pointer ($O(1)$ push & pop) for multi-level evaluator Undo history.
-5. **`ExpressionParser`** (`com.scholarship.expression`): Stack-based Delimiter matching, Infix-to-Postfix (Shunting-Yard), and Postfix evaluation with dynamic variable substitution for merit scoring:
-   $$\text{Merit Score} = \left(\frac{\text{gpa}}{4.0} \times 50.0\right) + (\text{eca} \times 0.30) + (\text{attendance} \times 0.20)$$
-6. **`ScholarshipService` & `Main`** (`com.scholarship`): Unified coordinator and interactive CLI dashboard with quick demo mode.
+---
+
+## 🎯 Syllabus Mapping & Deliverables
+
+### Phase 1: Linear Data Structures Implementation (CLO1)
+| Syllabus Requirement | Implementation Details | Time / Space Complexity |
+| :--- | :--- | :--- |
+| **Input Data Schema & Records** | [`StudentRecord.java`](file:///src/com/scholarship/model/StudentRecord.java), [`ActionRecord.java`](file:///src/com/scholarship/model/ActionRecord.java) | $O(1)$ schema validation, state snapshots for undo history |
+| **Linked List Storage** | [`StudentLinkedList.java`](file:///src/com/scholarship/datastructures/StudentLinkedList.java), [`ListNode.java`](file:///src/com/scholarship/datastructures/ListNode.java) | $O(1)$ Head Insert, $O(N)$ Tail & Sorted Insert by Merit, $O(N)$ Delete by ID |
+| **Application Pipeline (FIFO)** | [`LinkedQueue.java`](file:///src/com/scholarship/datastructures/LinkedQueue.java), [`QueueNode.java`](file:///src/com/scholarship/datastructures/QueueNode.java) | $O(1)$ Enqueue & Dequeue verification pipeline |
+| **Evaluator Undo History (LIFO)**| [`LinkedStack.java`](file:///src/com/scholarship/datastructures/LinkedStack.java), [`StackNode.java`](file:///src/com/scholarship/datastructures/StackNode.java) | $O(1)$ Push & Pop multi-level action rollback |
+| **Stack Expression Evaluator** | [`ExpressionParser.java`](file:///src/com/scholarship/expression/ExpressionParser.java) | $O(N)$ Delimiter balancing, Infix-to-Postfix conversion (Shunting-Yard), Postfix dynamic evaluation |
+
+### Phase 2: Hierarchical and Graph Structures (CLO2)
+| Syllabus Requirement | Implementation Details | Time / Space Complexity |
+| :--- | :--- | :--- |
+| **Binary Tree for Structured Storage** | [`BinaryTree.java`](file:///src/com/scholarship/tree/BinaryTree.java), [`BinaryTreeNode.java`](file:///src/com/scholarship/tree/BinaryTreeNode.java), [`ScholarshipCategoryTree.java`](file:///src/com/scholarship/tree/ScholarshipCategoryTree.java) | $O(N)$ Hierarchical category tree representing institutional grant divisions, leaves, and criteria matching |
+| **Tree Traversals** | `inorder()`, `preorder()`, `postorder()`, `levelOrder()` | $O(N)$ time traversals. Level-order implemented using custom Phase 1 `LinkedQueue` |
+| **Binary Search Tree (BST)** | [`StudentBST.java`](file:///src/com/scholarship/tree/StudentBST.java), [`BSTNode.java`](file:///src/com/scholarship/tree/BSTNode.java) | $O(\log N)$ average insertion, search by student ID, and 3-case deletion (leaf, 1 child, 2 children with successor) |
+| **Graph Representation** | [`GraphAdjacencyList.java`](file:///src/com/scholarship/graph/GraphAdjacencyList.java), [`GraphAdjacencyMatrix.java`](file:///src/com/scholarship/graph/GraphAdjacencyMatrix.java) | Dual representation: Linked-node Adjacency List + 2D Adjacency Matrix with SLA processing times |
+| **Graph Traversals (BFS & DFS)** | [`VerificationWorkflowGraph.java`](file:///src/com/scholarship/graph/VerificationWorkflowGraph.java) | $O(V + E)$ BFS (using `LinkedQueue`) for level milestones and $O(V + E)$ DFS (using `LinkedStack`) for deep audit routes |
 
 ---
 
@@ -26,22 +41,33 @@ scholarship_system_phase1_java/
 │   └── com/
 │       └── scholarship/
 │           ├── model/
-│           │   ├── StudentRecord.java       # Student schema & validation
-│           │   └── ActionRecord.java        # Audit record for Undo stack
+│           │   ├── StudentRecord.java              # Student record schema & validation
+│           │   └── ActionRecord.java               # Audit snapshot for Undo stack
 │           ├── datastructures/
-│           │   ├── ListNode.java            # Node for Linked List
-│           │   ├── StudentLinkedList.java   # Custom Singly Linked List
-│           │   ├── StackNode.java           # Node for Linked Stack
-│           │   ├── LinkedStack.java         # Custom LIFO Stack
-│           │   ├── QueueNode.java           # Node for Linked Queue
-│           │   └── LinkedQueue.java         # Custom FIFO Queue
+│           │   ├── ListNode.java                   # Node for Singly Linked List
+│           │   ├── StudentLinkedList.java          # Custom Singly Linked List
+│           │   ├── StackNode.java                  # Node for Linked Stack
+│           │   ├── LinkedStack.java                # Custom LIFO Stack
+│           │   ├── QueueNode.java                  # Node for Linked Queue
+│           │   └── LinkedQueue.java                # Custom FIFO Queue
 │           ├── expression/
-│           │   └── ExpressionParser.java    # Stack-based expression parser
+│           │   └── ExpressionParser.java           # Stack-based expression parser
+│           ├── tree/
+│           │   ├── BinaryTreeNode.java             # Generic Binary Tree node
+│           │   ├── BinaryTree.java                 # Tree traversals & height/size utilities
+│           │   ├── ScholarshipCategoryTree.java    # Category allocation binary tree
+│           │   ├── BSTNode.java                    # Node for Student BST
+│           │   └── StudentBST.java                 # O(log N) Student BST with 3-case delete
+│           ├── graph/
+│           │   ├── GraphAdjacencyList.java         # Linked Edge Adjacency List
+│           │   ├── GraphAdjacencyMatrix.java       # 2D Grid Adjacency Matrix
+│           │   └── VerificationWorkflowGraph.java  # Institutional workflow with BFS & DFS
 │           ├── service/
-│           │   └── ScholarshipService.java  # Coordinator service
+│           │   └── ScholarshipService.java         # Unified coordinator service
 │           ├── test/
-│           │   └── TestSuite.java           # Automated test suite
-│           └── Main.java                    # Interactive Console Menu
+│           │   └── TestSuite.java                  # Automated unit test suite (100 tests)
+│           └── Main.java                           # Interactive Console CLI Dashboard
+├── .gitignore                                      # Excludes compiler build artifacts (bin/)
 └── README.md
 ```
 
@@ -59,7 +85,27 @@ javac -d bin (Get-ChildItem -Path src -Filter *.java -Recurse | Select-Object -E
 java -cp bin com.scholarship.Main
 ```
 
-### 3. Run Automated Unit Tests
+### 3. Run Automated Unit Test Suite
 ```powershell
 java -cp bin com.scholarship.test.TestSuite
+```
+
+---
+
+## 🧪 Automated Unit Test Results
+```
+1. Testing StudentLinkedList Operations... (10/10 PASS)
+2. Testing LinkedStack (LIFO) Operations... (8/8 PASS)
+3. Testing LinkedQueue (FIFO) Operations... (9/9 PASS)
+4. Testing Stack-based Expression Parser... (5/5 PASS)
+5. Testing ScholarshipService & Undo History... (10/10 PASS)
+6. Testing Binary Tree & Category Hierarchy... (9/9 PASS)
+7. Testing Student Binary Search Tree (BST) Operations... (25/25 PASS)
+8. Testing Graph Adjacency List & Matrix Representations... (9/9 PASS)
+9. Testing Verification Workflow Graph (BFS & DFS Traversals)... (15/15 PASS)
+
+--------------------------------------------------
+Test Execution Summary: 100 PASSED, 0 FAILED
+[SUCCESS] ALL TESTS COMPLETED SUCCESSFULLY! (CLO1 & CLO2 Verified)
+--------------------------------------------------
 ```
