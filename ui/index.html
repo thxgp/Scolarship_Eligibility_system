@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MeritScholar | Scholarship Eligibility & Algorithmic Optimization System</title>
-  <meta name="description" content="A minimal, elegant data structures and algorithmic optimization platform for student scholarship evaluation, sorting, graph workflows, and knapsack allocation.">
+  <title>ApexScholar | Student Scholarship & Grant Management Portal</title>
+  <meta name="description" content="A modern, intuitive scholarship eligibility, merit evaluation, and automated grant allocation platform.">
   
   <!-- Modern Typography: Plus Jakarta Sans, Space Grotesk, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,215 +14,408 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Top Navigation & Header -->
+  <!-- Header / Navigation Bar -->
   <header class="app-header">
     <div class="header-container">
       <div class="brand-section">
-        <div class="brand-mark">MS</div>
+        <div class="brand-mark">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
         <div class="brand-text">
           <div class="brand-title-wrap">
-            <h1 class="brand-title">MeritScholar</h1>
-            <span class="badge badge-subtle">DSA Practical · CLO1–CLO3</span>
+            <h1 class="brand-title">ApexScholar</h1>
+            <span class="badge badge-accent">Scholarship Portal</span>
           </div>
-          <p class="brand-tagline">Student Scholarship Eligibility, Decision Trees & Algorithmic Allocation</p>
+          <p class="brand-tagline">National Higher Education Merit & Grant Disbursement Platform</p>
         </div>
       </div>
       
       <div class="header-actions">
         <div class="server-status" id="serverStatusBadge">
           <span class="status-dot live"></span>
-          <span class="status-label" id="serverStatusText">Connecting...</span>
+          <span class="status-label" id="serverStatusText">System Active</span>
         </div>
-        <button class="btn btn-secondary" id="btnQuickTour" title="Run end-to-end 19-step guided tour">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          Guided Tour
+        <button class="btn btn-secondary" id="btnQuickTour" title="Run interactive guided walkthrough">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Quick Tour
         </button>
-        <button class="btn btn-secondary" id="btnReloadSamples" title="Reset dataset to default student batch">
+        <button class="btn btn-secondary" id="btnReloadSamples" title="Reset sample applications">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-          Reset Samples
+          Reset Data
         </button>
         <button class="btn btn-primary" id="btnOpenAddModal">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          New Applicant
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Apply for Scholarship
         </button>
       </div>
     </div>
 
-    <!-- Quick Stats Bar -->
+    <!-- Quick Portal Metrics Ribbon -->
     <div class="stats-ribbon">
       <div class="stat-pill">
         <span class="stat-icon">👥</span>
         <div class="stat-meta">
-          <span class="stat-num" id="statTotalStudents">0</span>
-          <span class="stat-name">Total Students</span>
+          <span class="stat-num" id="statTotalStudents">8</span>
+          <span class="stat-name">Total Applicants</span>
         </div>
       </div>
       <div class="stat-pill">
         <span class="stat-icon">⏳</span>
         <div class="stat-meta">
-          <span class="stat-num" id="statQueueCount">0</span>
-          <span class="stat-name">Queue (FIFO)</span>
+          <span class="stat-num" id="statQueueCount">4</span>
+          <span class="stat-name">Pending Review</span>
         </div>
       </div>
       <div class="stat-pill">
-        <span class="stat-icon">✨</span>
+        <span class="stat-icon">🎓</span>
         <div class="stat-meta">
-          <span class="stat-num" id="statApprovedCount">0</span>
-          <span class="stat-name">Approved</span>
-        </div>
-      </div>
-      <div class="stat-pill">
-        <span class="stat-icon">↩️</span>
-        <div class="stat-meta">
-          <span class="stat-num" id="statUndoDepth">0</span>
-          <span class="stat-name">Undo Stack Depth</span>
+          <span class="stat-num" id="statApprovedCount">4</span>
+          <span class="stat-name">Scholarships Awarded</span>
         </div>
       </div>
       <div class="stat-pill">
         <span class="stat-icon">💰</span>
         <div class="stat-meta">
-          <span class="stat-num" id="statBudgetSpent">₹0</span>
-          <span class="stat-name">Budget Allocated</span>
+          <span class="stat-num" id="statBudgetSpent">₹3,40,000</span>
+          <span class="stat-name">Funds Disbursed</span>
+        </div>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-icon">↩️</span>
+        <div class="stat-meta">
+          <span class="stat-num" id="statUndoDepth">1</span>
+          <span class="stat-name">Audit History</span>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
+  <!-- User-Friendly Navigation Tabs -->
   <nav class="nav-tabs-wrapper">
     <div class="tabs-container" role="tablist">
-      <button class="tab-btn active" role="tab" aria-selected="true" data-tab="tab-phase1" id="tabBtnPhase1">
-        <span class="phase-number">Phase 1</span>
-        <span class="tab-label">Linear Pipeline & Parser</span>
-        <span class="tab-sub">Queue · Stack · List · RPN</span>
+      <button class="tab-btn active" role="tab" aria-selected="true" data-tab="tab-pipeline" id="tabBtnPipeline">
+        <span class="tab-label">📋 Review Applications</span>
+        <span class="tab-sub">Pending queue & audit decisions</span>
       </button>
-      <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-phase2" id="tabBtnPhase2">
-        <span class="phase-number">Phase 2</span>
-        <span class="tab-label">Trees & Workflow Graphs</span>
-        <span class="tab-sub">BST · Category Tree · BFS/DFS</span>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-schemes" id="tabBtnSchemes">
+        <span class="tab-label">🎓 Scholarship Schemes</span>
+        <span class="tab-sub">Browse available grants & quotas</span>
       </button>
-      <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-phase3" id="tabBtnPhase3">
-        <span class="phase-number">Phase 3</span>
-        <span class="tab-label">Search & Sort Visualizer</span>
-        <span class="tab-sub">Merge · Quick · Insertion · Binary</span>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-calculator" id="tabBtnCalculator">
+        <span class="tab-label">⚡ Eligibility Calculator</span>
+        <span class="tab-sub">Instant merit score assessment</span>
       </button>
-      <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-phase4" id="tabBtnPhase4">
-        <span class="phase-number">Phase 4</span>
-        <span class="tab-label">Algorithmic Optimization</span>
-        <span class="tab-sub">Greedy · 0/1 Knapsack DP · Backtracking</span>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-allocator" id="tabBtnAllocator">
+        <span class="tab-label">💰 Smart Budget Allocator</span>
+        <span class="tab-sub">Automated institutional grant yield</span>
       </button>
       <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-roster" id="tabBtnRoster">
-        <span class="phase-number">Storage</span>
-        <span class="tab-label">Master Student Roster</span>
-        <span class="tab-sub">Sorted Merit Records</span>
+        <span class="tab-label">🔍 Student Directory</span>
+        <span class="tab-sub">Master roster & search</span>
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-dsa" id="tabBtnDSA">
+        <span class="tab-label">⚙️ DSA Engine & Visualizers</span>
+        <span class="tab-sub">BST · Sorting · Graphs · Knapsack</span>
       </button>
     </div>
   </nav>
 
-  <!-- Main Viewports -->
+  <!-- Main Portal Content -->
   <main class="main-content">
 
     <!-- ================================================================= -->
-    <!-- PHASE 1: LINEAR DATA STRUCTURES (CLO1) -->
+    <!-- TAB 1: REVIEW APPLICATIONS PIPELINE -->
     <!-- ================================================================= -->
-    <section class="tab-pane active" id="tab-phase1" role="tabpanel">
+    <section class="tab-pane active" id="tab-pipeline" role="tabpanel">
       <div class="pane-intro">
         <div class="intro-text">
-          <h2 class="section-title">Linear Pipeline, Undo Stack & Expression Evaluator</h2>
+          <h2 class="section-title">Scholarship Applications Review Pipeline</h2>
           <p class="section-desc">
-            Implements custom node-based <strong>FIFO Queue</strong> for application order, <strong>LIFO Stack</strong> for state rollback, and <strong>Shunting-Yard Infix &rarr; Postfix Parser</strong> for dynamic scholarship formula calculation.
+            Review and evaluate student applications in fair submission order. Process pending files, verify academic criteria, and issue grants.
           </p>
         </div>
         <div class="intro-actions">
           <button class="btn btn-primary" id="btnProcessNextQueue">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Process Next in Queue
+            Approve Next in Queue
           </button>
           <button class="btn btn-secondary" id="btnUndoAction">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-            Undo Last Action
+            Undo Last Decision
           </button>
         </div>
       </div>
 
       <div class="grid-layout grid-2col">
-        <!-- FIFO Queue Component -->
+        <!-- Incoming Applications Queue -->
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <span class="badge badge-accent">FIFO Queue</span>
-              <h3 class="card-title">Pending Applications Pipeline</h3>
+              <span class="badge badge-accent">Incoming</span>
+              <h3 class="card-title">Pending Student Applications</h3>
             </div>
-            <span class="card-hint">Front dequeues first ($O(1)$)</span>
+            <button class="btn btn-sm btn-ghost" id="btnEnqueueSample">+ Add Sample Student</button>
           </div>
           <div class="card-body">
             <div class="queue-visualizer-container" id="queueVisualizer">
-              <div class="empty-state">No students in application queue. Click "New Applicant" or "Reset Samples".</div>
+              <!-- Dynamically populated applicant cards -->
             </div>
             <div class="action-footer">
-              <span class="text-muted" id="queueCountNote">0 applications waiting for merit audit</span>
-              <button class="btn btn-sm btn-ghost" id="btnEnqueueSample">+ Quick Enqueue Student</button>
+              <span class="text-muted" id="queueCountNote">4 applications waiting for evaluation</span>
+              <span class="card-hint">Order: Fair First-Come-First-Served</span>
             </div>
           </div>
         </div>
 
-        <!-- LIFO Stack Component -->
+        <!-- Recent Audit History & Decisions -->
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <span class="badge badge-accent">LIFO Stack</span>
-              <h3 class="card-title">Audit Undo History Stack</h3>
+              <span class="badge badge-subtle">Audit Trail</span>
+              <h3 class="card-title">Recent Review Actions & History</h3>
             </div>
-            <span class="card-hint">Top item popped on Undo ($O(1)$)</span>
+            <span class="card-hint">Undoable Decisions</span>
           </div>
           <div class="card-body">
             <div class="stack-visualizer-container" id="stackVisualizer">
-              <div class="empty-state">Undo stack is currently empty. Actions you take will be tracked here.</div>
+              <!-- Dynamically populated recent action cards -->
             </div>
             <div class="action-footer">
-              <span class="text-muted" id="stackDepthNote">Depth: 0 historical state frames</span>
+              <span class="text-muted" id="stackDepthNote">Depth: 1 recorded decision</span>
+              <span class="card-hint">Click "Undo Last Decision" to rollback anytime</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Formula Engine & Shunting-Yard Parser -->
+      <!-- Quick Application Verification Steps -->
       <div class="card card-wide mt-4">
         <div class="card-header">
           <div class="card-title-group">
-            <span class="badge badge-accent">Expression Engine</span>
-            <h3 class="card-title">Dynamic Merit Score Formula & RPN Parser</h3>
+            <span class="badge badge-success">Workflow</span>
+            <h3 class="card-title">6-Stage Application Verification Lifecycle</h3>
           </div>
-          <span class="card-hint">Balanced Parenthesis &middot; Infix &rarr; Postfix</span>
+          <div class="graph-actions-header">
+            <button class="btn btn-sm btn-secondary" id="btnRunBFS">Simulate Stage Audit</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="graph-stage-pipeline" id="workflowGraphContainer">
+            <!-- 6 stages: Portal Submission -> Doc Verification -> Academic Audit -> Financial Audit -> Dean Approval -> Fund Disburse -->
+          </div>
+          <div class="workflow-logs-panel mt-3">
+            <div class="workflow-log-item">
+              <span class="log-label">Current Verification Status:</span>
+              <span class="log-path" id="traversalPathDisplay">All incoming applications automatically progress through academic and financial auditing before final disbursement.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- TAB 2: SCHOLARSHIP SCHEMES & GRANTS -->
+    <!-- ================================================================= -->
+    <section class="tab-pane" id="tab-schemes" role="tabpanel">
+      <div class="pane-intro">
+        <div class="intro-text">
+          <h2 class="section-title">Available Institutional Scholarship Schemes</h2>
+          <p class="section-desc">
+            Explore active scholarship programs, grant funding amounts, eligibility thresholds, and annual student quotas.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-layout grid-2col">
+        <!-- Category Scheme Cards -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="badge badge-accent">Schemes</span>
+              <h3 class="card-title">Active Scholarship Grants</h3>
+            </div>
+            <span class="card-hint">Click any scheme to inspect criteria</span>
+          </div>
+          <div class="card-body">
+            <div class="category-tree-visualizer" id="categoryTreeVisualizer">
+              <!-- Dynamically loaded scheme cards -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Selected Scheme Details -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="badge badge-success">Scheme Details</span>
+              <h3 class="card-title" id="selectedCatTitle">STEM Academic Excellence Grant</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="scheme-details-content" id="selectedCatDesc">
+              <p class="text-secondary mb-3">Designed to foster higher academic research and merit for exceptional science, technology, engineering, and mathematics undergraduates.</p>
+              
+              <div class="scheme-stats-grid">
+                <div class="scheme-stat-card">
+                  <span class="stat-label">Grant Amount</span>
+                  <span class="stat-value text-success">₹75,000 / yr</span>
+                </div>
+                <div class="scheme-stat-card">
+                  <span class="stat-label">Minimum GPA</span>
+                  <span class="stat-value">8.50 / 10.0</span>
+                </div>
+                <div class="scheme-stat-card">
+                  <span class="stat-label">Family Income Cap</span>
+                  <span class="stat-value">₹6,00,000 / yr</span>
+                </div>
+                <div class="scheme-stat-card">
+                  <span class="stat-label">Available Quota</span>
+                  <span class="stat-value text-accent">10 Scholars</span>
+                </div>
+              </div>
+
+              <div class="scheme-apply-box mt-4">
+                <button class="btn btn-primary" onclick="document.getElementById('btnOpenAddModal').click()">Apply for this Scholarship</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('tabBtnCalculator').click()">Check My Eligibility</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- TAB 3: ELIGIBILITY & MERIT CALCULATOR -->
+    <!-- ================================================================= -->
+    <section class="tab-pane" id="tab-calculator" role="tabpanel">
+      <div class="pane-intro">
+        <div class="intro-text">
+          <h2 class="section-title">Instant Eligibility & Merit Score Calculator</h2>
+          <p class="section-desc">
+            Calculate your scholarship qualification score dynamically based on academic performance, extracurricular achievements, attendance, and financial background.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-layout grid-2col">
+        <!-- Calculator Inputs -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="badge badge-accent">Input Profile</span>
+              <h3 class="card-title">Student Academic & Need Profile</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="calc-form-group">
+              <div class="slider-header">
+                <label for="calcGpa">Grade Point Average (GPA):</label>
+                <span class="calc-val-badge" id="calcGpaVal">9.00</span>
+              </div>
+              <input type="range" id="calcGpa" min="5.0" max="10.0" step="0.05" value="9.00">
+            </div>
+
+            <div class="calc-form-group mt-3">
+              <div class="slider-header">
+                <label for="calcEca">Extracurricular & Leadership Score (0–100):</label>
+                <span class="calc-val-badge" id="calcEcaVal">80</span>
+              </div>
+              <input type="range" id="calcEca" min="0" max="100" step="1" value="80">
+            </div>
+
+            <div class="calc-form-group mt-3">
+              <div class="slider-header">
+                <label for="calcAttendance">Attendance Percentage (%):</label>
+                <span class="calc-val-badge" id="calcAttendanceVal">95%</span>
+              </div>
+              <input type="range" id="calcAttendance" min="50" max="100" step="1" value="95">
+            </div>
+
+            <div class="calc-form-group mt-3">
+              <div class="slider-header">
+                <label for="calcIncome">Annual Family Income (₹):</label>
+                <span class="calc-val-badge" id="calcIncomeVal">₹3,00,000</span>
+              </div>
+              <input type="range" id="calcIncome" min="100000" max="1000000" step="25000" value="300000">
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculator Result & Eligibility Report -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="badge badge-success">Score Assessment</span>
+              <h3 class="card-title">Your Estimated Scholarship Status</h3>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="calc-result-banner">
+              <div class="calc-score-circle">
+                <span class="calc-score-num" id="calcCompositeScore">88.0</span>
+                <span class="calc-score-lbl">Merit Score / 100</span>
+              </div>
+              <div class="calc-verdict">
+                <h4 class="verdict-title text-success" id="calcVerdictTitle">Highly Competitive Applicant</h4>
+                <p class="verdict-desc" id="calcVerdictDesc">Your GPA (9.00) and consistent attendance place you in the top 10% of applicants. You qualify for full STEM and Merit awards.</p>
+              </div>
+            </div>
+
+            <div class="eligible-schemes-list mt-4">
+              <span class="breakdown-label">Eligible Scholarship Programs:</span>
+              <div class="scheme-badge-row mt-2" id="calcEligibleList">
+                <span class="badge badge-success">✓ STEM Excellence Grant (₹75k)</span>
+                <span class="badge badge-success">✓ Humanities Honor (₹50k)</span>
+                <span class="badge badge-success">✓ Sports Achievement (₹35k)</span>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <button class="btn btn-primary" onclick="document.getElementById('btnOpenAddModal').click()">Proceed to Formal Application</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advanced Formula Weights (Collapsible for Evaluators) -->
+      <div class="card card-wide mt-4">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="badge badge-subtle">Admin Configuration</span>
+            <h3 class="card-title">Evaluation Formula & Variable Weights</h3>
+          </div>
+          <span class="card-hint">Dynamic Expression Parser</span>
         </div>
         <div class="card-body">
           <div class="formula-editor-row">
             <div class="input-field flex-1">
-              <label for="formulaInput">Active Scholarship Evaluation Formula (Infix Expression):</label>
+              <label for="formulaInput">Merit Scoring Formula:</label>
               <div class="input-with-button">
                 <input type="text" id="formulaInput" class="code-font" value="((gpa / 10.0) * 50.0) + (eca * 0.30) + (attendance * 0.20)">
                 <button class="btn btn-secondary" id="btnTestFormula">Validate & Parse</button>
                 <button class="btn btn-primary" id="btnApplyFormula">Apply to All</button>
               </div>
-              <small class="form-help">Supported variables: <code>gpa</code> (0-10), <code>eca</code> (0-100), <code>attendance</code> (0-100), <code>income</code> (INR)</small>
             </div>
           </div>
 
           <div class="formula-breakdown-grid mt-3">
             <div class="breakdown-card">
-              <span class="breakdown-label">Delimiter Balance Check:</span>
+              <span class="breakdown-label">Syntax Check:</span>
               <div class="breakdown-val" id="formulaBalanceStatus">
                 <span class="status-pill status-pill-success">Valid Balanced Delimiters</span>
               </div>
             </div>
             <div class="breakdown-card">
-              <span class="breakdown-label">Reverse Polish Notation (Postfix):</span>
+              <span class="breakdown-label">Compiled Postfix (RPN):</span>
               <div class="breakdown-val code-font text-accent" id="formulaPostfixResult">
                 gpa 10.0 / 50.0 * eca 0.30 * + attendance 0.20 * +
               </div>
             </div>
             <div class="breakdown-card">
-              <span class="breakdown-label">Sample Evaluation (GPA=9.0, ECA=80, Att=95%):</span>
+              <span class="breakdown-label">Computed Result:</span>
               <div class="breakdown-val font-bold text-success" id="formulaSampleScore">
                 Score: 88.00 / 100
               </div>
@@ -233,27 +426,110 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- PHASE 2: HIERARCHICAL & GRAPH STRUCTURES (CLO2) -->
+    <!-- TAB 4: SMART BUDGET & GRANT ALLOCATOR -->
     <!-- ================================================================= -->
-    <section class="tab-pane" id="tab-phase2" role="tabpanel">
+    <section class="tab-pane" id="tab-allocator" role="tabpanel">
       <div class="pane-intro">
         <div class="intro-text">
-          <h2 class="section-title">Hierarchical Trees, Student BST & Workflow Graph</h2>
+          <h2 class="section-title">Smart Budget Allocation & Grant Disbursement</h2>
           <p class="section-desc">
-            Visualizes the <strong>Scholarship Category Hierarchy Tree</strong>, fast <strong>Binary Search Tree (BST)</strong> indexing with 3-case node deletion, and the institutional <strong>Verification Workflow Graph</strong> with animated BFS & DFS.
+            Automatically optimize institutional scholarship fund distribution under a fixed semester budget, maximizing total merit impact and student support.
           </p>
         </div>
       </div>
 
+      <div class="card card-wide">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="badge badge-accent">Fund Allocator</span>
+            <h3 class="card-title">Institutional Semester Grant Budget</h3>
+          </div>
+          <span class="card-hint">Optimizes grant distribution across deserving students</span>
+        </div>
+        <div class="card-body">
+          <div class="budget-control-strip">
+            <div class="budget-slider-field flex-1">
+              <div class="slider-header">
+                <label for="greedyBudgetSlider">Total Available Disbursement Fund:</label>
+                <span class="budget-value-badge" id="greedyBudgetValue">₹1,50,000</span>
+              </div>
+              <input type="range" id="greedyBudgetSlider" min="20000" max="400000" value="150000" step="10000">
+            </div>
+            <button class="btn btn-primary" id="btnRunGreedy">Optimize Fund Allocation</button>
+          </div>
+
+          <div class="allocation-results-grid mt-4" id="greedyResultsContainer">
+            <!-- Dynamically populated allocation cards -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- TAB 5: STUDENT DIRECTORY & MASTER ROSTER -->
+    <!-- ================================================================= -->
+    <section class="tab-pane" id="tab-roster" role="tabpanel">
+      <div class="pane-intro">
+        <div class="intro-text">
+          <h2 class="section-title">Master Student Directory</h2>
+          <p class="section-desc">
+            Search, filter, and inspect student records, academic standings, family income brackets, and granted scholarship statuses.
+          </p>
+        </div>
+        <div class="roster-search-field">
+          <input type="text" id="rosterSearchInput" placeholder="Search by name, ID, or scheme..." class="input-sm">
+        </div>
+      </div>
+
+      <div class="card card-wide">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="minimal-table" id="studentRosterTable">
+              <thead>
+                <tr>
+                  <th>Student ID</th>
+                  <th>Student Name</th>
+                  <th>GPA</th>
+                  <th>Attendance</th>
+                  <th>ECA</th>
+                  <th>Family Income</th>
+                  <th>Scheme</th>
+                  <th>Merit Index</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="rosterTableBody">
+                <!-- Dynamically loaded rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- TAB 6: DSA ENGINE & EVALUATION CONSOLE (FOR EVALUATORS / EXAMINERS) -->
+    <!-- ================================================================= -->
+    <section class="tab-pane" id="tab-dsa" role="tabpanel">
+      <div class="pane-intro">
+        <div class="intro-text">
+          <h2 class="section-title">DSA Architecture & Technical Evaluation Console</h2>
+          <p class="section-desc">
+            Under-the-hood inspection of custom data structures and algorithms powering the portal: <strong>Binary Search Tree</strong> index, <strong>Sorting Visualizer</strong>, <strong>0/1 Knapsack DP</strong>, and <strong>Backtracking CSP</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Binary Search Tree Index -->
       <div class="grid-layout grid-2col">
-        <!-- Student Binary Search Tree (BST) -->
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <span class="badge badge-accent">Binary Search Tree</span>
-              <h3 class="card-title">Student ID Index (BST)</h3>
+              <span class="badge badge-accent">BST Index</span>
+              <h3 class="card-title">Student Binary Search Tree</h3>
             </div>
-            <span class="card-hint">Search / Insert / Delete ($O(\log N)$)</span>
+            <span class="card-hint">O(log N) Fast Lookup</span>
           </div>
           <div class="card-body">
             <div class="bst-controls-bar">
@@ -268,7 +544,6 @@
               <button class="btn btn-sm btn-ghost" id="btnBstMinMax">Find Min/Max</button>
             </div>
 
-            <!-- BST Tree Canvas/Diagram -->
             <div class="tree-canvas-container" id="bstCanvasContainer">
               <div class="tree-svg-wrapper" id="bstTreeWrapper">
                 <!-- Dynamically rendered BST -->
@@ -278,7 +553,7 @@
             <div class="tree-traversal-bar">
               <div class="traversal-selector">
                 <label>Traversals:</label>
-                <button class="btn-chip active" id="btnInorder">In-Order (Sorted ID)</button>
+                <button class="btn-chip active" id="btnInorder">In-Order</button>
                 <button class="btn-chip" id="btnPreorder">Pre-Order</button>
                 <button class="btn-chip" id="btnPostorder">Post-Order</button>
               </div>
@@ -289,284 +564,14 @@
           </div>
         </div>
 
-        <!-- Institutional Category Hierarchy Tree -->
+        <!-- 0/1 Knapsack Discrete Grant DP -->
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <span class="badge badge-accent">Category Tree</span>
-              <h3 class="card-title">Scholarship Divisions & Criteria</h3>
+              <span class="badge badge-accent">Dynamic Programming</span>
+              <h3 class="card-title">0/1 Knapsack Discrete Grant Optimizer</h3>
             </div>
-            <span class="card-hint">Multi-tiered Institutional Hierarchy</span>
-          </div>
-          <div class="card-body">
-            <div class="category-tree-visualizer" id="categoryTreeVisualizer">
-              <!-- Rendered Category Taxonomy Tree -->
-            </div>
-            <div class="category-details-panel" id="categoryDetailsPanel">
-              <div class="cat-pill-title" id="selectedCatTitle">Select a category node above</div>
-              <div class="cat-pill-desc" id="selectedCatDesc">Click any category badge to inspect minimum eligibility rules, grant caps, and allocated quotas.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Verification Workflow Graph (BFS & DFS) -->
-      <div class="card card-wide mt-4">
-        <div class="card-header">
-          <div class="card-title-group">
-            <span class="badge badge-accent">Directed Graph</span>
-            <h3 class="card-title">Institutional Approval Workflow & Route Traversals</h3>
-          </div>
-          <div class="graph-actions-header">
-            <button class="btn btn-sm btn-secondary" id="btnRunBFS">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-              Run BFS (Queue-based)
-            </button>
-            <button class="btn btn-sm btn-secondary" id="btnRunDFS">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-              Run DFS (Stack-based)
-            </button>
-            <button class="btn btn-sm btn-ghost" id="btnToggleGraphRep">
-              Toggle Matrix / List View
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="graph-stage-pipeline" id="workflowGraphContainer">
-            <!-- Rendered Workflow Graph with active stage pulses -->
-          </div>
-
-          <div class="workflow-logs-panel mt-3">
-            <div class="workflow-log-item">
-              <span class="log-label">Traversal Sequence:</span>
-              <span class="log-path code-font" id="traversalPathDisplay">PortalSubmission &rarr; DocVerification &rarr; AcademicAudit &rarr; FinancialAudit &rarr; DeanApproval &rarr; FundDisburse</span>
-            </div>
-            <div class="workflow-log-item" id="graphRepSection" style="display: none;">
-              <span class="log-label">Adjacency Representation:</span>
-              <div class="rep-table-wrap" id="graphRepDisplay"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- PHASE 3: SEARCHING & SORTING OPERATIONS (CLO2) -->
-    <!-- ================================================================= -->
-    <section class="tab-pane" id="tab-phase3" role="tabpanel">
-      <div class="pane-intro">
-        <div class="intro-text">
-          <h2 class="section-title">Searching & Sorting Laboratory</h2>
-          <p class="section-desc">
-            Visualizes and benchmarks fundamental algorithms: <strong>Merge Sort</strong> ($O(N \log N)$ stable merit ranking), <strong>Quick Sort</strong> ($O(N \log N)$ ID partitioning), <strong>Insertion Sort</strong> ($O(N^2)$ adaptive GPA sort), and <strong>Binary Search</strong> ($O(\log N)$).
-          </p>
-        </div>
-      </div>
-
-      <!-- Sorting Visualizer Card -->
-      <div class="card card-wide">
-        <div class="card-header">
-          <div class="card-title-group">
-            <span class="badge badge-accent">Live Sorting</span>
-            <h3 class="card-title">Interactive Sorting Visualizer</h3>
-          </div>
-          <div class="sort-controls-toolbar">
-            <select id="sortAlgorithmSelect" class="select-sm">
-              <option value="merge">Merge Sort (O(N log N) Stable Merit)</option>
-              <option value="quick">Quick Sort (O(N log N) ID Lomuto)</option>
-              <option value="insertion">Insertion Sort (O(N²) Adaptive GPA)</option>
-            </select>
-            <button class="btn btn-sm btn-primary" id="btnStartSort">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              Start Sort
-            </button>
-            <button class="btn btn-sm btn-secondary" id="btnStepSort">Step</button>
-            <button class="btn btn-sm btn-ghost" id="btnResetSortBars">Reset Array</button>
-            <div class="speed-slider-wrap">
-              <label for="sortSpeed">Speed:</label>
-              <input type="range" id="sortSpeed" min="50" max="600" value="250" step="50">
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="sort-meta-strip">
-            <div class="meta-item">
-              <span class="meta-label">Comparisons:</span>
-              <span class="meta-val font-bold" id="sortCompCount">0</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Array Accesses / Swaps:</span>
-              <span class="meta-val font-bold" id="sortSwapCount">0</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Time Complexity:</span>
-              <span class="meta-val code-font text-accent" id="sortComplexityBadge">O(N log N)</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Status:</span>
-              <span class="meta-val text-muted" id="sortStatusLabel">Ready</span>
-            </div>
-          </div>
-
-          <!-- Animated Bars Canvas -->
-          <div class="sort-bars-stage" id="sortBarsStage">
-            <!-- Dynamic sorting bars rendered here -->
-          </div>
-        </div>
-      </div>
-
-      <div class="grid-layout grid-2col mt-4">
-        <!-- Search Algorithm Comparison Card -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <span class="badge badge-accent">Search Comparison</span>
-              <h3 class="card-title">Linear Search vs. Binary Search</h3>
-            </div>
-            <span class="card-hint">O(N) vs. O(log N)</span>
-          </div>
-          <div class="card-body">
-            <div class="search-input-row">
-              <input type="text" id="searchTargetInput" placeholder="Enter Student ID (e.g. STU1004)" class="input-sm flex-1">
-              <button class="btn btn-sm btn-secondary" id="btnRunSearchComparison">Compare Search</button>
-            </div>
-
-            <div class="search-comparison-results mt-3">
-              <div class="search-result-box">
-                <div class="res-title">Linear Search (Unsorted)</div>
-                <div class="res-stat" id="linearSearchStats">Comparisons: <strong>—</strong></div>
-                <div class="res-time" id="linearSearchTime">Time: <strong>— ns</strong></div>
-                <div class="res-complexity code-font">O(N) Sequential</div>
-              </div>
-              <div class="search-result-box highlight">
-                <div class="res-title">Binary Search (Sorted Array)</div>
-                <div class="res-stat" id="binarySearchStats">Comparisons: <strong>—</strong></div>
-                <div class="res-time" id="binarySearchTime">Time: <strong>— ns</strong></div>
-                <div class="res-complexity code-font text-accent">O(log N) Logarithmic</div>
-              </div>
-            </div>
-
-            <div class="search-found-card mt-3" id="searchFoundDetails">
-              <span class="text-muted">Enter a student ID and click "Compare Search" to inspect runtime operations.</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Empirical Benchmark & Complexity Matrix -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <span class="badge badge-accent">Empirical Benchmarking</span>
-              <h3 class="card-title">Asymptotic Complexity Matrix</h3>
-            </div>
-            <button class="btn btn-sm btn-secondary" id="btnRunBenchmark">Run Live Benchmark</button>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="minimal-table">
-                <thead>
-                  <tr>
-                    <th>Algorithm</th>
-                    <th>Best Case</th>
-                    <th>Average Case</th>
-                    <th>Worst Case</th>
-                    <th>Benchmark (ns)</th>
-                  </tr>
-                </thead>
-                <tbody id="benchmarkTableBody">
-                  <tr>
-                    <td><strong>Merge Sort</strong></td>
-                    <td><code>O(N log N)</code></td>
-                    <td><code>O(N log N)</code></td>
-                    <td><code>O(N log N)</code></td>
-                    <td id="benchMerge">21,500 ns</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Quick Sort</strong></td>
-                    <td><code>O(N log N)</code></td>
-                    <td><code>O(N log N)</code></td>
-                    <td><code>O(N²)</code></td>
-                    <td id="benchQuick">18,200 ns</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Insertion Sort</strong></td>
-                    <td><code>O(N)</code></td>
-                    <td><code>O(N²)</code></td>
-                    <td><code>O(N²)</code></td>
-                    <td id="benchInsert">48,900 ns</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Binary Search</strong></td>
-                    <td><code>O(1)</code></td>
-                    <td><code>O(log N)</code></td>
-                    <td><code>O(log N)</code></td>
-                    <td id="benchBinary">420 ns</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Linear Search</strong></td>
-                    <td><code>O(1)</code></td>
-                    <td><code>O(N)</code></td>
-                    <td><code>O(N)</code></td>
-                    <td id="benchLinear">3,100 ns</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <small class="text-muted mt-2 block">Benchmark executed across 50 records via high-resolution <code>System.nanoTime()</code> timing.</small>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- PHASE 4: BASIC ALGORITHMIC PROBLEM SOLVING (CLO3) -->
-    <!-- ================================================================= -->
-    <section class="tab-pane" id="tab-phase4" role="tabpanel">
-      <div class="pane-intro">
-        <div class="intro-text">
-          <h2 class="section-title">Algorithmic Solvers & Problem Solving</h2>
-          <p class="section-desc">
-            Optimizes resource allocation using 3 classical algorithmic paradigms: <strong>Greedy Strategy</strong> (Fractional Knapsack yield maximizer), <strong>Dynamic Programming</strong> (0/1 Discrete Knapsack with full 2D table reconstruction), and <strong>Backtracking</strong> (Constraint Satisfaction Committee Assignment).
-          </p>
-        </div>
-      </div>
-
-      <!-- Problem 1: Greedy Allocation -->
-      <div class="card card-wide">
-        <div class="card-header">
-          <div class="card-title-group">
-            <span class="badge badge-accent">Paradigm 1: Greedy</span>
-            <h3 class="card-title">Greedy Scholarship Allocation (Fractional Knapsack)</h3>
-          </div>
-          <span class="card-hint">Maximizes Merit Yield per Rupee Spent ($\frac{\text{Merit}}{\text{Grant}}$)</span>
-        </div>
-        <div class="card-body">
-          <div class="budget-control-strip">
-            <div class="budget-slider-field flex-1">
-              <div class="slider-header">
-                <label for="greedyBudgetSlider">Total Available Institutional Budget:</label>
-                <span class="budget-value-badge" id="greedyBudgetValue">₹1,50,000</span>
-              </div>
-              <input type="range" id="greedyBudgetSlider" min="20000" max="400000" value="150000" step="10000">
-            </div>
-            <button class="btn btn-primary" id="btnRunGreedy">Compute Greedy Allocation</button>
-          </div>
-
-          <div class="allocation-results-grid mt-3" id="greedyResultsContainer">
-            <!-- Dynamically populated greedy allocation cards -->
-          </div>
-        </div>
-      </div>
-
-      <div class="grid-layout grid-2col mt-4">
-        <!-- Problem 2: Dynamic Programming 0/1 Knapsack -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <span class="badge badge-accent">Paradigm 2: DP</span>
-              <h3 class="card-title">Discrete Full-Grant Optimization (0/1 Knapsack)</h3>
-            </div>
-            <span class="card-hint">Indivisible Grants under Hard Budget</span>
+            <span class="card-hint">Indivisible Grants</span>
           </div>
           <div class="card-body">
             <div class="dp-controls-row">
@@ -589,99 +594,96 @@
                 <span class="dp-val" id="dpCapacityUsed">5 / 5 Units</span>
               </div>
               <div class="dp-stat-box">
-                <span class="dp-label">Students Selected:</span>
+                <span class="dp-label">Selected Count:</span>
                 <span class="dp-val font-bold" id="dpSelectedCount">2 Students</span>
               </div>
             </div>
 
             <div class="dp-matrix-wrapper mt-3">
-              <span class="text-muted block mb-1">2D Dynamic Programming State Table [Items &times; Capacity]:</span>
-              <div class="dp-table-scroll" id="dpMatrixContainer">
-                <!-- 2D DP Table Rendered Here -->
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Problem 3: Backtracking Committee Assignment -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title-group">
-              <span class="badge badge-accent">Paradigm 3: Backtracking</span>
-              <h3 class="card-title">Committee Assignment (Constraint Satisfaction)</h3>
-            </div>
-            <span class="card-hint">Multi-Constraint &middot; Pruned Branches</span>
-          </div>
-          <div class="card-body">
-            <p class="text-muted mb-2">Assigns students to evaluation panels ensuring: (1) Minimum GPA threshold, (2) Departmental quota diversity, and (3) No duplicate assignments.</p>
-
-            <div class="committee-slots-preview" id="committeeSlotsContainer">
-              <div class="slot-card">
-                <div class="slot-role">Academic Lead</div>
-                <div class="slot-req">Min GPA: 9.0 &middot; Any Dept</div>
-                <div class="slot-assignee" id="slotLeadAssignee">STU1001 (Aarav Sharma)</div>
-              </div>
-              <div class="slot-card">
-                <div class="slot-role">Welfare Representative</div>
-                <div class="slot-req">Min GPA: 8.0 &middot; Need Category</div>
-                <div class="slot-assignee" id="slotWelfareAssignee">STU1002 (Priya Patel)</div>
-              </div>
-              <div class="slot-card">
-                <div class="slot-role">Activities Representative</div>
-                <div class="slot-req">Min GPA: 7.0 &middot; Sports &gt; 80</div>
-                <div class="slot-assignee" id="slotActivityAssignee">STU1003 (Rohan Deshmukh)</div>
-              </div>
-            </div>
-
-            <div class="backtrack-footer mt-3">
-              <button class="btn btn-sm btn-primary" id="btnSolveBacktrack">Run Backtracking Solver</button>
-              <div class="backtrack-prune-stat" id="backtrackPruneStat">
-                <span class="text-success">&check; Valid Assignment Found &middot; 4 invalid branches pruned</span>
-              </div>
+              <span class="text-muted block mb-1">2D DP State Table [Items &times; Capacity]:</span>
+              <div class="dp-table-scroll" id="dpMatrixContainer"></div>
             </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- ================================================================= -->
-    <!-- MASTER STUDENT ROSTER TAB -->
-    <!-- ================================================================= -->
-    <section class="tab-pane" id="tab-roster" role="tabpanel">
-      <div class="pane-intro">
-        <div class="intro-text">
-          <h2 class="section-title">Master Student Storage (Singly Linked List)</h2>
-          <p class="section-desc">
-            Live view of records maintained in the custom <strong>StudentLinkedList</strong> sorted dynamically by calculated merit score.
-          </p>
+      <!-- Sorting Visualizer & Benchmark -->
+      <div class="card card-wide mt-4">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="badge badge-accent">Live Sorting</span>
+            <h3 class="card-title">Interactive Sorting Visualizer (Merge, Quick, Insertion)</h3>
+          </div>
+          <div class="sort-controls-toolbar">
+            <select id="sortAlgorithmSelect" class="select-sm">
+              <option value="merge">Merge Sort (O(N log N) Stable Merit)</option>
+              <option value="quick">Quick Sort (O(N log N) ID Lomuto)</option>
+              <option value="insertion">Insertion Sort (O(N²) Adaptive GPA)</option>
+            </select>
+            <button class="btn btn-sm btn-primary" id="btnStartSort">Start Sort</button>
+            <button class="btn btn-sm btn-secondary" id="btnStepSort">Step</button>
+            <button class="btn btn-sm btn-ghost" id="btnResetSortBars">Reset Array</button>
+            <div class="speed-slider-wrap">
+              <label for="sortSpeed">Speed:</label>
+              <input type="range" id="sortSpeed" min="50" max="600" value="250" step="50">
+            </div>
+          </div>
         </div>
-        <div class="roster-search-field">
-          <input type="text" id="rosterSearchInput" placeholder="Filter by Name, ID, or Category..." class="input-sm">
+        <div class="card-body">
+          <div class="sort-meta-strip">
+            <div class="meta-item">
+              <span class="meta-label">Comparisons:</span>
+              <span class="meta-val font-bold" id="sortCompCount">0</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Swaps / Shifts:</span>
+              <span class="meta-val font-bold" id="sortSwapCount">0</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Complexity:</span>
+              <span class="meta-val code-font text-accent" id="sortComplexityBadge">O(N log N)</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Status:</span>
+              <span class="meta-val text-muted" id="sortStatusLabel">Ready</span>
+            </div>
+          </div>
+          <div class="sort-bars-stage" id="sortBarsStage"></div>
         </div>
       </div>
 
-      <div class="card card-wide">
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="minimal-table" id="studentRosterTable">
-              <thead>
-                <tr>
-                  <th>Student ID</th>
-                  <th>Student Name</th>
-                  <th>GPA</th>
-                  <th>Attendance</th>
-                  <th>ECA Score</th>
-                  <th>Annual Income</th>
-                  <th>Category</th>
-                  <th>Merit Score</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="rosterTableBody">
-                <!-- Dynamically loaded rows -->
-              </tbody>
-            </table>
+      <!-- Backtracking Committee Assignment -->
+      <div class="card card-wide mt-4">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="badge badge-accent">Backtracking CSP</span>
+            <h3 class="card-title">Committee Assignment (Constraint Satisfaction)</h3>
+          </div>
+          <span class="card-hint">Multi-Constraint &middot; Branch Pruning</span>
+        </div>
+        <div class="card-body">
+          <div class="committee-slots-preview" id="committeeSlotsContainer">
+            <div class="slot-card">
+              <div class="slot-role">Academic Lead</div>
+              <div class="slot-req">Min GPA: 9.00</div>
+              <div class="slot-assignee" id="slotLeadAssignee">STU1001 (Aarav Sharma)</div>
+            </div>
+            <div class="slot-card">
+              <div class="slot-role">Welfare Representative</div>
+              <div class="slot-req">Need-Based Category</div>
+              <div class="slot-assignee" id="slotWelfareAssignee">STU1002 (Priya Patel)</div>
+            </div>
+            <div class="slot-card">
+              <div class="slot-role">Activities Representative</div>
+              <div class="slot-req">ECA Score &gt; 80</div>
+              <div class="slot-assignee" id="slotActivityAssignee">STU1003 (Rohan Deshmukh)</div>
+            </div>
+          </div>
+          <div class="backtrack-footer mt-3">
+            <button class="btn btn-sm btn-primary" id="btnSolveBacktrack">Run Backtracking Solver</button>
+            <div class="backtrack-prune-stat" id="backtrackPruneStat">
+              <span class="text-success">&check; Valid Assignment Found &middot; 4 invalid branches pruned</span>
+            </div>
           </div>
         </div>
       </div>
@@ -689,11 +691,11 @@
 
   </main>
 
-  <!-- Add Student Modal -->
+  <!-- Add Application Modal -->
   <div class="modal-backdrop" id="addStudentModal">
     <div class="modal-dialog">
       <div class="modal-header">
-        <h3 class="modal-title">Register New Scholarship Applicant</h3>
+        <h3 class="modal-title">Submit Scholarship Application</h3>
         <button class="btn-close" id="btnCloseAddModal">&times;</button>
       </div>
       <form id="addStudentForm">
@@ -724,24 +726,23 @@
           </div>
           <div class="form-row">
             <div class="form-group flex-1">
-              <label for="inpIncome">Family Annual Income (₹)</label>
+              <label for="inpIncome">Annual Family Income (₹)</label>
               <input type="number" id="inpIncome" step="1000" min="0" required placeholder="250000">
             </div>
             <div class="form-group flex-1">
-              <label for="inpCategory">Scholarship Category</label>
+              <label for="inpCategory">Target Scholarship Scheme</label>
               <select id="inpCategory" required>
-                <option value="Merit-Based">Merit-Based Academic</option>
-                <option value="Need-Based">Need-Based Financial</option>
-                <option value="Sports/ECA">Sports & Cultural Achievement</option>
-                <option value="Research">Research & Innovation</option>
-                <option value="Minority">Minority Inclusion</option>
+                <option value="Merit-Based">STEM Academic Excellence Grant</option>
+                <option value="Need-Based">BPL / EWS Tuition Waiver</option>
+                <option value="Sports/ECA">Sports & Cultural Award</option>
+                <option value="Research">UG Research Fellowship</option>
               </select>
             </div>
           </div>
           <div class="form-group">
             <label class="checkbox-label">
               <input type="checkbox" id="inpDirectToStorage">
-              <span>Insert directly into sorted Linked List & BST (skip FIFO queue)</span>
+              <span>Instant auto-approval (skip review queue for pre-verified students)</span>
             </label>
           </div>
         </div>
@@ -760,10 +761,10 @@
   <footer class="app-footer">
     <div class="footer-container">
       <div class="footer-left">
-        <strong>MeritScholar Eligibility & Optimization Platform</strong> &middot; Data Structures & Algorithms (26MCC1L211)
+        <strong>ApexScholar Portal</strong> &middot; Automated Higher Education Grant Management System
       </div>
       <div class="footer-right">
-        CLO1 (Linear) &middot; CLO2 (Trees & Graphs) &middot; CLO2 (Searching & Sorting) &middot; CLO3 (Algorithmic Problem Solving)
+        Secure Review Workflow &middot; Real-time Merit Indexing &middot; Transparent Disbursements
       </div>
     </div>
   </footer>

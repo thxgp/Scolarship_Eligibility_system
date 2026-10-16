@@ -33,8 +33,21 @@ public class ScholarshipWebServer {
         this.port = port;
         this.uiDirectory = uiDirectory;
         this.service = new ScholarshipService();
-        // Load initial batch of applicants
-        this.service.loadSampleData(true);
+        // Load initial batch: 4 in storage (approved/review), 4 in queue (pending)
+        this.service.loadSampleData(false);
+        List<StudentRecord> all = service.getStudentStorage().toList();
+        service.getStudentStorage().clear();
+        for (int i = 0; i < all.size(); i++) {
+            StudentRecord s = all.get(i);
+            if (i < 4) {
+                s.setStatus("Pending");
+                service.getApplicationQueue().enqueue(s);
+            } else {
+                s.setStatus(s.getGpa() >= 8.0 ? "Approved" : "Under Review");
+                service.getStudentStorage().insertSortedByMerit(s);
+            }
+        }
+        service.syncBSTFromStorage();
     }
 
     public static void main(String[] args) {
@@ -126,45 +139,50 @@ public class ScholarshipWebServer {
                 return;
             }
 
-            List<StudentRecord> students = service.getStudentStorage().toList();
-            List<StudentRecord> queue = service.getQueueRecords();
-            List<ActionRecord> stack = service.getActionHistory();
+            try {
+                List<StudentRecord> students = service.getStudentStorage().toList();
+                List<StudentRecord> queue = service.getQueueRecords();
+                List<ActionRecord> stack = service.getActionHistory();
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("{");
-            sb.append("\"activeFormula\":\"").append(escapeJson(service.getActiveFormula())).append("\",");
-
-            // Students array
-            sb.append("\"students\":[");
-            for (int i = 0; i < students.size(); i++) {
-                sb.append(studentToJson(students.get(i)));
-                if (i < students.size() - 1) sb.append(",");
-            }
-            sb.append("],");
-
-            // Queue array
-            sb.append("\"queue\":[");
-            for (int i = 0; i < queue.size(); i++) {
-                sb.append(studentToJson(queue.get(i)));
-                if (i < queue.size() - 1) sb.append(",");
-            }
-            sb.append("],");
-
-            // Stack array
-            sb.append("\"stack\":[");
-            for (int i = 0; i < stack.size(); i++) {
-                ActionRecord a = stack.get(i);
+                StringBuilder sb = new StringBuilder();
                 sb.append("{");
-                sb.append("\"actionType\":\"").append(escapeJson(a.getActionType())).append("\",");
-                sb.append("\"studentId\":\"").append(escapeJson(a.getStudentId())).append("\",");
-                sb.append("\"description\":\"").append(escapeJson(a.getDescription())).append("\"");
-                sb.append("}");
-                if (i < stack.size() - 1) sb.append(",");
-            }
-            sb.append("]");
+                sb.append("\"activeFormula\":\"").append(escapeJson(service.getActiveFormula())).append("\",");
 
-            sb.append("}");
-            sendJsonResponse(exchange, 200, sb.toString());
+                // Students array
+                sb.append("\"students\":[");
+                for (int i = 0; i < students.size(); i++) {
+                    sb.append(studentToJson(students.get(i)));
+                    if (i < students.size() - 1) sb.append(",");
+                }
+                sb.append("],");
+
+                // Queue array
+                sb.append("\"queue\":[");
+                for (int i = 0; i < queue.size(); i++) {
+                    sb.append(studentToJson(queue.get(i)));
+                    if (i < queue.size() - 1) sb.append(",");
+                }
+                sb.append("],");
+
+                // Stack array
+                sb.append("\"stack\":[");
+                for (int i = 0; i < stack.size(); i++) {
+                    ActionRecord a = stack.get(i);
+                    sb.append("{");
+                    sb.append("\"actionType\":\"").append(escapeJson(a.getActionType())).append("\",");
+                    sb.append("\"studentId\":\"").append(escapeJson(a.getStudentId())).append("\",");
+                    sb.append("\"description\":\"").append(escapeJson(a.getDescription())).append("\"");
+                    sb.append("}");
+                    if (i < stack.size() - 1) sb.append(",");
+                }
+                sb.append("]");
+
+                sb.append("}");
+                sendJsonResponse(exchange, 200, sb.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+                sendJsonResponse(exchange, 500, "{\"error\":\"" + escapeJson(e.getMessage()) + "\"}");
+            }
         }
     }
 
@@ -292,7 +310,7 @@ public class ScholarshipWebServer {
 
     private static String studentToJson(StudentRecord s) {
         return String.format(Locale.US,
-                "{\"studentId\":\"%s\",\"name\":\"%s\",\"gpa\":%.2f,\"familyIncome\":%.1f,\"attendancePercentage\":%.1f,\"extracurricularScore\":%d,\"category\":\"%s\",\"status\":\"%s\",\"meritScore\":%.2f}",
+                "{\"studentId\":\"%s\",\"name\":\"%s\",\"gpa\":%.2f,\"familyIncome\":%.1f,\"attendancePercentage\":%.1f,\"extracurricularScore\":%.1f,\"category\":\"%s\",\"status\":\"%s\",\"meritScore\":%.2f}",
                 escapeJson(s.getStudentId()),
                 escapeJson(s.getName()),
                 s.getGpa(),

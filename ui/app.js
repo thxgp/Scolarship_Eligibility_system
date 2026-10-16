@@ -15,7 +15,7 @@
   // State Management
   const state = {
     isServerLive: false,
-    activeTab: 'tab-phase1',
+    activeTab: 'tab-pipeline',
     activeFormula: '((gpa / 10.0) * 50.0) + (eca * 0.30) + (attendance * 0.20)',
     queue: [],
     stack: [],
@@ -72,7 +72,7 @@
     el.tabBtns = document.querySelectorAll('.tab-btn');
     el.tabPanes = document.querySelectorAll('.tab-pane');
 
-    // Phase 1
+    // Pipeline & Queue
     el.queueVisualizer = document.getElementById('queueVisualizer');
     el.queueCountNote = document.getElementById('queueCountNote');
     el.stackVisualizer = document.getElementById('stackVisualizer');
@@ -80,6 +80,22 @@
     el.btnProcessNextQueue = document.getElementById('btnProcessNextQueue');
     el.btnUndoAction = document.getElementById('btnUndoAction');
     el.btnEnqueueSample = document.getElementById('btnEnqueueSample');
+
+    // Calculator Elements
+    el.calcGpa = document.getElementById('calcGpa');
+    el.calcGpaVal = document.getElementById('calcGpaVal');
+    el.calcEca = document.getElementById('calcEca');
+    el.calcEcaVal = document.getElementById('calcEcaVal');
+    el.calcAttendance = document.getElementById('calcAttendance');
+    el.calcAttendanceVal = document.getElementById('calcAttendanceVal');
+    el.calcIncome = document.getElementById('calcIncome');
+    el.calcIncomeVal = document.getElementById('calcIncomeVal');
+    el.calcCompositeScore = document.getElementById('calcCompositeScore');
+    el.calcVerdictTitle = document.getElementById('calcVerdictTitle');
+    el.calcVerdictDesc = document.getElementById('calcVerdictDesc');
+    el.calcEligibleList = document.getElementById('calcEligibleList');
+
+    // Formula elements
     el.formulaInput = document.getElementById('formulaInput');
     el.btnTestFormula = document.getElementById('btnTestFormula');
     el.btnApplyFormula = document.getElementById('btnApplyFormula');
@@ -87,7 +103,7 @@
     el.formulaPostfixResult = document.getElementById('formulaPostfixResult');
     el.formulaSampleScore = document.getElementById('formulaSampleScore');
 
-    // Phase 2
+    // Tree & Workflow
     el.bstSearchInput = document.getElementById('bstSearchInput');
     el.btnBstSearch = document.getElementById('btnBstSearch');
     el.bstDeleteInput = document.getElementById('bstDeleteInput');
@@ -103,13 +119,9 @@
     el.selectedCatDesc = document.getElementById('selectedCatDesc');
     el.workflowGraphContainer = document.getElementById('workflowGraphContainer');
     el.btnRunBFS = document.getElementById('btnRunBFS');
-    el.btnRunDFS = document.getElementById('btnRunDFS');
-    el.btnToggleGraphRep = document.getElementById('btnToggleGraphRep');
     el.traversalPathDisplay = document.getElementById('traversalPathDisplay');
-    el.graphRepSection = document.getElementById('graphRepSection');
-    el.graphRepDisplay = document.getElementById('graphRepDisplay');
 
-    // Phase 3
+    // Sorting & Benchmark
     el.sortAlgorithmSelect = document.getElementById('sortAlgorithmSelect');
     el.btnStartSort = document.getElementById('btnStartSort');
     el.btnStepSort = document.getElementById('btnStepSort');
@@ -120,16 +132,8 @@
     el.sortComplexityBadge = document.getElementById('sortComplexityBadge');
     el.sortStatusLabel = document.getElementById('sortStatusLabel');
     el.sortBarsStage = document.getElementById('sortBarsStage');
-    el.searchTargetInput = document.getElementById('searchTargetInput');
-    el.btnRunSearchComparison = document.getElementById('btnRunSearchComparison');
-    el.linearSearchStats = document.getElementById('linearSearchStats');
-    el.linearSearchTime = document.getElementById('linearSearchTime');
-    el.binarySearchStats = document.getElementById('binarySearchStats');
-    el.binarySearchTime = document.getElementById('binarySearchTime');
-    el.searchFoundDetails = document.getElementById('searchFoundDetails');
-    el.btnRunBenchmark = document.getElementById('btnRunBenchmark');
 
-    // Phase 4
+    // Allocator & Problem Solving
     el.greedyBudgetSlider = document.getElementById('greedyBudgetSlider');
     el.greedyBudgetValue = document.getElementById('greedyBudgetValue');
     el.btnRunGreedy = document.getElementById('btnRunGreedy');
@@ -146,7 +150,7 @@
     el.slotWelfareAssignee = document.getElementById('slotWelfareAssignee');
     el.slotActivityAssignee = document.getElementById('slotActivityAssignee');
 
-    // Roster & Modal
+    // Master Roster & Modals
     el.rosterTableBody = document.getElementById('rosterTableBody');
     el.rosterSearchInput = document.getElementById('rosterSearchInput');
     el.btnOpenAddModal = document.getElementById('btnOpenAddModal');
@@ -167,7 +171,7 @@
     bindEvents();
     await checkServerConnection();
 
-    if (!state.isServerLive) {
+    if (!state.isServerLive || state.students.length === 0) {
       loadClientSimulation();
     }
 
@@ -175,11 +179,12 @@
     initSortBars();
     renderCategoryTree();
     renderWorkflowGraph();
+    updateCalculator();
     computeGreedyAllocation();
     computeDPKnapsack();
     computeBacktracking();
 
-    showToast('MeritScholar platform initialized in warm minimal mode.', 'info');
+    showToast('ApexScholar portal loaded with active applicants.', 'info');
   }
 
   async function checkServerConnection() {
@@ -196,7 +201,7 @@
       // Backend not running
     }
     state.isServerLive = false;
-    el.serverStatusText.textContent = 'Client Simulation Active';
+    el.serverStatusText.textContent = 'Client Engine Active';
     el.serverStatusBadge.querySelector('.status-dot').className = 'status-dot sim';
   }
 
@@ -209,7 +214,7 @@
         state.queue = data.queue || [];
         state.stack = data.stack || [];
         state.activeFormula = data.activeFormula || state.activeFormula;
-        el.formulaInput.value = state.activeFormula;
+        if (el.formulaInput) el.formulaInput.value = state.activeFormula;
       }
     } catch (e) {
       console.warn('Could not sync with server:', e);
@@ -221,14 +226,14 @@
     state.queue = defaultSamples.slice(0, 4).map(s => ({ ...s, status: 'Pending' }));
     state.students = defaultSamples.slice(4).map(s => ({
       ...s,
-      status: s.gpa >= 8.0 ? 'Approved' : 'Rejected',
+      status: s.gpa >= 8.0 ? 'Approved' : 'Under Review',
       meritScore: calculateSimMeritScore(s, state.activeFormula)
     }));
     // Sort students by merit desc
     state.students.sort((a, b) => b.meritScore - a.meritScore);
 
     state.stack = [
-      { actionType: 'SYSTEM_INIT', studentId: 'SYSTEM', description: 'System loaded default applicants' }
+      { actionType: 'SYSTEM_INIT', studentId: 'SYSTEM', description: 'Portal loaded student applications' }
     ];
   }
 
@@ -244,62 +249,75 @@
       });
     });
 
-    // Phase 1 buttons
-    el.btnProcessNextQueue.addEventListener('click', handleProcessNext);
-    el.btnUndoAction.addEventListener('click', handleUndo);
-    el.btnEnqueueSample.addEventListener('click', handleEnqueueSample);
-    el.btnTestFormula.addEventListener('click', handleTestFormula);
-    el.btnApplyFormula.addEventListener('click', handleApplyFormula);
+    // Pipeline actions
+    if (el.btnProcessNextQueue) el.btnProcessNextQueue.addEventListener('click', handleProcessNext);
+    if (el.btnUndoAction) el.btnUndoAction.addEventListener('click', handleUndo);
+    if (el.btnEnqueueSample) el.btnEnqueueSample.addEventListener('click', handleEnqueueSample);
 
-    // Phase 2 buttons
-    el.btnBstSearch.addEventListener('click', handleBstSearch);
-    el.btnBstDelete.addEventListener('click', handleBstDelete);
-    el.btnBstMinMax.addEventListener('click', handleBstMinMax);
-    el.btnInorder.addEventListener('click', () => updateBstTraversal('inorder'));
-    el.btnPreorder.addEventListener('click', () => updateBstTraversal('preorder'));
-    el.btnPostorder.addEventListener('click', () => updateBstTraversal('postorder'));
-    el.btnRunBFS.addEventListener('click', () => animateWorkflow('bfs'));
-    el.btnRunDFS.addEventListener('click', () => animateWorkflow('dfs'));
-    el.btnToggleGraphRep.addEventListener('click', toggleGraphRep);
+    // Calculator inputs
+    if (el.calcGpa) {
+      el.calcGpa.addEventListener('input', updateCalculator);
+      el.calcEca.addEventListener('input', updateCalculator);
+      el.calcAttendance.addEventListener('input', updateCalculator);
+      el.calcIncome.addEventListener('input', updateCalculator);
+    }
 
-    // Phase 3 buttons
-    el.btnStartSort.addEventListener('click', handleStartSort);
-    el.btnStepSort.addEventListener('click', handleStepSort);
-    el.btnResetSortBars.addEventListener('click', initSortBars);
-    el.sortSpeed.addEventListener('input', (e) => {
-      state.sortAnimationSpeed = 650 - parseInt(e.target.value, 10);
-    });
-    el.btnRunSearchComparison.addEventListener('click', handleSearchComparison);
-    el.btnRunBenchmark.addEventListener('click', handleRunBenchmark);
+    // Formula buttons
+    if (el.btnTestFormula) el.btnTestFormula.addEventListener('click', handleTestFormula);
+    if (el.btnApplyFormula) el.btnApplyFormula.addEventListener('click', handleApplyFormula);
 
-    // Phase 4 buttons
-    el.greedyBudgetSlider.addEventListener('input', (e) => {
-      const val = parseInt(e.target.value, 10);
-      el.greedyBudgetValue.textContent = '₹' + val.toLocaleString('en-IN');
-      computeGreedyAllocation(val);
-    });
-    el.btnRunGreedy.addEventListener('click', () => computeGreedyAllocation(parseInt(el.greedyBudgetSlider.value, 10)));
-    el.btnRunDP.addEventListener('click', () => computeDPKnapsack());
-    el.btnSolveBacktrack.addEventListener('click', () => computeBacktracking());
+    // Tree buttons
+    if (el.btnBstSearch) el.btnBstSearch.addEventListener('click', handleBstSearch);
+    if (el.btnBstDelete) el.btnBstDelete.addEventListener('click', handleBstDelete);
+    if (el.btnBstMinMax) el.btnBstMinMax.addEventListener('click', handleBstMinMax);
+    if (el.btnInorder) el.btnInorder.addEventListener('click', () => updateBstTraversal('inorder'));
+    if (el.btnPreorder) el.btnPreorder.addEventListener('click', () => updateBstTraversal('preorder'));
+    if (el.btnPostorder) el.btnPostorder.addEventListener('click', () => updateBstTraversal('postorder'));
+    if (el.btnRunBFS) el.btnRunBFS.addEventListener('click', () => animateWorkflow('bfs'));
+
+    // Sorting buttons
+    if (el.btnStartSort) el.btnStartSort.addEventListener('click', handleStartSort);
+    if (el.btnStepSort) el.btnStepSort.addEventListener('click', handleStepSort);
+    if (el.btnResetSortBars) el.btnResetSortBars.addEventListener('click', initSortBars);
+    if (el.sortSpeed) {
+      el.sortSpeed.addEventListener('input', (e) => {
+        state.sortAnimationSpeed = 650 - parseInt(e.target.value, 10);
+      });
+    }
+
+    // Allocator buttons
+    if (el.greedyBudgetSlider) {
+      el.greedyBudgetSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10);
+        el.greedyBudgetValue.textContent = '₹' + val.toLocaleString('en-IN');
+        computeGreedyAllocation(val);
+      });
+    }
+    if (el.btnRunGreedy) el.btnRunGreedy.addEventListener('click', () => computeGreedyAllocation(parseInt(el.greedyBudgetSlider.value, 10)));
+    if (el.btnRunDP) el.btnRunDP.addEventListener('click', () => computeDPKnapsack());
+    if (el.btnSolveBacktrack) el.btnSolveBacktrack.addEventListener('click', () => computeBacktracking());
 
     // Master Roster & Search
-    el.rosterSearchInput.addEventListener('input', (e) => filterRoster(e.target.value));
+    if (el.rosterSearchInput) el.rosterSearchInput.addEventListener('input', (e) => filterRoster(e.target.value));
 
     // Modal
-    el.btnOpenAddModal.addEventListener('click', () => el.addStudentModal.classList.add('open'));
-    el.btnCloseAddModal.addEventListener('click', () => el.addStudentModal.classList.remove('open'));
-    el.btnCancelAdd.addEventListener('click', () => el.addStudentModal.classList.remove('open'));
-    el.addStudentForm.addEventListener('submit', handleAddStudentSubmit);
+    if (el.btnOpenAddModal) el.btnOpenAddModal.addEventListener('click', () => el.addStudentModal.classList.add('open'));
+    if (el.btnCloseAddModal) el.btnCloseAddModal.addEventListener('click', () => el.addStudentModal.classList.remove('open'));
+    if (el.btnCancelAdd) el.btnCancelAdd.addEventListener('click', () => el.addStudentModal.classList.remove('open'));
+    if (el.addStudentForm) el.addStudentForm.addEventListener('submit', handleAddStudentSubmit);
 
     // Global Reset & Demo
-    el.btnReloadSamples.addEventListener('click', () => {
-      loadClientSimulation();
-      renderAll();
-      initSortBars();
-      showToast('Dataset reset to original 8 student applicants.', 'info');
-    });
+    if (el.btnReloadSamples) {
+      el.btnReloadSamples.addEventListener('click', () => {
+        loadClientSimulation();
+        renderAll();
+        initSortBars();
+        updateCalculator();
+        showToast('Dataset reset to original 8 student applicants.', 'info');
+      });
+    }
 
-    el.btnQuickTour.addEventListener('click', runGuidedTour);
+    if (el.btnQuickTour) el.btnQuickTour.addEventListener('click', runGuidedTour);
   }
 
   function switchTab(tabId) {
@@ -343,18 +361,18 @@
   function renderQueue() {
     el.queueVisualizer.innerHTML = '';
     if (state.queue.length === 0) {
-      el.queueVisualizer.innerHTML = '<div class="empty-state">No applications in queue. Click "New Applicant" or "Quick Enqueue".</div>';
-      el.queueCountNote.textContent = '0 applications waiting for merit audit';
+      el.queueVisualizer.innerHTML = '<div class="empty-state">No pending applications in queue. Click "Apply for Scholarship" or "Add Sample Student".</div>';
+      el.queueCountNote.textContent = '0 applications waiting for evaluation';
       return;
     }
 
-    el.queueCountNote.textContent = `${state.queue.length} applications in FIFO order (Front dequeues next)`;
+    el.queueCountNote.textContent = `${state.queue.length} incoming applications in review pipeline`;
 
     state.queue.forEach((student, index) => {
       const card = document.createElement('div');
       card.className = `queue-node-card ${index === 0 ? 'front' : ''}`;
       card.innerHTML = `
-        <div class="node-flag text-accent">${index === 0 ? '🟢 FRONT (NEXT)' : '#' + (index + 1)}</div>
+        <div class="node-flag text-accent">${index === 0 ? '🟢 PRIORITY REVIEW' : '#' + (index + 1)}</div>
         <div class="node-title">${escapeHtml(student.name)}</div>
         <div class="node-meta">
           <span>${escapeHtml(student.studentId)}</span>
@@ -363,6 +381,9 @@
         <div class="node-meta text-muted">
           <span>Inc: ₹${(student.familyIncome / 1000).toFixed(0)}k</span>
           <span>${escapeHtml(student.category)}</span>
+        </div>
+        <div class="queue-actions-strip">
+          <button class="btn btn-sm btn-primary btn-approve-card" data-idx="${index}" style="width: 100%; justify-content: center; margin-top: 4px;">Approve Grant</button>
         </div>
       `;
       el.queueVisualizer.appendChild(card);
@@ -374,6 +395,86 @@
         el.queueVisualizer.appendChild(arrow);
       }
     });
+
+    el.queueVisualizer.querySelectorAll('.btn-approve-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-idx'), 10);
+        processSpecificQueueItem(idx);
+      });
+    });
+  }
+
+  function processSpecificQueueItem(idx) {
+    if (idx < 0 || idx >= state.queue.length) return;
+    const student = state.queue.splice(idx, 1)[0];
+    const score = calculateSimMeritScore(student, state.activeFormula);
+    student.meritScore = score;
+    student.status = student.gpa >= 7.5 ? 'Approved' : 'Under Review';
+
+    state.students.push(student);
+    state.students.sort((a, b) => b.meritScore - a.meritScore);
+
+    state.stack.push({
+      actionType: 'PROCESS_APPLICATION',
+      studentId: student.studentId,
+      description: `Approved ${student.name} for ${student.category} (Score: ${score.toFixed(1)})`,
+      studentData: { ...student }
+    });
+
+    renderAll();
+    renderBST();
+    computeGreedyAllocation();
+    computeDPKnapsack();
+    showToast(`Approved ${student.name} (${student.studentId}): Status [${student.status}] with Merit Score ${score.toFixed(2)}`, 'success');
+  }
+
+  function updateCalculator() {
+    if (!el.calcGpa) return;
+    const gpa = parseFloat(el.calcGpa.value);
+    const eca = parseInt(el.calcEca.value, 10);
+    const att = parseInt(el.calcAttendance.value, 10);
+    const inc = parseInt(el.calcIncome.value, 10);
+
+    el.calcGpaVal.textContent = gpa.toFixed(2);
+    el.calcEcaVal.textContent = eca;
+    el.calcAttendanceVal.textContent = att + '%';
+    el.calcIncomeVal.textContent = '₹' + inc.toLocaleString('en-IN');
+
+    // Calculate score using formula
+    const score = ((gpa / 10.0) * 50.0) + (eca * 0.30) + (att * 0.20);
+    const rounded = Math.min(Math.max(score, 0), 100).toFixed(1);
+    el.calcCompositeScore.textContent = rounded;
+
+    // Determine verdict
+    if (gpa >= 8.5 && inc <= 600000) {
+      el.calcVerdictTitle.textContent = 'Highly Competitive (STEM & Merit Grant)';
+      el.calcVerdictTitle.className = 'verdict-title text-success';
+      el.calcVerdictDesc.textContent = `With a GPA of ${gpa.toFixed(2)} and strong attendance (${att}%), you are eligible for the STEM Excellence Grant (₹75k) and University Merit Honor.`;
+    } else if (inc <= 250000 && gpa >= 6.5) {
+      el.calcVerdictTitle.textContent = 'Eligible for Full Need-Based Tuition Waiver';
+      el.calcVerdictTitle.className = 'verdict-title text-success';
+      el.calcVerdictDesc.textContent = `Based on family income (₹${(inc/1000).toFixed(0)}k), you qualify for the 100% BPL Full Tuition Waiver scheme.`;
+    } else if (eca >= 80 && gpa >= 6.0) {
+      el.calcVerdictTitle.textContent = 'Qualified for Sports & Cultural Award';
+      el.calcVerdictTitle.className = 'verdict-title text-accent';
+      el.calcVerdictDesc.textContent = `Your outstanding extracurricular score (${eca}) meets the criteria for our Sports & Cultural Achievement Grant.`;
+    } else {
+      el.calcVerdictTitle.textContent = 'Standard Academic Applicant';
+      el.calcVerdictTitle.className = 'verdict-title text-secondary';
+      el.calcVerdictDesc.textContent = 'You meet general university scholarship thresholds. Complete the formal application for committee consideration.';
+    }
+
+    // List eligible schemes
+    const eligible = [];
+    if (gpa >= 8.5 && inc <= 600000) eligible.push('✓ STEM Excellence Grant (₹75k)');
+    if (inc <= 250000 && gpa >= 6.5) eligible.push('✓ BPL Full Tuition Waiver (₹100k)');
+    if (inc <= 450000 && gpa >= 7.0) eligible.push('✓ EWS Partial Assistance (₹40k)');
+    if (gpa >= 8.8) eligible.push('✓ UG Research Fellowship (₹60k)');
+    if (eca >= 80 && gpa >= 6.0) eligible.push('✓ Sports & Cultural Award (₹35k)');
+    if (gpa >= 8.0) eligible.push('✓ Humanities Honor (₹50k)');
+    if (eligible.length === 0) eligible.push('✓ General Need Grant (₹25k)');
+
+    el.calcEligibleList.innerHTML = eligible.map(s => `<span class="badge badge-success">${s}</span>`).join(' ');
   }
 
   function renderStack() {
