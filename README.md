@@ -105,17 +105,24 @@ scholarship_system_phase1_java/
 javac -d bin (Get-ChildItem -Path src -Filter *.java -Recurse | Select-Object -ExpandProperty FullName)
 ```
 
-### 2. Run Interactive CLI Application (Options 0-23)
+### 2. Launch Modern Web UI Server (Phases 1–4 Visualizer)
+```powershell
+java -cp bin com.scholarship.web.ScholarshipWebServer
+```
+> Opens at `http://localhost:8080` (or `http://localhost:8081` if port 8080 is in use).  
+> Alternatively, you can directly open `ui/index.html` in any browser (supports self-contained offline simulation mode).
+
+### 3. Run Interactive CLI Application (Options 0-23)
 ```powershell
 java -cp bin com.scholarship.Main
 ```
 
-### 3. Run Automated Unit Test Suite (150 Tests)
+### 4. Run Automated Unit Test Suite (150 Tests)
 ```powershell
 java -cp bin com.scholarship.test.TestSuite
 ```
 
-### 4. Run Automated Walkthrough Demo Across All 4 Phases
+### 5. Run Automated Walkthrough Demo Across All 4 Phases
 ```powershell
 "10`n0" | java -cp bin com.scholarship.Main
 ```
