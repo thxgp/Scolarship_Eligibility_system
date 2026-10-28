@@ -159,8 +159,9 @@
 
               <div class="form-row-3">
                 <div class="form-group">
-                  <label class="form-label">Student ID / Roll No.<span class="req">*</span></label>
-                  <input type="text" class="form-input" id="appRoll" placeholder="e.g. 1RV23AI045" required>
+                  <label class="form-label">Student ID / University Roll No.<span class="req">*</span></label>
+                  <input type="text" class="form-input" id="appRoll" placeholder="e.g. 26MCAD18" required>
+                  <div class="form-hint">Your permanent ID for tracking grant verification.</div>
                 </div>
                 <div class="form-group">
                   <label class="form-label">Cumulative GPA (10-point scale)<span class="req">*</span></label>
@@ -441,7 +442,12 @@
       document.getElementById('scholarshipApplicationForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
+        const rollInput = (document.getElementById('appRoll').value || '').trim();
+        const studentId = rollInput ? rollInput.toUpperCase() : ('26MCA' + Math.floor(100 + Math.random() * 900));
+
         const payload = {
+          studentId: studentId,
+          rollNo: studentId,
           name: document.getElementById('appName').value,
           email: document.getElementById('appEmail').value,
           phone: document.getElementById('appPhone').value,
@@ -458,7 +464,7 @@
 
         if (res.success) {
           document.getElementById('modalAppId').textContent = res.studentId;
-          document.getElementById('modalTrackBtn').href = `track.html?id=${res.studentId}`;
+          document.getElementById('modalTrackBtn').href = `track.html?id=${encodeURIComponent(res.studentId)}`;
           document.getElementById('confirmationModal').classList.add('open');
         } else {
           alert('Submission error: ' + (res.message || 'Please check your inputs'));

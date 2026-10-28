@@ -254,9 +254,17 @@ public class ScholarshipWebServer {
                 double eca = extractJsonDouble(body, "extracurricularScore", 75.0);
                 String category = extractJsonString(body, "category", "Merit-cum-Means");
 
-                // Generate new sequential Student/Application ID
-                int nextNum = 1000 + service.getApplicationQueue().size() + service.getStudentStorage().size() + 1;
-                String studentId = extractJsonString(body, "studentId", "STU" + nextNum);
+                // Prefer user-provided Student / Roll ID (e.g. 26MCAD18)
+                String studentId = extractJsonString(body, "studentId", "");
+                if (studentId.isEmpty()) {
+                    studentId = extractJsonString(body, "rollNo", "");
+                }
+                if (studentId.isEmpty()) {
+                    int nextNum = 10 + service.getApplicationQueue().size() + service.getStudentStorage().size() + 1;
+                    studentId = "26MCA" + nextNum;
+                } else {
+                    studentId = studentId.trim().toUpperCase();
+                }
 
                 StudentRecord newStudent = new StudentRecord(
                         studentId, name, gpa, income, attendance, eca, category, "Pending"
@@ -386,8 +394,13 @@ public class ScholarshipWebServer {
             }
 
             // Search in Queue
+            String targetId = id.trim().toUpperCase();
+            String targetAlpha = targetId.replaceAll("[^A-Z0-9]", "");
+
             for (StudentRecord s : service.getQueueRecords()) {
-                if (s.getStudentId().equalsIgnoreCase(id) || s.getName().equalsIgnoreCase(id)) {
+                String sid = s.getStudentId().toUpperCase();
+                String sidAlpha = sid.replaceAll("[^A-Z0-9]", "");
+                if (sid.equals(targetId) || sidAlpha.equals(targetAlpha) || s.getName().equalsIgnoreCase(targetId) || s.getName().toLowerCase().contains(targetId.toLowerCase())) {
                     String json = String.format("{\"found\":true,\"inQueue\":true,\"student\":%s}", studentToJson(s));
                     sendJsonResponse(exchange, 200, json);
                     return;
@@ -395,11 +408,14 @@ public class ScholarshipWebServer {
             }
 
             // Search in Storage
-            StudentRecord found = service.searchStudent(id);
-            if (found != null) {
-                String json = String.format("{\"found\":true,\"inQueue\":false,\"student\":%s}", studentToJson(found));
-                sendJsonResponse(exchange, 200, json);
-                return;
+            for (StudentRecord s : service.getStudentStorage().toList()) {
+                String sid = s.getStudentId().toUpperCase();
+                String sidAlpha = sid.replaceAll("[^A-Z0-9]", "");
+                if (sid.equals(targetId) || sidAlpha.equals(targetAlpha) || s.getName().equalsIgnoreCase(targetId) || s.getName().toLowerCase().contains(targetId.toLowerCase())) {
+                    String json = String.format("{\"found\":true,\"inQueue\":false,\"student\":%s}", studentToJson(s));
+                    sendJsonResponse(exchange, 200, json);
+                    return;
+                }
             }
 
             sendJsonResponse(exchange, 404, "{\"found\":false,\"error\":\"Application record not found.\"}");

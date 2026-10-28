@@ -88,10 +88,11 @@
     }
   ];
 
-  // Default Initial Sample Dataset
+  // Default Initial Sample Dataset (using 26MCA format)
   const INITIAL_STUDENTS = [
     {
-      studentId: 'STU1001',
+      studentId: '26MCAD01',
+      rollNo: '26MCAD01',
       name: 'Aarav Sharma',
       college: 'National Institute of Technology',
       course: 'B.Tech Computer Science',
@@ -107,7 +108,8 @@
       remarks: 'All documents verified. High merit score.'
     },
     {
-      studentId: 'STU1002',
+      studentId: '26MCAD02',
+      rollNo: '26MCAD02',
       name: 'Diya Patel',
       college: 'Government Medical College',
       course: 'MBBS - 2nd Year',
@@ -123,7 +125,8 @@
       remarks: 'Income certificate verified through revenue portal.'
     },
     {
-      studentId: 'STU1003',
+      studentId: '26MCAD03',
+      rollNo: '26MCAD03',
       name: 'Rohan Deshmukh',
       college: 'State Technical University',
       course: 'B.E. Mechanical',
@@ -139,7 +142,8 @@
       remarks: 'First graduate certificate attached and authenticated.'
     },
     {
-      studentId: 'STU1004',
+      studentId: '26MCAD04',
+      rollNo: '26MCAD04',
       name: 'Ananya Sen',
       college: 'Delhi University',
       course: 'B.Sc Data Analytics',
@@ -158,7 +162,8 @@
 
   const INITIAL_QUEUE = [
     {
-      studentId: 'STU1005',
+      studentId: '26MCAD05',
+      rollNo: '26MCAD05',
       name: 'Vikramaditya Roy',
       college: 'Birla Institute of Technology',
       course: 'B.Tech Electrical & Electronics',
@@ -173,7 +178,8 @@
       remarks: 'Pending officer document check'
     },
     {
-      studentId: 'STU1006',
+      studentId: '26MCAD06',
+      rollNo: '26MCAD06',
       name: 'Kavita Nair',
       college: 'Indian Institute of Space Science',
       course: 'M.Sc Astrophysics',
@@ -188,7 +194,8 @@
       remarks: 'Pending committee verification'
     },
     {
-      studentId: 'STU1007',
+      studentId: '26MCAD07',
+      rollNo: '26MCAD07',
       name: 'Siddharth Mehra',
       college: 'St. Xavier College',
       course: 'B.Com Honours',
@@ -203,7 +210,8 @@
       remarks: 'Income affidavit renewal requested'
     },
     {
-      studentId: 'STU1008',
+      studentId: '26MCAD08',
+      rollNo: '26MCAD08',
       name: 'Pooja Kulkarni',
       college: 'Symbiosis Sports Academy',
       course: 'B.P.Ed Physical Education',
@@ -219,7 +227,7 @@
     }
   ];
 
-  const STORAGE_KEY = 'eduscholar_portal_db_v1';
+  const STORAGE_KEY = 'eduscholar_portal_db_v2';
   let isBackendConnected = false;
 
   // Initialize Local Storage
@@ -239,7 +247,7 @@
       auditStack: [
         {
           action: 'BATCH_APPROVAL',
-          studentId: 'STU1004',
+          studentId: '26MCAD04',
           description: 'Officer verified and approved Ananya Sen for Women in Tech Award',
           timestamp: new Date().toLocaleTimeString()
         }
@@ -335,10 +343,16 @@
       const merit = calculateMeritScore(gpa, eca, attendance);
 
       const db = loadLocalDb();
-      const nextId = 'STU' + (1000 + db.students.length + db.queue.length + 1);
+      
+      // Use user-provided studentId / roll number (e.g. 26MCAD18) or generate 26MCA...
+      let studentId = (data.studentId || data.rollNo || '').trim().toUpperCase();
+      if (!studentId) {
+        studentId = '26MCA' + String(10 + db.students.length + db.queue.length + 1);
+      }
 
       const newStudent = {
-        studentId: nextId,
+        studentId: studentId,
+        rollNo: studentId,
         name: data.name,
         email: data.email || 'applicant@student.edu',
         phone: data.phone || '+91 98765 43210',
@@ -477,16 +491,45 @@
     async trackApplication(identifier) {
       if (!identifier) return null;
       const clean = identifier.trim().toUpperCase();
+      const cleanAlpha = clean.replace(/[^A-Z0-9]/g, '');
 
       const db = loadLocalDb();
+      const normalize = val => (val || '').trim().toUpperCase();
+      const normAlpha = val => normalize(val).replace(/[^A-Z0-9]/g, '');
+
+      // Helper to check match against studentId, rollNo, or name
+      const isMatch = s => {
+        if (!s) return false;
+        if (normalize(s.studentId) === clean || normAlpha(s.studentId) === cleanAlpha) return true;
+        if (normalize(s.rollNo) === clean || normAlpha(s.rollNo) === cleanAlpha) return true;
+        if (normalize(s.name) === clean || normalize(s.name).includes(clean)) return true;
+        return false;
+      };
+
       // Look in queue
-      let found = db.queue.find(s => s.studentId.toUpperCase() === clean || s.name.toUpperCase().includes(clean));
+      let found = db.queue.find(isMatch);
       let inQueue = true;
 
       // Look in approved/reviewed storage
       if (!found) {
-        found = db.students.find(s => s.studentId.toUpperCase() === clean || s.name.toUpperCase().includes(clean));
+        found = db.students.find(isMatch);
         inQueue = false;
+      }
+
+      // If backend server is active and local search didn't find, query backend!
+      if (!found && isBackendConnected) {
+        try {
+          const res = await fetch('/api/track?id=' + encodeURIComponent(clean));
+          if (res.ok) {
+            const data = await res.json();
+            if (data.found && data.student) {
+              found = data.student;
+              inQueue = data.inQueue;
+            }
+          }
+        } catch (e) {
+          console.warn('Backend tracking failed:', e);
+        }
       }
 
       if (!found) return null;
