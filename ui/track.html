@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Application Status — EduScholar Portal</title>
+  <link rel="stylesheet" href="portal.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+</head>
+<body>
+
+  <!-- Official Top Bar -->
+  <div class="official-gov-bar">
+    <div class="container gov-bar-inner">
+      <div class="gov-emblem-badge">
+        <span>🏛️</span>
+        <span>National Higher Education Grants Authority | Official Scholarship Portal</span>
+      </div>
+      <div class="gov-quick-links">
+        <a href="schemes.html">Guidelines</a>
+        <span>•</span>
+        <a href="track.html" style="font-weight:700; color:#fff;">Check Application Status</a>
+        <span>•</span>
+        <a href="admin.html">Officer Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Bar -->
+  <header class="main-navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="portal-brand">
+        <div class="brand-icon">🎓</div>
+        <div class="brand-text">
+          <h1>EduScholar</h1>
+          <span>National Scholarship Portal</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="schemes.html" class="nav-link">Scholarship Schemes</a></li>
+        <li><a href="apply.html" class="nav-link">Apply Online</a></li>
+        <li><a href="track.html" class="nav-link active">Track Status</a></li>
+        <li><a href="admin.html" class="nav-link">Admin Portal</a></li>
+      </ul>
+
+      <div class="nav-cta-group">
+        <div id="serverStatusBadge"></div>
+        <a href="apply.html" class="btn btn-primary">New Application</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color:#ffffff; padding: 40px 0;">
+    <div class="container" style="max-width: 900px;">
+      <span class="hero-badge-tag">Verification Status Gateway</span>
+      <h2 style="font-size: 2.2rem; color: #ffffff; margin-bottom: 8px;">Track Scholarship Application Status</h2>
+      <p style="color: #cbd5e1; font-size: 0.95rem;">
+        Enter your assigned Application Tracking ID or Student Roll ID to monitor stage-by-stage document verification and grant sanction updates in real-time.
+      </p>
+    </div>
+  </section>
+
+  <!-- Tracker Search Section -->
+  <section class="section" style="padding-top: 36px; padding-bottom: 60px;">
+    <div class="container" style="max-width: 900px;">
+
+      <!-- Search Card -->
+      <div class="track-search-card">
+        <h3 style="font-size:1.15rem; color:var(--navy); margin-bottom:6px;">Enter Application Identifier</h3>
+        <p style="font-size:0.86rem; color:var(--slate-500); margin-bottom:18px;">
+          Format: <code>STU1001</code> to <code>STU1008</code> or enter candidate full name.
+        </p>
+
+        <form id="trackSearchForm" style="display:flex; gap:12px; flex-wrap:wrap;">
+          <input type="text" class="form-input" id="trackInput" placeholder="e.g. STU1001 or Aarav Sharma" style="flex:1; min-width:240px; font-weight:600; text-transform:uppercase;" required>
+          <button type="submit" class="btn btn-primary btn-lg">
+            🔍 Check Application Status
+          </button>
+        </form>
+
+        <!-- Quick Demo Chips -->
+        <div style="margin-top: 16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--slate-500); text-transform:uppercase;">Quick Demo Queries:</span>
+          <button type="button" class="btn btn-sm btn-secondary quick-chip" data-id="STU1001">STU1001 (Approved)</button>
+          <button type="button" class="btn btn-sm btn-secondary quick-chip" data-id="STU1005">STU1005 (Pending Review)</button>
+          <button type="button" class="btn btn-sm btn-secondary quick-chip" data-id="STU1007">STU1007 (Under Review)</button>
+        </div>
+      </div>
+
+      <!-- Result Dossier Container -->
+      <div id="trackResultContainer" style="display:none;">
+        <div class="timeline-card">
+          
+          <!-- Dossier Header Ribbon -->
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; padding-bottom:20px; border-bottom:1px solid var(--border-color);">
+            <div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <h3 style="font-size:1.5rem; color:var(--navy);" id="resStudentName">Aarav Sharma</h3>
+                <span class="badge badge-approved" id="resStatusBadge">Approved</span>
+              </div>
+              <div style="font-size:0.88rem; color:var(--slate-500); margin-top:4px;">
+                Application ID: <strong id="resStudentId" style="color:var(--navy);">STU1001</strong> | Scheme: <span id="resCategory" style="color:var(--primary); font-weight:600;">STEM Innovation & Research Grant</span>
+              </div>
+            </div>
+
+            <div style="text-align:right;">
+              <div style="font-size:0.78rem; text-transform:uppercase; color:var(--slate-500); font-weight:700;">Grant Sanction Amount</div>
+              <div style="font-family:var(--font-heading); font-size:1.8rem; font-weight:800; color:var(--primary);" id="resGrantAmount">₹75,000</div>
+            </div>
+          </div>
+
+          <!-- 5-Stage Verification Timeline -->
+          <div class="timeline-stages">
+            <div class="timeline-row">
+              <div class="timeline-stage-col done" id="stage1">
+                <div class="timeline-dot">✓</div>
+                <div class="stage-title">Application Submitted</div>
+                <div class="stage-desc" id="stage1Date">Completed</div>
+              </div>
+
+              <div class="timeline-stage-col" id="stage2">
+                <div class="timeline-dot">2</div>
+                <div class="stage-title">Document Verification</div>
+                <div class="stage-desc" id="stage2Desc">In Progress</div>
+              </div>
+
+              <div class="timeline-stage-col" id="stage3">
+                <div class="timeline-dot">3</div>
+                <div class="stage-title">Eligibility & Income Audit</div>
+                <div class="stage-desc" id="stage3Desc">Pending</div>
+              </div>
+
+              <div class="timeline-stage-col" id="stage4">
+                <div class="timeline-dot">4</div>
+                <div class="stage-title">Committee Approval</div>
+                <div class="stage-desc" id="stage4Desc">Pending</div>
+              </div>
+
+              <div class="timeline-stage-col" id="stage5">
+                <div class="timeline-dot">5</div>
+                <div class="stage-title">DBT Disbursement</div>
+                <div class="stage-desc" id="stage5Desc">Sanction Pending</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dossier Verification Summary Grid -->
+          <div style="background:var(--slate-50); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:24px; margin-bottom:24px;">
+            <h4 style="font-size:1rem; color:var(--navy); margin-bottom:14px;">Officer Audit Details</h4>
+            
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; font-size:0.88rem;">
+              <div>
+                <span style="color:var(--slate-500); display:block;">Verified CGPA</span>
+                <strong id="resGpa" style="font-size:1.05rem; color:var(--navy);">9.40 / 10.0</strong>
+              </div>
+              <div>
+                <span style="color:var(--slate-500); display:block;">Annual Family Income</span>
+                <strong id="resIncome" style="font-size:1.05rem; color:var(--navy);">₹2,80,000 / yr</strong>
+              </div>
+              <div>
+                <span style="color:var(--slate-500); display:block;">Verified Attendance</span>
+                <strong id="resAttendance" style="font-size:1.05rem; color:var(--navy);">92.5%</strong>
+              </div>
+              <div>
+                <span style="color:var(--slate-500); display:block;">Composite Merit Index</span>
+                <strong id="resMeritScore" style="font-size:1.05rem; color:var(--primary);">91.80</strong>
+              </div>
+              <div>
+                <span style="color:var(--slate-500); display:block;">Verified By</span>
+                <strong id="resVerifiedBy" style="font-size:0.95rem; color:var(--navy);">Officer Verma (OFF-4029)</strong>
+              </div>
+              <div>
+                <span style="color:var(--slate-500); display:block;">Disbursement Method</span>
+                <strong style="font-size:0.95rem; color:var(--success);">Direct Benefit Transfer (DBT)</strong>
+              </div>
+            </div>
+
+            <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--border-color); font-size:0.86rem;">
+              <span style="color:var(--slate-500); font-weight:600;">Officer Remarks / Next Action:</span>
+              <p id="resRemarks" style="color:var(--slate-700); margin-top:2px; font-style:italic;">
+                All documents verified. High merit score.
+              </p>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <button type="button" class="btn btn-secondary" onclick="window.print()">
+              🖨️ Print Official Status Receipt
+            </button>
+            <a href="apply.html" class="btn btn-outline-primary">
+              Submit Another Application
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Not Found Container -->
+      <div id="trackNotFoundContainer" style="display:none; text-align:center; padding:50px 20px; background:#ffffff; border:1px solid var(--border-color); border-radius:var(--radius-lg);">
+        <div style="font-size:2.5rem; margin-bottom:12px;">🔍</div>
+        <h3 style="color:var(--navy); margin-bottom:6px;">No Application Record Found</h3>
+        <p style="color:var(--slate-500); font-size:0.92rem; max-width:440px; margin:0 auto 20px;">
+          We could not find any active application matching the ID you provided. Please double-check your application number or submit a new scholarship form.
+        </p>
+        <a href="apply.html" class="btn btn-primary">Apply Online Now →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="portal-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 EduScholar National Portal. Department of Higher Education.</div>
+        <div><a href="admin.html" style="color:#94a3b8;">Officer Verification Portal</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="portal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchForm = document.getElementById('trackSearchForm');
+      const trackInput = document.getElementById('trackInput');
+      const resultCard = document.getElementById('trackResultContainer');
+      const notFoundCard = document.getElementById('trackNotFoundContainer');
+
+      async function performSearch(id) {
+        if (!id) return;
+        trackInput.value = id;
+
+        const data = await EduScholar.trackApplication(id);
+
+        if (!data) {
+          resultCard.style.display = 'none';
+          notFoundCard.style.display = 'block';
+          return;
+        }
+
+        const student = data.student;
+        const scheme = data.scheme || {};
+
+        notFoundCard.style.display = 'none';
+        resultCard.style.display = 'block';
+
+        document.getElementById('resStudentName').textContent = student.name;
+        document.getElementById('resStudentId').textContent = student.studentId;
+        document.getElementById('resCategory').textContent = student.category;
+        document.getElementById('resGrantAmount').textContent = scheme.amount || '₹50,000';
+        document.getElementById('resGpa').textContent = (student.gpa || 0).toFixed(2) + ' / 10.0';
+        document.getElementById('resIncome').textContent = '₹' + (student.familyIncome || 0).toLocaleString('en-IN') + ' / yr';
+        document.getElementById('resAttendance').textContent = (student.attendancePercentage || 0).toFixed(1) + '%';
+        document.getElementById('resMeritScore').textContent = (student.meritScore || 0).toFixed(2);
+        document.getElementById('resVerifiedBy').textContent = student.verifiedBy || 'Central Verification Desk';
+        document.getElementById('resRemarks').textContent = student.remarks || 'Application queued for verification.';
+
+        // Status Badge
+        const badge = document.getElementById('resStatusBadge');
+        badge.className = 'badge';
+        if (student.status === 'Approved') {
+          badge.classList.add('badge-approved');
+          badge.textContent = 'Approved & Sanctioned';
+        } else if (student.status === 'Under Review') {
+          badge.classList.add('badge-review');
+          badge.textContent = 'Under Review';
+        } else if (student.status === 'Rejected') {
+          badge.classList.add('badge-rejected');
+          badge.textContent = 'Disqualified';
+        } else {
+          badge.classList.add('badge-pending');
+          badge.textContent = 'Pending Review';
+        }
+
+        // Update Timeline Stages
+        const isApproved = (student.status === 'Approved');
+        const isReview = (student.status === 'Under Review');
+
+        const s1 = document.getElementById('stage1');
+        const s2 = document.getElementById('stage2');
+        const s3 = document.getElementById('stage3');
+        const s4 = document.getElementById('stage4');
+        const s5 = document.getElementById('stage5');
+
+        s1.className = 'timeline-stage-col done';
+        
+        if (isApproved) {
+          s2.className = 'timeline-stage-col done';
+          s2.querySelector('.timeline-dot').textContent = '✓';
+          s3.className = 'timeline-stage-col done';
+          s3.querySelector('.timeline-dot').textContent = '✓';
+          s4.className = 'timeline-stage-col done';
+          s4.querySelector('.timeline-dot').textContent = '✓';
+          s5.className = 'timeline-stage-col done';
+          s5.querySelector('.timeline-dot').textContent = '✓';
+          document.getElementById('stage5Desc').textContent = 'Sanctioned to Bank (DBT)';
+        } else if (isReview) {
+          s2.className = 'timeline-stage-col done';
+          s2.querySelector('.timeline-dot').textContent = '✓';
+          s3.className = 'timeline-stage-col active';
+          s3.querySelector('.timeline-dot').textContent = '3';
+          s4.className = 'timeline-stage-col';
+          s5.className = 'timeline-stage-col';
+          document.getElementById('stage3Desc').textContent = 'Officer Review in Progress';
+        } else {
+          s2.className = 'timeline-stage-col active';
+          s2.querySelector('.timeline-dot').textContent = '2';
+          s3.className = 'timeline-stage-col';
+          s4.className = 'timeline-stage-col';
+          s5.className = 'timeline-stage-col';
+          document.getElementById('stage2Desc').textContent = 'Document Check Awaiting';
+        }
+
+        resultCard.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        performSearch(trackInput.value.trim());
+      });
+
+      document.querySelectorAll('.quick-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          performSearch(btn.getAttribute('data-id'));
+        });
+      });
+
+      // Check URL Query Param
+      const params = new URLSearchParams(window.location.search);
+      const urlId = params.get('id');
+      if (urlId) {
+        performSearch(urlId);
+      }
+    });
+  </script>
+</body>
+</html>

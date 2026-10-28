@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Scholarship Application — EduScholar Portal</title>
+  <link rel="stylesheet" href="portal.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+</head>
+<body>
+
+  <!-- Official Top Bar -->
+  <div class="official-gov-bar">
+    <div class="container gov-bar-inner">
+      <div class="gov-emblem-badge">
+        <span>🏛️</span>
+        <span>National Higher Education Grants Authority | Official Scholarship Portal</span>
+      </div>
+      <div class="gov-quick-links">
+        <a href="schemes.html">Guidelines</a>
+        <span>•</span>
+        <a href="track.html">Check Application Status</a>
+        <span>•</span>
+        <a href="admin.html">Officer Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Bar -->
+  <header class="main-navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="portal-brand">
+        <div class="brand-icon">🎓</div>
+        <div class="brand-text">
+          <h1>EduScholar</h1>
+          <span>National Scholarship Portal</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="schemes.html" class="nav-link">Scholarship Schemes</a></li>
+        <li><a href="apply.html" class="nav-link active">Apply Online</a></li>
+        <li><a href="track.html" class="nav-link">Track Status</a></li>
+        <li><a href="admin.html" class="nav-link">Admin Portal</a></li>
+      </ul>
+
+      <div class="nav-cta-group">
+        <div id="serverStatusBadge"></div>
+        <a href="track.html" class="btn btn-secondary">Track Existing Application</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Form Header -->
+  <section style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); color:#ffffff; padding: 40px 0;">
+    <div class="container" style="max-width: 900px;">
+      <span class="hero-badge-tag">Academic Year 2026–2027</span>
+      <h2 style="font-size: 2.2rem; color: #ffffff; margin-bottom: 8px;">Online Student Scholarship Application</h2>
+      <p style="color: #cbd5e1; font-size: 0.95rem;">
+        Fill out your personal, academic, and financial details accurately. Your application will be queued for institutional and committee review.
+      </p>
+    </div>
+  </section>
+
+  <!-- Application Multi-Step Form Section -->
+  <section class="section" style="padding-top: 36px; padding-bottom: 60px;">
+    <div class="container" style="max-width: 900px;">
+      
+      <div class="app-card">
+        <!-- Step Indicator Header -->
+        <div class="wizard-header">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size:1.15rem; color:var(--navy);" id="stepHeaderTitle">Step 1 of 4: Applicant Personal Details</h3>
+            <span class="badge badge-approved" id="stepCounterBadge">Progress: 25%</span>
+          </div>
+
+          <div class="wizard-progress-bar">
+            <div class="wizard-step-node active" id="nodeStep1">
+              <div class="node-circle">1</div>
+              <div class="node-title">Personal</div>
+            </div>
+            <div class="wizard-step-node" id="nodeStep2">
+              <div class="node-circle">2</div>
+              <div class="node-title">Academic</div>
+            </div>
+            <div class="wizard-step-node" id="nodeStep3">
+              <div class="node-circle">3</div>
+              <div class="node-title">Financial & Scheme</div>
+            </div>
+            <div class="wizard-step-node" id="nodeStep4">
+              <div class="node-circle">4</div>
+              <div class="node-title">Review & Submit</div>
+            </div>
+          </div>
+        </div>
+
+        <form id="scholarshipApplicationForm">
+          <div class="wizard-body">
+
+            <!-- STEP 1: Personal Details -->
+            <div class="wizard-step-pane active" id="paneStep1">
+              <h4 style="font-size: 1.15rem; margin-bottom: 16px; color: var(--navy);">Applicant Identity & Contact Information</h4>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Full Name (As per 10th Certificate)<span class="req">*</span></label>
+                  <input type="text" class="form-input" id="appName" placeholder="e.g. Priya Sharma" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Date of Birth<span class="req">*</span></label>
+                  <input type="date" class="form-input" id="appDob" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Email Address<span class="req">*</span></label>
+                  <input type="email" class="form-input" id="appEmail" placeholder="e.g. student@college.edu" required>
+                  <div class="form-hint">Verification notifications will be sent to this email.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Mobile Number (Aadhaar Linked)<span class="req">*</span></label>
+                  <input type="tel" class="form-input" id="appPhone" placeholder="e.g. +91 98765 43210" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Gender<span class="req">*</span></label>
+                  <select class="form-select" id="appGender">
+                    <option value="">-- Select Gender --</option>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Domicile State<span class="req">*</span></label>
+                  <input type="text" class="form-input" id="appState" placeholder="e.g. Maharashtra, Karnataka, Delhi" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2: Academic Profile -->
+            <div class="wizard-step-pane" id="paneStep2">
+              <h4 style="font-size: 1.15rem; margin-bottom: 16px; color: var(--navy);">Institutional & Academic Records</h4>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">College / University Name<span class="req">*</span></label>
+                  <input type="text" class="form-input" id="appCollege" placeholder="e.g. RV College of Engineering" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Course / Degree & Branch<span class="req">*</span></label>
+                  <input type="text" class="form-input" id="appCourse" placeholder="e.g. B.Tech Computer Science" required>
+                </div>
+              </div>
+
+              <div class="form-row-3">
+                <div class="form-group">
+                  <label class="form-label">Student ID / Roll No.<span class="req">*</span></label>
+                  <input type="text" class="form-input" id="appRoll" placeholder="e.g. 1RV23AI045" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Cumulative GPA (10-point scale)<span class="req">*</span></label>
+                  <input type="number" step="0.01" min="0" max="10" class="form-input" id="appGpa" placeholder="e.g. 8.85" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Class Attendance %<span class="req">*</span></label>
+                  <input type="number" step="0.5" min="0" max="100" class="form-input" id="appAttendance" placeholder="e.g. 85.0" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Extracurricular / Co-curricular Rating (0 - 100)<span class="req">*</span></label>
+                <input type="number" step="1" min="0" max="100" class="form-input" id="appEca" placeholder="Score based on sports, Olympiads, NSS/NCC (e.g. 75)" required>
+                <div class="form-hint">Evaluators award points for national/state level hackathons, sports, or student council service.</div>
+              </div>
+            </div>
+
+            <!-- STEP 3: Financial & Scheme Selection -->
+            <div class="wizard-step-pane" id="paneStep3">
+              <h4 style="font-size: 1.15rem; margin-bottom: 16px; color: var(--navy);">Scholarship Scheme & Financial Details</h4>
+              
+              <div class="form-group">
+                <label class="form-label">Select Target Scholarship Scheme<span class="req">*</span></label>
+                <select class="form-select" id="appScheme" required>
+                  <!-- Populated from EduScholar.schemes -->
+                </select>
+                <div class="form-hint" id="selectedSchemeDetails" style="color:var(--primary); font-weight:500; margin-top:6px;"></div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Annual Family Income (₹ INR)<span class="req">*</span></label>
+                  <input type="number" step="10000" min="0" class="form-input" id="appIncome" placeholder="e.g. 240000" required>
+                  <div class="form-hint">Income as certified on the official revenue certificate.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Income Certificate / Ration Card No.<span class="req">*</span></label>
+                  <input type="text" class="form-input" id="appCertNo" placeholder="e.g. RD-2026-98124" required>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-top: 10px;">
+                <label class="form-label">Upload Supporting Documents (Simulated Verification Upload)</label>
+                
+                <div class="file-upload-box" onclick="this.style.borderColor='var(--success)'; this.querySelector('.upload-label').innerHTML='✓ <strong>Semester Marksheet Attached (marksheet_sem4.pdf)</strong>';">
+                  <div class="upload-icon">📄</div>
+                  <div class="upload-label" style="font-size:0.88rem; color:var(--slate-600);">
+                    Click to attach <strong>Semester Marksheet</strong> (PDF / JPG up to 5MB)
+                  </div>
+                </div>
+
+                <div class="file-upload-box" onclick="this.style.borderColor='var(--success)'; this.querySelector('.upload-label').innerHTML='✓ <strong>Income Certificate Attached (revenue_cert.pdf)</strong>';">
+                  <div class="upload-icon">🏛️</div>
+                  <div class="upload-label" style="font-size:0.88rem; color:var(--slate-600);">
+                    Click to attach <strong>Income Certificate</strong> issued by Competent Authority
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 4: Review & Live Merit Score Calculation -->
+            <div class="wizard-step-pane" id="paneStep4">
+              <h4 style="font-size: 1.15rem; margin-bottom: 16px; color: var(--navy);">Application Summary & Merit Evaluation</h4>
+
+              <!-- Merit Calculation Banner -->
+              <div class="merit-preview-callout">
+                <div>
+                  <div style="font-size:0.8rem; font-weight:700; text-transform:uppercase; color:var(--primary); letter-spacing:0.05em;">Estimated Composite Merit Index</div>
+                  <div style="font-size:0.95rem; color:var(--slate-600); margin-top:2px;">
+                    Calculated using CGPA weightage (50%), Co-curricular rating (30%), and Attendance (20%).
+                  </div>
+                </div>
+                <div class="preview-score-badge" id="previewMeritScore">0.00</div>
+              </div>
+
+              <div style="background:var(--slate-50); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:20px; margin-bottom:20px;">
+                <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; font-size:0.88rem;">
+                  <div><span style="color:var(--slate-500);">Candidate Name:</span> <strong id="sumName">-</strong></div>
+                  <div><span style="color:var(--slate-500);">Target Scheme:</span> <strong id="sumScheme" style="color:var(--primary);">-</strong></div>
+                  <div><span style="color:var(--slate-500);">Institution:</span> <strong id="sumCollege">-</strong></div>
+                  <div><span style="color:var(--slate-500);">Degree/Course:</span> <strong id="sumCourse">-</strong></div>
+                  <div><span style="color:var(--slate-500);">Verified CGPA:</span> <strong id="sumGpa">-</strong></div>
+                  <div><span style="color:var(--slate-500);">Family Income:</span> <strong id="sumIncome">-</strong></div>
+                  <div><span style="color:var(--slate-500);">Class Attendance:</span> <strong id="sumAttendance">-</strong></div>
+                  <div><span style="color:var(--slate-500);">Verification Status:</span> <span class="badge badge-pending">Queued for Review</span></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 16px;">
+                <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.86rem; color:var(--slate-600); cursor:pointer;">
+                  <input type="checkbox" id="chkDeclare" required style="margin-top:3px;">
+                  <span>I hereby declare that all academic marks, income statements, and attached credentials provided in this application are authentic and true. I understand that submitting fraudulent information will result in immediate grant disqualification.</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Wizard Footer Buttons -->
+          <div class="wizard-footer">
+            <button type="button" class="btn btn-secondary" id="btnPrevStep" style="visibility:hidden;">
+              ← Back
+            </button>
+            <div style="display:flex; gap:12px;">
+              <button type="button" class="btn btn-primary" id="btnNextStep">
+                Continue to Academic Details →
+              </button>
+              <button type="submit" class="btn btn-success btn-lg" id="btnSubmitApp" style="display:none;">
+                ✓ Submit Scholarship Application
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Submission Confirmation Modal -->
+  <div class="modal-backdrop" id="confirmationModal">
+    <div class="modal-window">
+      <div class="modal-header" style="background:var(--success-bg); border-bottom:1px solid var(--success-border);">
+        <h3 style="color:#065f46; display:flex; align-items:center; gap:8px;">
+          <span>🎉</span> Application Submitted Successfully!
+        </h3>
+        <button type="button" class="modal-close-btn" onclick="window.location.href='index.html'">✕</button>
+      </div>
+      <div class="modal-body" style="text-align:center; padding:36px 28px;">
+        <div style="width:64px; height:64px; background:var(--success); color:#ffffff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 18px;">
+          ✓
+        </div>
+        <h4 style="font-size:1.4rem; color:var(--navy); margin-bottom:6px;">Welcome to the EduScholar Pipeline</h4>
+        <p style="color:var(--slate-600); font-size:0.92rem; margin-bottom:24px;">
+          Your application has been received and queued in the official verification pipeline.
+        </p>
+
+        <div style="background:var(--slate-50); border:1px solid var(--slate-200); border-radius:var(--radius-md); padding:18px; margin-bottom:24px; text-align:left;">
+          <div style="font-size:0.8rem; color:var(--slate-500); text-transform:uppercase; font-weight:700;">Official Application Tracking ID</div>
+          <div style="font-family:var(--font-heading); font-size:1.8rem; font-weight:800; color:var(--primary); margin:4px 0;" id="modalAppId">
+            STU1009
+          </div>
+          <div style="font-size:0.85rem; color:var(--slate-600);">
+            Please note this ID down. You can track your stage-by-stage document verification progress at any time.
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="#" id="modalTrackBtn" class="btn btn-primary">Track Application Status Now →</a>
+          <button type="button" class="btn btn-secondary" onclick="window.print()">Print Acknowledgement Slip</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="portal-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 EduScholar National Portal. Department of Higher Education.</div>
+        <div><a href="track.html" style="color:#94a3b8;">Track Application Status</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="portal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let currentStep = 1;
+      const totalSteps = 4;
+
+      const titles = [
+        'Step 1 of 4: Applicant Personal Details',
+        'Step 2 of 4: Institutional & Academic Profile',
+        'Step 3 of 4: Scholarship Scheme & Income Details',
+        'Step 4 of 4: Application Review & Submission'
+      ];
+
+      const nextLabels = [
+        'Continue to Academic Details →',
+        'Continue to Financial & Scheme →',
+        'Continue to Review & Submit →'
+      ];
+
+      const schemeSelect = document.getElementById('appScheme');
+      const detailsHint = document.getElementById('selectedSchemeDetails');
+
+      // Populate Schemes
+      if (schemeSelect && window.EduScholar) {
+        EduScholar.schemes.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.name;
+          opt.textContent = `${s.name} (${s.amount} / yr) — Min GPA: ${s.minGpa}`;
+          schemeSelect.appendChild(opt);
+        });
+
+        // Check URL param for prefilled scheme
+        const urlParams = new URLSearchParams(window.location.search);
+        const prefill = urlParams.get('scheme');
+        if (prefill) {
+          const found = EduScholar.schemes.find(s => s.name.toLowerCase() === prefill.toLowerCase());
+          if (found) schemeSelect.value = found.name;
+        }
+
+        function updateSchemeHint() {
+          const sel = EduScholar.schemes.find(s => s.name === schemeSelect.value);
+          if (sel) {
+            detailsHint.textContent = `Grant Amount: ${sel.amount} | Min CGPA: ${sel.minGpa} | Max Annual Income: ≤ ₹${(sel.maxIncome/100000).toFixed(1)}L`;
+          }
+        }
+        schemeSelect.addEventListener('change', updateSchemeHint);
+        updateSchemeHint();
+      }
+
+      function updateMerit() {
+        const gpa = parseFloat(document.getElementById('appGpa').value) || 0;
+        const eca = parseFloat(document.getElementById('appEca').value) || 0;
+        const att = parseFloat(document.getElementById('appAttendance').value) || 0;
+        const normGpa = Math.min(Math.max((gpa / 10.0), 0), 1) * 100.0;
+        const score = (normGpa * 0.50) + (eca * 0.30) + (att * 0.20);
+        const rounded = (Math.round(score * 100) / 100).toFixed(2);
+        
+        document.getElementById('previewMeritScore').textContent = rounded;
+        document.getElementById('sumName').textContent = document.getElementById('appName').value || '-';
+        document.getElementById('sumScheme').textContent = schemeSelect.value || '-';
+        document.getElementById('sumCollege').textContent = document.getElementById('appCollege').value || '-';
+        document.getElementById('sumCourse').textContent = document.getElementById('appCourse').value || '-';
+        document.getElementById('sumGpa').textContent = gpa > 0 ? gpa.toFixed(2) : '-';
+        const rawIncome = parseInt(document.getElementById('appIncome').value || 0);
+        document.getElementById('sumIncome').textContent = rawIncome > 0 ? ('₹' + rawIncome.toLocaleString('en-IN')) : '-';
+        document.getElementById('sumAttendance').textContent = att > 0 ? (att.toFixed(1) + '%') : '-';
+      }
+
+      function goToStep(step) {
+        currentStep = step;
+        document.getElementById('stepHeaderTitle').textContent = titles[step - 1];
+        document.getElementById('stepCounterBadge').textContent = `Progress: ${Math.round((step / totalSteps) * 100)}%`;
+
+        // Update step panes
+        for (let i = 1; i <= totalSteps; i++) {
+          const pane = document.getElementById('paneStep' + i);
+          const node = document.getElementById('nodeStep' + i);
+          if (pane) pane.classList.toggle('active', i === step);
+          if (node) {
+            node.classList.toggle('active', i === step);
+            node.classList.toggle('completed', i < step);
+          }
+        }
+
+        // Update buttons
+        const prevBtn = document.getElementById('btnPrevStep');
+        const nextBtn = document.getElementById('btnNextStep');
+        const submitBtn = document.getElementById('btnSubmitApp');
+
+        prevBtn.style.visibility = (step === 1) ? 'hidden' : 'visible';
+
+        if (step === totalSteps) {
+          nextBtn.style.display = 'none';
+          submitBtn.style.display = 'inline-flex';
+          updateMerit();
+        } else {
+          nextBtn.style.display = 'inline-flex';
+          nextBtn.textContent = nextLabels[step - 1];
+          submitBtn.style.display = 'none';
+        }
+      }
+
+      document.getElementById('btnNextStep').addEventListener('click', () => {
+        if (currentStep < totalSteps) goToStep(currentStep + 1);
+      });
+
+      document.getElementById('btnPrevStep').addEventListener('click', () => {
+        if (currentStep > 1) goToStep(currentStep - 1);
+      });
+
+      // Submit Form
+      document.getElementById('scholarshipApplicationForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const payload = {
+          name: document.getElementById('appName').value,
+          email: document.getElementById('appEmail').value,
+          phone: document.getElementById('appPhone').value,
+          college: document.getElementById('appCollege').value,
+          course: document.getElementById('appCourse').value,
+          gpa: parseFloat(document.getElementById('appGpa').value) || 8.0,
+          attendancePercentage: parseFloat(document.getElementById('appAttendance').value) || 85,
+          extracurricularScore: parseFloat(document.getElementById('appEca').value) || 75,
+          category: schemeSelect.value,
+          familyIncome: parseFloat(document.getElementById('appIncome').value) || 250000
+        };
+
+        const res = await EduScholar.submitApplication(payload);
+
+        if (res.success) {
+          document.getElementById('modalAppId').textContent = res.studentId;
+          document.getElementById('modalTrackBtn').href = `track.html?id=${res.studentId}`;
+          document.getElementById('confirmationModal').classList.add('open');
+        } else {
+          alert('Submission error: ' + (res.message || 'Please check your inputs'));
+        }
+      });
+    });
+  </script>
+</body>
+</html>
