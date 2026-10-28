@@ -354,14 +354,36 @@ public class ScholarshipService {
     // =========================================================================
     public int loadSampleData(boolean loadIntoQueue) {
         List<StudentRecord> samples = Arrays.asList(
-                new StudentRecord("STU1001", "Aarav Sharma", 9.20, 350000.0, 96.5, 88.0, "Merit-Based", "Pending"),
-                new StudentRecord("STU1002", "Priya Patel", 8.50, 220000.0, 92.0, 70.0, "Need-Based", "Pending"),
-                new StudentRecord("STU1003", "Rohan Deshmukh", 7.40, 450000.0, 88.5, 95.0, "Sports/ECA", "Pending"),
-                new StudentRecord("STU1004", "Ananya Sen", 9.50, 550000.0, 94.0, 82.0, "Merit-Based", "Pending"),
-                new StudentRecord("STU1005", "Vikram Malhotra", 5.20, 780000.0, 68.0, 45.0, "Merit-Based", "Pending"),
-                new StudentRecord("STU1006", "Sneha Kulkarni", 8.20, 180000.0, 91.0, 65.0, "Need-Based", "Pending"),
-                new StudentRecord("STU1007", "Kabir Mehta", 7.10, 420000.0, 85.0, 92.0, "Sports/ECA", "Pending"),
-                new StudentRecord("STU1008", "Divya Nair", 9.80, 280000.0, 98.0, 90.0, "Merit-Based", "Pending")
+                new StudentRecord("26MCAD01", "Aarav Sharma", 9.40, 280000.0, 92.5, 85.0, "STEM Innovation & Research Grant", "Pending"),
+                new StudentRecord("26MCAD02", "Diya Patel", 8.85, 190000.0, 95.0, 78.0, "Merit-cum-Means Excellence Fellowship", "Pending"),
+                new StudentRecord("26MCAD03", "Rohan Deshmukh", 7.90, 240000.0, 86.0, 68.0, "First-Generation Higher Education Grant", "Pending"),
+                new StudentRecord("26MCAD04", "Ananya Sen", 9.10, 320000.0, 90.0, 92.0, "Women in Technology & Leadership Award", "Pending"),
+                new StudentRecord("26MCAD05", "Karthik Raja", 9.25, 210000.0, 94.0, 80.0, "STEM Innovation & Research Grant", "Pending"),
+                new StudentRecord("26MCAD06", "Meera Nair", 9.60, 400000.0, 96.0, 88.0, "STEM Innovation & Research Grant", "Pending"),
+                new StudentRecord("26MCAD07", "Tanvi Hegde", 9.30, 260000.0, 91.0, 84.0, "Women in Technology & Leadership Award", "Pending"),
+                new StudentRecord("26MCAD08", "Yashvardhan Joshi", 8.75, 310000.0, 89.0, 76.0, "Merit-cum-Means Excellence Fellowship", "Pending"),
+                new StudentRecord("26MCAD09", "Fatimah Sheikh", 8.65, 180000.0, 93.0, 72.0, "First-Generation Higher Education Grant", "Pending"),
+                new StudentRecord("26MCAD10", "Arjun Sengupta", 9.05, 350000.0, 90.5, 86.0, "STEM Innovation & Research Grant", "Pending"),
+                new StudentRecord("26MCAD11", "Ritu Chauhan", 8.40, 160000.0, 94.5, 70.0, "First-Generation Higher Education Grant", "Pending"),
+                new StudentRecord("26MCAD12", "Devendra Rao", 7.80, 380000.0, 88.0, 95.0, "Sports & Arts Fellowship", "Pending"),
+                new StudentRecord("26MCAD13", "Sanjana Reddy", 9.50, 480000.0, 95.0, 90.0, "Women in Technology & Leadership Award", "Pending"),
+                new StudentRecord("26MCAD14", "Mohammed Zaid", 8.90, 230000.0, 91.5, 74.0, "Merit-cum-Means Excellence Fellowship", "Pending"),
+                new StudentRecord("26MCAD15", "Swati Bhattacharya", 9.70, 550000.0, 98.0, 94.0, "National Doctoral Research Stipend", "Pending"),
+                new StudentRecord("26MCAD16", "Vikramaditya Roy", 8.60, 210000.0, 88.0, 74.0, "Merit-cum-Means Excellence Fellowship", "Pending"),
+                new StudentRecord("26MCAD17", "Kavita Nair", 9.35, 450000.0, 94.0, 88.0, "STEM Innovation & Research Grant", "Pending"),
+                new StudentRecord("26MCAD18", "Siddharth Mehra", 7.80, 180000.0, 84.0, 70.0, "First-Generation Higher Education Grant", "Pending"),
+                new StudentRecord("26MCAD19", "Pooja Kulkarni", 7.20, 390000.0, 91.0, 96.0, "Sports & Arts Fellowship", "Pending"),
+                new StudentRecord("26MCAD20", "Aditya Verma", 8.95, 340000.0, 89.5, 82.0, "STEM Innovation & Research Grant", "Pending"),
+                new StudentRecord("26MCAD21", "Shalini Iyer", 8.80, 220000.0, 93.0, 75.0, "Merit-cum-Means Excellence Fellowship", "Pending"),
+                new StudentRecord("26MCAD22", "Harshil Chawla", 8.50, 420000.0, 87.0, 85.0, "STEM Innovation & Research Grant", "Pending"),
+                new StudentRecord("26MCAD23", "Neha Aggarwal", 9.15, 290000.0, 92.0, 88.0, "Women in Technology & Leadership Award", "Pending"),
+                new StudentRecord("26MCAD24", "Pranav Kulkarni", 7.60, 270000.0, 85.0, 72.0, "First-Generation Higher Education Grant", "Pending"),
+                new StudentRecord("26MCAD25", "Gayatri Sundaram", 8.10, 320000.0, 90.0, 94.0, "Sports & Arts Fellowship", "Pending"),
+                new StudentRecord("26MCAD26", "Abhinav Menon", 8.65, 250000.0, 91.0, 78.0, "Merit-cum-Means Excellence Fellowship", "Pending"),
+                new StudentRecord("26MCAD27", "Pallavi Jha", 9.00, 310000.0, 95.0, 80.0, "Women in Technology & Leadership Award", "Pending"),
+                new StudentRecord("26MCAD28", "Tarun Balakrishnan", 8.70, 460000.0, 88.5, 86.0, "STEM Innovation & Research Grant", "Pending"),
+                new StudentRecord("26MCAD29", "Snehal Patil", 7.75, 150000.0, 86.0, 68.0, "First-Generation Higher Education Grant", "Pending"),
+                new StudentRecord("26MCAD30", "Ishan Gupta", 9.65, 500000.0, 97.0, 92.0, "National Doctoral Research Stipend", "Pending")
         );
 
         for (StudentRecord s : samples) {
@@ -373,6 +395,37 @@ public class ScholarshipService {
             }
         }
         return samples.size();
+    }
+
+    public int loadFromCsv(java.nio.file.Path csvPath, boolean loadIntoQueue) throws java.io.IOException {
+        if (!java.nio.file.Files.exists(csvPath)) return 0;
+        List<String> lines = java.nio.file.Files.readAllLines(csvPath);
+        int count = 0;
+        for (int i = 1; i < lines.size(); i++) {
+            String line = lines.get(i).trim();
+            if (line.isEmpty()) continue;
+            String[] parts = line.split(",");
+            if (parts.length >= 10) {
+                String id = parts[0].trim();
+                String name = parts[1].trim();
+                // parts[2]=college, parts[3]=course
+                double gpa = Double.parseDouble(parts[4].trim());
+                double income = Double.parseDouble(parts[5].trim());
+                double att = Double.parseDouble(parts[6].trim());
+                double eca = Double.parseDouble(parts[7].trim());
+                String cat = parts[8].trim();
+                String status = parts[9].trim();
+                StudentRecord sr = new StudentRecord(id, name, gpa, income, att, eca, cat, status);
+                if (loadIntoQueue) {
+                    applicationQueue.enqueue(sr);
+                } else {
+                    studentStorage.insertSortedByMerit(sr);
+                    studentBST.insert(sr);
+                }
+                count++;
+            }
+        }
+        return count;
     }
 
     // =========================================================================

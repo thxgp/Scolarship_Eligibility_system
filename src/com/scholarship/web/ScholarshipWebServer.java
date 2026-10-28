@@ -33,17 +33,17 @@ public class ScholarshipWebServer {
         this.port = port;
         this.uiDirectory = uiDirectory;
         this.service = new ScholarshipService();
-        // Load initial batch: 4 in storage (approved/review), 4 in queue (pending)
+        // Load initial batch: 15 in storage (approved), 15 in queue (pending/review)
         this.service.loadSampleData(false);
         List<StudentRecord> all = service.getStudentStorage().toList();
         service.getStudentStorage().clear();
         for (int i = 0; i < all.size(); i++) {
             StudentRecord s = all.get(i);
-            if (i < 4) {
-                s.setStatus("Pending");
+            if (i >= 15) {
+                s.setStatus((i % 3 == 0) ? "Under Review" : "Pending");
                 service.getApplicationQueue().enqueue(s);
             } else {
-                s.setStatus(s.getGpa() >= 8.0 ? "Approved" : "Under Review");
+                s.setStatus("Approved");
                 service.getStudentStorage().insertSortedByMerit(s);
             }
         }
@@ -228,8 +228,21 @@ public class ScholarshipWebServer {
             service.getStudentStorage().clear();
             service.getApplicationQueue().clear();
             service.getActionHistoryStack().clear();
-            service.loadSampleData(true);
-            sendJsonResponse(exchange, 200, "{\"success\":true,\"message\":\"Dataset reloaded with 8 sample applications.\"}");
+            service.loadSampleData(false);
+            List<StudentRecord> all = service.getStudentStorage().toList();
+            service.getStudentStorage().clear();
+            for (int i = 0; i < all.size(); i++) {
+                StudentRecord s = all.get(i);
+                if (i >= 15) {
+                    s.setStatus((i % 3 == 0) ? "Under Review" : "Pending");
+                    service.getApplicationQueue().enqueue(s);
+                } else {
+                    s.setStatus("Approved");
+                    service.getStudentStorage().insertSortedByMerit(s);
+                }
+            }
+            service.syncBSTFromStorage();
+            sendJsonResponse(exchange, 200, "{\"success\":true,\"message\":\"Dataset reloaded with 30 sample applications.\"}");
         }
     }
 

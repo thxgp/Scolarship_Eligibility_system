@@ -45,6 +45,9 @@
 
       <div class="nav-cta-group">
         <div id="serverStatusBadge"></div>
+        <button type="button" class="btn btn-secondary btn-sm" id="btnAdminExport" title="Export full 30-applicant dataset to CSV">
+          📥 Export CSV (30)
+        </button>
         <button type="button" class="btn btn-secondary btn-sm" id="btnAdminUndo" title="Rollback the last verification action">
           ↶ Rollback Action (Undo)
         </button>
@@ -82,7 +85,7 @@
       <div class="metric-box">
         <div class="metric-icon-wrap" style="background:#fffbeb; color:#d97706;">⏳</div>
         <div>
-          <div class="metric-val" id="adminPendingCount">4</div>
+          <div class="metric-val" id="adminPendingCount">15</div>
           <div class="metric-label">Applications Awaiting Verification</div>
         </div>
       </div>
@@ -90,7 +93,7 @@
       <div class="metric-box">
         <div class="metric-icon-wrap" style="background:#ecfdf5; color:#059669;">✓</div>
         <div>
-          <div class="metric-val" id="adminApprovedCount">4</div>
+          <div class="metric-val" id="adminApprovedCount">15</div>
           <div class="metric-label">Approved & Sanctioned Scholars</div>
         </div>
       </div>
@@ -98,7 +101,7 @@
       <div class="metric-box">
         <div class="metric-icon-wrap" style="background:#eff6ff; color:#2563eb;">💰</div>
         <div>
-          <div class="metric-val" id="adminFundsCount">₹2,30,000</div>
+          <div class="metric-val" id="adminFundsCount">₹9,85,000</div>
           <div class="metric-label">Sanctioned Grant Budget</div>
         </div>
       </div>
@@ -106,7 +109,7 @@
       <div class="metric-box">
         <div class="metric-icon-wrap" style="background:#f1f5f9; color:#475569;">📊</div>
         <div>
-          <div class="metric-val" id="adminTotalCount">8</div>
+          <div class="metric-val" id="adminTotalCount">30</div>
           <div class="metric-label">Total Applications Registered</div>
         </div>
       </div>
@@ -117,13 +120,13 @@
       <div class="table-toolbar">
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button class="btn btn-primary btn-sm table-filter active" data-filter="PENDING">
-            Awaiting Verification (<span id="tabCountPending">4</span>)
+            Awaiting Verification (<span id="tabCountPending">15</span>)
           </button>
           <button class="btn btn-secondary btn-sm table-filter" data-filter="APPROVED">
-            Approved Grants (<span id="tabCountApproved">4</span>)
+            Approved Grants (<span id="tabCountApproved">15</span>)
           </button>
           <button class="btn btn-secondary btn-sm table-filter" data-filter="ALL">
-            All Applications (<span id="tabCountAll">8</span>)
+            All Applications (<span id="tabCountAll">30</span>)
           </button>
         </div>
 
@@ -436,6 +439,28 @@
           refreshDashboard();
         }
       });
+
+      // Export CSV Dataset
+      const btnExport = document.getElementById('btnAdminExport');
+      if (btnExport) {
+        btnExport.addEventListener('click', () => {
+          const db = EduScholar.getDb();
+          const all = [...(db.queue || []), ...(db.students || [])];
+          let csv = 'student_id,name,college,course,gpa,family_income,attendance_percentage,extracurricular_score,category,status,merit_score\n';
+          all.forEach(s => {
+            csv += `"${s.studentId}","${s.name}","${s.college || ''}","${s.course || ''}",${s.gpa},${s.familyIncome},${s.attendancePercentage},${s.extracurricularScore},"${s.category}","${s.status}",${s.meritScore}\n`;
+          });
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'scholarship_applications_30.csv');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          EduScholar.showToast('Exported ' + all.length + ' applicant records to CSV.', 'success');
+        });
+      }
 
       // Filter tabs
       filterBtns.forEach(btn => {

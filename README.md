@@ -54,6 +54,9 @@ The **Student Scholarship Eligibility and Merit System** is developed in **Java 
 
 ```
 scholarship_system_phase1_java/
+├── data/
+│   ├── scholarship_applications_30.csv    # 30-student institutional sample dataset (CSV)
+│   └── scholarship_applications_30.json   # 30-student institutional sample dataset (JSON)
 ├── src/
 │   └── com/
 │       └── scholarship/
@@ -92,6 +95,14 @@ scholarship_system_phase1_java/
 │           ├── test/
 │           │   └── TestSuite.java                      # Automated test suite (150 tests)
 │           └── Main.java                               # Interactive Console CLI (Options 0-23)
+├── ui/                                                 # Multi-page Modern Web Portal
+│   ├── index.html                                      # Public Portal Homepage & Checker
+│   ├── schemes.html                                    # Scholarship Schemes Catalog
+│   ├── apply.html                                      # 4-step Application Wizard
+│   ├── track.html                                      # 5-stage Visual Progress Tracker
+│   ├── admin.html                                      # Verification Officer Dashboard
+│   ├── portal.css                                      # Civic-Tech Design System
+│   └── portal.js                                       # Data Engine & Local/REST Sync
 ├── .gitignore                                          # Excludes compiler build artifacts (bin/)
 └── README.md
 ```

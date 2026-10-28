@@ -1,0 +1,31 @@
+student_id,name,college,course,gpa,family_income,attendance_percentage,extracurricular_score,category,status,merit_score
+26MCAD01,Aarav Sharma,National Institute of Technology Surathkal,B.Tech Computer Science,9.40,280000,92.5,85.0,STEM Innovation & Research Grant,Approved,91.80
+26MCAD02,Diya Patel,Government Medical College,MBBS - 2nd Year,8.85,190000,95.0,78.0,Merit-cum-Means Excellence Fellowship,Approved,86.65
+26MCAD03,Rohan Deshmukh,College of Engineering Pune,B.Tech Civil Engineering,7.90,240000,86.0,68.0,First-Generation Higher Education Grant,Approved,78.40
+26MCAD04,Ananya Sen,Jadavpur University,B.Tech Information Technology,9.10,320000,90.0,92.0,Women in Technology & Leadership Award,Approved,90.60
+26MCAD05,Karthik Raja,PSG College of Technology,B.Tech Robotics & Automation,9.25,210000,94.0,80.0,STEM Innovation & Research Grant,Approved,89.90
+26MCAD06,Meera Nair,Delhi Technological University,B.Tech Biotechnology,9.60,400000,96.0,88.0,STEM Innovation & Research Grant,Approved,94.40
+26MCAD07,Tanvi Hegde,RV College of Engineering,B.Tech Data Science,9.30,260000,91.0,84.0,Women in Technology & Leadership Award,Approved,90.70
+26MCAD08,Yashvardhan Joshi,Birla Institute of Technology,B.Tech Electronics & Comm,8.75,310000,89.0,76.0,Merit-cum-Means Excellence Fellowship,Approved,85.65
+26MCAD09,Fatimah Sheikh,Jamia Millia Islamia,B.Sc Mathematics (Hons),8.65,180000,93.0,72.0,First-Generation Higher Education Grant,Approved,84.85
+26MCAD10,Arjun Sengupta,Indian Institute of Science Education,BS-MS Physics,9.05,350000,90.5,86.0,STEM Innovation & Research Grant,Approved,89.20
+26MCAD11,Ritu Chauhan,Banasthali Vidyapith,B.Tech Electrical Engineering,8.40,160000,94.5,70.0,First-Generation Higher Education Grant,Approved,83.35
+26MCAD12,Devendra Rao,Osmania University,B.P.Ed Physical Education,7.80,380000,88.0,95.0,Sports & Arts Fellowship,Approved,83.50
+26MCAD13,Sanjana Reddy,Jawaharlal Nehru Technological University,B.Tech Computer Engineering,9.50,480000,95.0,90.0,Women in Technology & Leadership Award,Approved,93.50
+26MCAD14,Mohammed Zaid,Aligarh Muslim University,B.Tech Mechanical Engineering,8.90,230000,91.5,74.0,Merit-cum-Means Excellence Fellowship,Approved,86.25
+26MCAD15,Swati Bhattacharya,University of Calcutta,M.Sc Biochemistry,9.70,550000,98.0,94.0,National Doctoral Research Stipend,Approved,96.10
+26MCAD16,Vikramaditya Roy,St. Xavier's College Kolkata,B.Sc Economics (Hons),8.60,210000,88.0,74.0,Merit-cum-Means Excellence Fellowship,Pending,84.00
+26MCAD17,Kavita Nair,Cochin University of Science & Tech,B.Tech Marine Engineering,9.35,450000,94.0,88.0,STEM Innovation & Research Grant,Pending,91.75
+26MCAD18,Siddharth Mehra,Delhi University (Hansraj College),B.Com (Hons),7.80,180000,84.0,70.0,First-Generation Higher Education Grant,Under Review,78.20
+26MCAD19,Pooja Kulkarni,Savitribai Phule Pune University,B.A. Sports Management,7.20,390000,91.0,96.0,Sports & Arts Fellowship,Pending,80.70
+26MCAD20,Aditya Verma,Vellore Institute of Technology,B.Tech Chemical Engineering,8.95,340000,89.5,82.0,STEM Innovation & Research Grant,Pending,87.75
+26MCAD21,Shalini Iyer,Madras Christian College,B.Sc Chemistry,8.80,220000,93.0,75.0,Merit-cum-Means Excellence Fellowship,Under Review,85.10
+26MCAD22,Harshil Chawla,Thapar Institute of Engineering,B.Tech Computer Engineering,8.50,420000,87.0,85.0,STEM Innovation & Research Grant,Pending,85.40
+26MCAD23,Neha Aggarwal,Indira Gandhi Delhi Technical University,B.Tech AI & Data Science,9.15,290000,92.0,88.0,Women in Technology & Leadership Award,Pending,90.55
+26MCAD24,Pranav Kulkarni,MIT World Peace University,B.Tech Mechanical Engineering,7.60,270000,85.0,72.0,First-Generation Higher Education Grant,Under Review,76.60
+26MCAD25,Gayatri Sundaram,Kerala University,B.A. Fine Arts & Classical Music,8.10,320000,90.0,94.0,Sports & Arts Fellowship,Pending,86.70
+26MCAD26,Abhinav Menon,National Law School,B.A. LL.B (Hons),8.65,250000,91.0,78.0,Merit-cum-Means Excellence Fellowship,Pending,84.85
+26MCAD27,Pallavi Jha,Banaras Hindu University,M.Sc Environmental Science,9.00,310000,95.0,80.0,Women in Technology & Leadership Award,Under Review,88.00
+26MCAD28,Tarun Balakrishnan,Manipal Institute of Technology,B.Tech Aeronautical Engineering,8.70,460000,88.5,86.0,STEM Innovation & Research Grant,Pending,86.95
+26MCAD29,Snehal Patil,Shivaji University,B.Sc Agriculture,7.75,150000,86.0,68.0,First-Generation Higher Education Grant,Pending,76.35
+26MCAD30,Ishan Gupta,Indian Statistical Institute,M.Stat Statistics & Machine Learning,9.65,500000,97.0,92.0,National Doctoral Research Stipend,Under Review,95.25
