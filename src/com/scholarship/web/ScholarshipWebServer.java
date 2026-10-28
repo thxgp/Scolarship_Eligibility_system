@@ -33,17 +33,14 @@ public class ScholarshipWebServer {
         this.port = port;
         this.uiDirectory = uiDirectory;
         this.service = new ScholarshipService();
-        // Load initial batch: 15 in storage (approved), 15 in queue (pending/review)
+        // Load initial batch: 14 approved + 6 rejected in storage, 10 in queue (7 pending + 3 under review)
         this.service.loadSampleData(false);
         List<StudentRecord> all = service.getStudentStorage().toList();
         service.getStudentStorage().clear();
-        for (int i = 0; i < all.size(); i++) {
-            StudentRecord s = all.get(i);
-            if (i >= 15) {
-                s.setStatus((i % 3 == 0) ? "Under Review" : "Pending");
+        for (StudentRecord s : all) {
+            if ("Pending".equals(s.getStatus()) || "Under Review".equals(s.getStatus())) {
                 service.getApplicationQueue().enqueue(s);
             } else {
-                s.setStatus("Approved");
                 service.getStudentStorage().insertSortedByMerit(s);
             }
         }
@@ -231,13 +228,10 @@ public class ScholarshipWebServer {
             service.loadSampleData(false);
             List<StudentRecord> all = service.getStudentStorage().toList();
             service.getStudentStorage().clear();
-            for (int i = 0; i < all.size(); i++) {
-                StudentRecord s = all.get(i);
-                if (i >= 15) {
-                    s.setStatus((i % 3 == 0) ? "Under Review" : "Pending");
+            for (StudentRecord s : all) {
+                if ("Pending".equals(s.getStatus()) || "Under Review".equals(s.getStatus())) {
                     service.getApplicationQueue().enqueue(s);
                 } else {
-                    s.setStatus("Approved");
                     service.getStudentStorage().insertSortedByMerit(s);
                 }
             }

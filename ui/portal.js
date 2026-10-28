@@ -282,17 +282,17 @@
       rollNo: '26MCAD12',
       name: 'Devendra Rao',
       college: 'Osmania University',
-      course: 'B.P.Ed Sports Science',
-      gpa: 7.80,
+      course: 'B.P.Ed Physical Education',
+      gpa: 6.20,
       familyIncome: 380000,
-      attendancePercentage: 88.0,
-      extracurricularScore: 95.0,
+      attendancePercentage: 68.0,
+      extracurricularScore: 55.0,
       category: 'Sports & Arts Fellowship',
-      status: 'Approved',
-      meritScore: 85.10,
+      status: 'Rejected',
+      meritScore: 58.50,
       appliedAt: '2026-10-23',
       verifiedBy: 'Officer Verma (OFF-4029)',
-      remarks: 'National level athletics certificate validated.'
+      remarks: 'Disqualified: Attendance 68.0% below mandatory 75% institutional threshold.'
     },
     {
       studentId: '26MCAD13',
@@ -316,17 +316,17 @@
       rollNo: '26MCAD14',
       name: 'Mohammed Zaid',
       college: 'Aligarh Muslim University',
-      course: 'B.Tech Chemical Engineering',
+      course: 'B.Tech Mechanical Engineering',
       gpa: 8.90,
-      familyIncome: 230000,
+      familyIncome: 850000,
       attendancePercentage: 91.5,
       extracurricularScore: 74.0,
       category: 'Merit-cum-Means Excellence Fellowship',
-      status: 'Approved',
-      meritScore: 85.00,
+      status: 'Rejected',
+      meritScore: 86.25,
       appliedAt: '2026-10-24',
       verifiedBy: 'Officer Verma (OFF-4029)',
-      remarks: 'Bonafide letter verified.'
+      remarks: 'Disqualified: Family income ₹8,50,000 exceeds ₹3,50,000 threshold for Need-Based Fellowship.'
     },
     {
       studentId: '26MCAD15',
@@ -340,30 +340,99 @@
       extracurricularScore: 94.0,
       category: 'National Doctoral Research Stipend',
       status: 'Approved',
-      meritScore: 96.30,
+      meritScore: 96.10,
       appliedAt: '2026-10-24',
       verifiedBy: 'Officer Verma (OFF-4029)',
       remarks: 'Peer-reviewed doctoral proposal approved.'
-    }
-  ];
-
-  const INITIAL_QUEUE = [
+    },
     {
       studentId: '26MCAD16',
       rollNo: '26MCAD16',
       name: 'Vikramaditya Roy',
-      college: 'Birla Institute of Technology',
-      course: 'B.Tech Electrical',
-      gpa: 8.60,
+      college: 'St. Xavier\'s College Kolkata',
+      course: 'B.Sc Economics (Hons)',
+      gpa: 5.80,
       familyIncome: 210000,
       attendancePercentage: 88.0,
       extracurricularScore: 74.0,
-      category: 'Merit-cum-Means Excellence Fellowship',
-      status: 'Pending',
-      meritScore: 82.80,
+      category: 'STEM Innovation & Research Grant',
+      status: 'Rejected',
+      meritScore: 66.00,
       appliedAt: '2026-10-25',
-      remarks: 'Pending officer document check'
+      verifiedBy: 'Officer Verma (OFF-4029)',
+      remarks: 'Disqualified: CGPA 5.80 below minimum scheme cutoff of 8.50.'
     },
+    {
+      studentId: '26MCAD20',
+      rollNo: '26MCAD20',
+      name: 'Aditya Verma',
+      college: 'Vellore Institute of Technology',
+      course: 'B.Tech Chemical Engineering',
+      gpa: 8.95,
+      familyIncome: 340000,
+      attendancePercentage: 89.5,
+      extracurricularScore: 82.0,
+      category: 'STEM Innovation & Research Grant',
+      status: 'Approved',
+      meritScore: 87.75,
+      appliedAt: '2026-10-26',
+      verifiedBy: 'Officer Verma (OFF-4029)',
+      remarks: 'Merit credentials verified.'
+    },
+    {
+      studentId: '26MCAD22',
+      rollNo: '26MCAD22',
+      name: 'Harshil Chawla',
+      college: 'Thapar Institute of Engineering',
+      course: 'B.Tech Computer Engineering',
+      gpa: 7.10,
+      familyIncome: 720000,
+      attendancePercentage: 82.0,
+      extracurricularScore: 65.0,
+      category: 'First-Generation Higher Education Grant',
+      status: 'Rejected',
+      meritScore: 71.40,
+      appliedAt: '2026-10-27',
+      verifiedBy: 'Officer Verma (OFF-4029)',
+      remarks: 'Disqualified: Discrepancy detected in submitted income certificate during revenue verification.'
+    },
+    {
+      studentId: '26MCAD26',
+      rollNo: '26MCAD26',
+      name: 'Abhinav Menon',
+      college: 'National Law School',
+      course: 'B.A. LL.B (Hons)',
+      gpa: 6.40,
+      familyIncome: 620000,
+      attendancePercentage: 72.0,
+      extracurricularScore: 60.0,
+      category: 'Merit-cum-Means Excellence Fellowship',
+      status: 'Rejected',
+      meritScore: 62.40,
+      appliedAt: '2026-10-28',
+      verifiedBy: 'Officer Verma (OFF-4029)',
+      remarks: 'Disqualified: Attendance 72.0% < 80% required & income exceeds threshold.'
+    },
+    {
+      studentId: '26MCAD29',
+      rollNo: '26MCAD29',
+      name: 'Snehal Patil',
+      college: 'Shivaji University',
+      course: 'B.Sc Agriculture',
+      gpa: 6.10,
+      familyIncome: 150000,
+      attendancePercentage: 64.0,
+      extracurricularScore: 52.0,
+      category: 'First-Generation Higher Education Grant',
+      status: 'Rejected',
+      meritScore: 59.50,
+      appliedAt: '2026-10-28',
+      verifiedBy: 'Officer Verma (OFF-4029)',
+      remarks: 'Disqualified: Attendance 64.0% critically below mandatory 75% threshold.'
+    }
+  ];
+
+  const INITIAL_QUEUE = [
     {
       studentId: '26MCAD17',
       rollNo: '26MCAD17',
@@ -376,15 +445,15 @@
       extracurricularScore: 88.0,
       category: 'STEM Innovation & Research Grant',
       status: 'Pending',
-      meritScore: 92.00,
+      meritScore: 91.75,
       appliedAt: '2026-10-25',
-      remarks: 'Pending committee verification'
+      remarks: 'Pending officer document check'
     },
     {
       studentId: '26MCAD18',
       rollNo: '26MCAD18',
       name: 'Siddharth Mehra',
-      college: 'St. Xavier College',
+      college: 'Delhi University (Hansraj College)',
       course: 'B.Com Honours',
       gpa: 7.80,
       familyIncome: 180000,
@@ -392,9 +461,9 @@
       extracurricularScore: 70.0,
       category: 'First-Generation Higher Education Grant',
       status: 'Under Review',
-      meritScore: 76.80,
+      meritScore: 78.20,
       appliedAt: '2026-10-25',
-      remarks: 'Income affidavit renewal requested'
+      remarks: 'First-generation affidavit being verified by revenue office'
     },
     {
       studentId: '26MCAD19',
@@ -408,25 +477,9 @@
       extracurricularScore: 96.0,
       category: 'Sports & Arts Fellowship',
       status: 'Pending',
-      meritScore: 83.00,
+      meritScore: 80.70,
       appliedAt: '2026-10-26',
       remarks: 'National level athletics certificate attached'
-    },
-    {
-      studentId: '26MCAD20',
-      rollNo: '26MCAD20',
-      name: 'Aditya Verma',
-      college: 'IIT Roorkee',
-      course: 'B.Tech Metallurgical Engineering',
-      gpa: 8.95,
-      familyIncome: 340000,
-      attendancePercentage: 89.5,
-      extracurricularScore: 82.0,
-      category: 'STEM Innovation & Research Grant',
-      status: 'Pending',
-      meritScore: 87.25,
-      appliedAt: '2026-10-26',
-      remarks: 'Pending marksheet review'
     },
     {
       studentId: '26MCAD21',
@@ -442,23 +495,7 @@
       status: 'Under Review',
       meritScore: 85.10,
       appliedAt: '2026-10-26',
-      remarks: 'Income certificate verification in progress'
-    },
-    {
-      studentId: '26MCAD22',
-      rollNo: '26MCAD22',
-      name: 'Harshil Chawla',
-      college: 'Thapar Institute of Engineering',
-      course: 'B.Tech Computer Engineering',
-      gpa: 8.50,
-      familyIncome: 420000,
-      attendancePercentage: 87.0,
-      extracurricularScore: 85.0,
-      category: 'STEM Innovation & Research Grant',
-      status: 'Pending',
-      meritScore: 85.40,
-      appliedAt: '2026-10-27',
-      remarks: 'Awaiting college bonafide letter'
+      remarks: 'Income certificate clarification requested'
     },
     {
       studentId: '26MCAD23',
@@ -506,23 +543,7 @@
       status: 'Pending',
       meritScore: 86.70,
       appliedAt: '2026-10-27',
-      remarks: 'State award documents attached'
-    },
-    {
-      studentId: '26MCAD26',
-      rollNo: '26MCAD26',
-      name: 'Abhinav Menon',
-      college: 'National Law School',
-      course: 'B.A. LL.B (Hons)',
-      gpa: 8.65,
-      familyIncome: 250000,
-      attendancePercentage: 91.0,
-      extracurricularScore: 78.0,
-      category: 'Merit-cum-Means Excellence Fellowship',
-      status: 'Pending',
-      meritScore: 84.85,
-      appliedAt: '2026-10-28',
-      remarks: 'Application under registrar review'
+      remarks: 'State cultural honors document attached'
     },
     {
       studentId: '26MCAD27',
@@ -535,7 +556,7 @@
       attendancePercentage: 95.0,
       extracurricularScore: 80.0,
       category: 'Women in Technology & Leadership Award',
-      status: 'Under Review',
+      status: 'Pending',
       meritScore: 88.00,
       appliedAt: '2026-10-28',
       remarks: 'Awaiting semester grade sheet attestation'
@@ -557,22 +578,6 @@
       remarks: 'Drone design project attached'
     },
     {
-      studentId: '26MCAD29',
-      rollNo: '26MCAD29',
-      name: 'Snehal Patil',
-      college: 'Shivaji University',
-      course: 'B.Sc Agriculture',
-      gpa: 7.75,
-      familyIncome: 150000,
-      attendancePercentage: 86.0,
-      extracurricularScore: 68.0,
-      category: 'First-Generation Higher Education Grant',
-      status: 'Pending',
-      meritScore: 76.35,
-      appliedAt: '2026-10-28',
-      remarks: 'Income affidavit verified'
-    },
-    {
       studentId: '26MCAD30',
       rollNo: '26MCAD30',
       name: 'Ishan Gupta',
@@ -583,14 +588,14 @@
       attendancePercentage: 97.0,
       extracurricularScore: 92.0,
       category: 'National Doctoral Research Stipend',
-      status: 'Under Review',
+      status: 'Pending',
       meritScore: 95.25,
       appliedAt: '2026-10-28',
-      remarks: 'Research publication verification in progress'
+      remarks: 'Research publication verification queued'
     }
   ];
 
-  const STORAGE_KEY = 'eduscholar_portal_db_v3';
+  const STORAGE_KEY = 'eduscholar_portal_db_v4';
   let isBackendConnected = false;
 
   // Initialize Local Storage

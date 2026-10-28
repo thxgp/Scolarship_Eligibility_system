@@ -10,7 +10,8 @@
     "extracurricularScore": 85.0,
     "category": "STEM Innovation & Research Grant",
     "status": "Approved",
-    "meritScore": 91.80
+    "meritScore": 91.80,
+    "remarks": "All documents verified. High merit score."
   },
   {
     "studentId": "26MCAD02",
@@ -23,7 +24,8 @@
     "extracurricularScore": 78.0,
     "category": "Merit-cum-Means Excellence Fellowship",
     "status": "Approved",
-    "meritScore": 86.65
+    "meritScore": 86.65,
+    "remarks": "Verified revenue income slip and marksheets."
   },
   {
     "studentId": "26MCAD03",
@@ -36,7 +38,8 @@
     "extracurricularScore": 68.0,
     "category": "First-Generation Higher Education Grant",
     "status": "Approved",
-    "meritScore": 78.40
+    "meritScore": 78.40,
+    "remarks": "First generation affidavit confirmed by revenue officer."
   },
   {
     "studentId": "26MCAD04",
@@ -49,7 +52,8 @@
     "extracurricularScore": 92.0,
     "category": "Women in Technology & Leadership Award",
     "status": "Approved",
-    "meritScore": 90.60
+    "meritScore": 90.60,
+    "remarks": "Outstanding academic & coding achievements verified."
   },
   {
     "studentId": "26MCAD05",
@@ -62,7 +66,8 @@
     "extracurricularScore": 80.0,
     "category": "STEM Innovation & Research Grant",
     "status": "Approved",
-    "meritScore": 89.90
+    "meritScore": 89.90,
+    "remarks": "Robotics patent publication verified."
   },
   {
     "studentId": "26MCAD06",
@@ -75,7 +80,8 @@
     "extracurricularScore": 88.0,
     "category": "STEM Innovation & Research Grant",
     "status": "Approved",
-    "meritScore": 94.40
+    "meritScore": 94.40,
+    "remarks": "All institutional criteria satisfied."
   },
   {
     "studentId": "26MCAD07",
@@ -88,7 +94,8 @@
     "extracurricularScore": 84.0,
     "category": "Women in Technology & Leadership Award",
     "status": "Approved",
-    "meritScore": 90.70
+    "meritScore": 90.70,
+    "remarks": "Dean bonafide recommendation approved."
   },
   {
     "studentId": "26MCAD08",
@@ -101,7 +108,8 @@
     "extracurricularScore": 76.0,
     "category": "Merit-cum-Means Excellence Fellowship",
     "status": "Approved",
-    "meritScore": 85.65
+    "meritScore": 85.65,
+    "remarks": "Low income verified by sub-district magistrate."
   },
   {
     "studentId": "26MCAD09",
@@ -114,7 +122,8 @@
     "extracurricularScore": 72.0,
     "category": "First-Generation Higher Education Grant",
     "status": "Approved",
-    "meritScore": 84.85
+    "meritScore": 84.85,
+    "remarks": "First in family higher education proof approved."
   },
   {
     "studentId": "26MCAD10",
@@ -127,7 +136,8 @@
     "extracurricularScore": 86.0,
     "category": "STEM Innovation & Research Grant",
     "status": "Approved",
-    "meritScore": 89.20
+    "meritScore": 89.20,
+    "remarks": "Research stipend approved."
   },
   {
     "studentId": "26MCAD11",
@@ -140,20 +150,22 @@
     "extracurricularScore": 70.0,
     "category": "First-Generation Higher Education Grant",
     "status": "Approved",
-    "meritScore": 83.35
+    "meritScore": 83.35,
+    "remarks": "Income declaration verified."
   },
   {
     "studentId": "26MCAD12",
     "name": "Devendra Rao",
     "college": "Osmania University",
     "course": "B.P.Ed Physical Education",
-    "gpa": 7.80,
+    "gpa": 6.20,
     "familyIncome": 380000,
-    "attendancePercentage": 88.0,
-    "extracurricularScore": 95.0,
+    "attendancePercentage": 68.0,
+    "extracurricularScore": 55.0,
     "category": "Sports & Arts Fellowship",
-    "status": "Approved",
-    "meritScore": 83.50
+    "status": "Rejected",
+    "meritScore": 58.50,
+    "remarks": "Disqualified: Attendance 68.0% below mandatory 75% institutional threshold."
   },
   {
     "studentId": "26MCAD13",
@@ -166,7 +178,8 @@
     "extracurricularScore": 90.0,
     "category": "Women in Technology & Leadership Award",
     "status": "Approved",
-    "meritScore": 93.50
+    "meritScore": 93.50,
+    "remarks": "High academic ranking verified."
   },
   {
     "studentId": "26MCAD14",
@@ -174,12 +187,13 @@
     "college": "Aligarh Muslim University",
     "course": "B.Tech Mechanical Engineering",
     "gpa": 8.90,
-    "familyIncome": 230000,
+    "familyIncome": 850000,
     "attendancePercentage": 91.5,
     "extracurricularScore": 74.0,
     "category": "Merit-cum-Means Excellence Fellowship",
-    "status": "Approved",
-    "meritScore": 86.25
+    "status": "Rejected",
+    "meritScore": 86.25,
+    "remarks": "Disqualified: Family income ₹8,50,000 exceeds ₹3,50,000 threshold for Need-Based Fellowship."
   },
   {
     "studentId": "26MCAD15",
@@ -192,20 +206,22 @@
     "extracurricularScore": 94.0,
     "category": "National Doctoral Research Stipend",
     "status": "Approved",
-    "meritScore": 96.10
+    "meritScore": 96.10,
+    "remarks": "Peer-reviewed doctoral proposal approved."
   },
   {
     "studentId": "26MCAD16",
     "name": "Vikramaditya Roy",
     "college": "St. Xavier's College Kolkata",
     "course": "B.Sc Economics (Hons)",
-    "gpa": 8.60,
+    "gpa": 5.80,
     "familyIncome": 210000,
     "attendancePercentage": 88.0,
     "extracurricularScore": 74.0,
-    "category": "Merit-cum-Means Excellence Fellowship",
-    "status": "Pending",
-    "meritScore": 84.00
+    "category": "STEM Innovation & Research Grant",
+    "status": "Rejected",
+    "meritScore": 66.00,
+    "remarks": "Disqualified: CGPA 5.80 below minimum scheme cutoff of 8.50."
   },
   {
     "studentId": "26MCAD17",
@@ -218,7 +234,8 @@
     "extracurricularScore": 88.0,
     "category": "STEM Innovation & Research Grant",
     "status": "Pending",
-    "meritScore": 91.75
+    "meritScore": 91.75,
+    "remarks": "Pending officer document check."
   },
   {
     "studentId": "26MCAD18",
@@ -231,7 +248,8 @@
     "extracurricularScore": 70.0,
     "category": "First-Generation Higher Education Grant",
     "status": "Under Review",
-    "meritScore": 78.20
+    "meritScore": 78.20,
+    "remarks": "First-generation affidavit being verified by revenue office."
   },
   {
     "studentId": "26MCAD19",
@@ -244,7 +262,8 @@
     "extracurricularScore": 96.0,
     "category": "Sports & Arts Fellowship",
     "status": "Pending",
-    "meritScore": 80.70
+    "meritScore": 80.70,
+    "remarks": "National sports award documents attached."
   },
   {
     "studentId": "26MCAD20",
@@ -256,8 +275,9 @@
     "attendancePercentage": 89.5,
     "extracurricularScore": 82.0,
     "category": "STEM Innovation & Research Grant",
-    "status": "Pending",
-    "meritScore": 87.75
+    "status": "Approved",
+    "meritScore": 87.75,
+    "remarks": "Merit credentials verified."
   },
   {
     "studentId": "26MCAD21",
@@ -270,20 +290,22 @@
     "extracurricularScore": 75.0,
     "category": "Merit-cum-Means Excellence Fellowship",
     "status": "Under Review",
-    "meritScore": 85.10
+    "meritScore": 85.10,
+    "remarks": "Income certificate clarification requested."
   },
   {
     "studentId": "26MCAD22",
     "name": "Harshil Chawla",
     "college": "Thapar Institute of Engineering",
     "course": "B.Tech Computer Engineering",
-    "gpa": 8.50,
-    "familyIncome": 420000,
-    "attendancePercentage": 87.0,
-    "extracurricularScore": 85.0,
-    "category": "STEM Innovation & Research Grant",
-    "status": "Pending",
-    "meritScore": 85.40
+    "gpa": 7.10,
+    "familyIncome": 720000,
+    "attendancePercentage": 82.0,
+    "extracurricularScore": 65.0,
+    "category": "First-Generation Higher Education Grant",
+    "status": "Rejected",
+    "meritScore": 71.40,
+    "remarks": "Disqualified: Discrepancy detected in submitted income certificate during revenue verification."
   },
   {
     "studentId": "26MCAD23",
@@ -296,7 +318,8 @@
     "extracurricularScore": 88.0,
     "category": "Women in Technology & Leadership Award",
     "status": "Pending",
-    "meritScore": 90.55
+    "meritScore": 90.55,
+    "remarks": "Application complete, queued for committee."
   },
   {
     "studentId": "26MCAD24",
@@ -309,7 +332,8 @@
     "extracurricularScore": 72.0,
     "category": "First-Generation Higher Education Grant",
     "status": "Under Review",
-    "meritScore": 76.60
+    "meritScore": 76.60,
+    "remarks": "First generation declaration pending confirmation."
   },
   {
     "studentId": "26MCAD25",
@@ -322,20 +346,22 @@
     "extracurricularScore": 94.0,
     "category": "Sports & Arts Fellowship",
     "status": "Pending",
-    "meritScore": 86.70
+    "meritScore": 86.70,
+    "remarks": "State cultural honors document attached."
   },
   {
     "studentId": "26MCAD26",
     "name": "Abhinav Menon",
     "college": "National Law School",
     "course": "B.A. LL.B (Hons)",
-    "gpa": 8.65,
-    "familyIncome": 250000,
-    "attendancePercentage": 91.0,
-    "extracurricularScore": 78.0,
+    "gpa": 6.40,
+    "familyIncome": 620000,
+    "attendancePercentage": 72.0,
+    "extracurricularScore": 60.0,
     "category": "Merit-cum-Means Excellence Fellowship",
-    "status": "Pending",
-    "meritScore": 84.85
+    "status": "Rejected",
+    "meritScore": 62.40,
+    "remarks": "Disqualified: Attendance 72.0% < 80% required & income exceeds threshold."
   },
   {
     "studentId": "26MCAD27",
@@ -347,8 +373,9 @@
     "attendancePercentage": 95.0,
     "extracurricularScore": 80.0,
     "category": "Women in Technology & Leadership Award",
-    "status": "Under Review",
-    "meritScore": 88.00
+    "status": "Pending",
+    "meritScore": 88.00,
+    "remarks": "Awaiting semester grade sheet attestation."
   },
   {
     "studentId": "26MCAD28",
@@ -361,20 +388,22 @@
     "extracurricularScore": 86.0,
     "category": "STEM Innovation & Research Grant",
     "status": "Pending",
-    "meritScore": 86.95
+    "meritScore": 86.95,
+    "remarks": "Drone design project attached."
   },
   {
     "studentId": "26MCAD29",
     "name": "Snehal Patil",
     "college": "Shivaji University",
     "course": "B.Sc Agriculture",
-    "gpa": 7.75,
+    "gpa": 6.10,
     "familyIncome": 150000,
-    "attendancePercentage": 86.0,
-    "extracurricularScore": 68.0,
+    "attendancePercentage": 64.0,
+    "extracurricularScore": 52.0,
     "category": "First-Generation Higher Education Grant",
-    "status": "Pending",
-    "meritScore": 76.35
+    "status": "Rejected",
+    "meritScore": 59.50,
+    "remarks": "Disqualified: Attendance 64.0% critically below mandatory 75% threshold."
   },
   {
     "studentId": "26MCAD30",
@@ -386,7 +415,8 @@
     "attendancePercentage": 97.0,
     "extracurricularScore": 92.0,
     "category": "National Doctoral Research Stipend",
-    "status": "Under Review",
-    "meritScore": 95.25
+    "status": "Pending",
+    "meritScore": 95.25,
+    "remarks": "Research publication verification queued."
   }
 ]

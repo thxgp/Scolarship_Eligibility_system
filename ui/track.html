@@ -71,7 +71,7 @@
       <div class="track-search-card">
         <h3 style="font-size:1.15rem; color:var(--navy); margin-bottom:6px;">Enter Application Identifier</h3>
         <p style="font-size:0.86rem; color:var(--slate-500); margin-bottom:18px;">
-          Format: <code>26MCAD18</code>, <code>26MCAD01</code> to <code>26MCAD08</code>, or candidate full name.
+          Format: <code>26MCAD18</code>, <code>26MCAD01</code> to <code>26MCAD30</code>, or candidate full name.
         </p>
 
         <form id="trackSearchForm" style="display:flex; gap:12px; flex-wrap:wrap;">
@@ -85,8 +85,9 @@
         <div style="margin-top: 16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
           <span style="font-size:0.78rem; font-weight:700; color:var(--slate-500); text-transform:uppercase;">Quick Demo Queries:</span>
           <button type="button" class="btn btn-sm btn-secondary quick-chip" data-id="26MCAD01">26MCAD01 (Approved)</button>
-          <button type="button" class="btn btn-sm btn-secondary quick-chip" data-id="26MCAD05">26MCAD05 (Pending Review)</button>
-          <button type="button" class="btn btn-sm btn-secondary quick-chip" data-id="26MCAD07">26MCAD07 (Under Review)</button>
+          <button type="button" class="btn btn-sm btn-secondary quick-chip" data-id="26MCAD17">26MCAD17 (Pending)</button>
+          <button type="button" class="btn btn-sm btn-secondary quick-chip" data-id="26MCAD18">26MCAD18 (Under Review)</button>
+          <button type="button" class="btn btn-sm btn-secondary quick-chip" data-id="26MCAD12" style="color:#dc2626; border-color:#fca5a5;">26MCAD12 (Rejected)</button>
         </div>
       </div>
 
@@ -279,6 +280,7 @@
         // Update Timeline Stages
         const isApproved = (student.status === 'Approved');
         const isReview = (student.status === 'Under Review');
+        const isRejected = (student.status === 'Rejected');
 
         const s1 = document.getElementById('stage1');
         const s2 = document.getElementById('stage2');
@@ -297,7 +299,23 @@
           s4.querySelector('.timeline-dot').textContent = '✓';
           s5.className = 'timeline-stage-col done';
           s5.querySelector('.timeline-dot').textContent = '✓';
+          document.getElementById('stage2Desc').textContent = 'Verified & Genuine';
+          document.getElementById('stage3Desc').textContent = 'Criteria Satisfied';
+          document.getElementById('stage4Desc').textContent = 'Sanction Approved';
           document.getElementById('stage5Desc').textContent = 'Sanctioned to Bank (DBT)';
+        } else if (isRejected) {
+          s2.className = 'timeline-stage-col rejected';
+          s2.querySelector('.timeline-dot').textContent = '✕';
+          document.getElementById('stage2Desc').textContent = 'Criteria Failed';
+          s3.className = 'timeline-stage-col';
+          s3.querySelector('.timeline-dot').textContent = '3';
+          document.getElementById('stage3Desc').textContent = 'Disqualified';
+          s4.className = 'timeline-stage-col';
+          s4.querySelector('.timeline-dot').textContent = '4';
+          document.getElementById('stage4Desc').textContent = 'Not Recommended';
+          s5.className = 'timeline-stage-col';
+          s5.querySelector('.timeline-dot').textContent = '5';
+          document.getElementById('stage5Desc').textContent = 'Ineligible for Grant';
         } else if (isReview) {
           s2.className = 'timeline-stage-col done';
           s2.querySelector('.timeline-dot').textContent = '✓';
@@ -305,7 +323,10 @@
           s3.querySelector('.timeline-dot').textContent = '3';
           s4.className = 'timeline-stage-col';
           s5.className = 'timeline-stage-col';
+          document.getElementById('stage2Desc').textContent = 'Initial Docs Received';
           document.getElementById('stage3Desc').textContent = 'Officer Review in Progress';
+          document.getElementById('stage4Desc').textContent = 'Pending';
+          document.getElementById('stage5Desc').textContent = 'Pending';
         } else {
           s2.className = 'timeline-stage-col active';
           s2.querySelector('.timeline-dot').textContent = '2';
@@ -313,6 +334,9 @@
           s4.className = 'timeline-stage-col';
           s5.className = 'timeline-stage-col';
           document.getElementById('stage2Desc').textContent = 'Document Check Awaiting';
+          document.getElementById('stage3Desc').textContent = 'Pending';
+          document.getElementById('stage4Desc').textContent = 'Pending';
+          document.getElementById('stage5Desc').textContent = 'Pending';
         }
 
         resultCard.scrollIntoView({ behavior: 'smooth' });
