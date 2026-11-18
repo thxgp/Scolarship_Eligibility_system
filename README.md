@@ -95,14 +95,18 @@ scholarship_system_phase1_java/
 │           ├── test/
 │           │   └── TestSuite.java                      # Automated test suite (150 tests)
 │           └── Main.java                               # Interactive Console CLI (Options 0-23)
-├── ui/                                                 # Multi-page Modern Web Portal
-│   ├── index.html                                      # Public Portal Homepage & Checker
-│   ├── schemes.html                                    # Scholarship Schemes Catalog
-│   ├── apply.html                                      # 4-step Application Wizard
-│   ├── track.html                                      # 5-stage Visual Progress Tracker
-│   ├── admin.html                                      # Verification Officer Dashboard
-│   ├── portal.css                                      # Civic-Tech Design System
-│   └── portal.js                                       # Data Engine & Local/REST Sync
+├── ui/                                                 # Standalone DSA study visualizer (not part of the portal)
+│   ├── dsa_study_visualizer.html
+│   ├── app.js
+│   └── styles.css
+├── web/                                                # Portal frontend: React 19 + TypeScript + Vite + Astryx
+│   ├── src/
+│   │   ├── api.ts                                      # Typed client for the Java /api/* endpoints
+│   │   ├── schemes.ts, eligibility.ts                  # Scheme catalogue and merit formula
+│   │   ├── components/Shell.tsx                        # Top navigation shell
+│   │   └── pages/                                      # HomePage, SchemesPage, ApplyPage, TrackPage, AdminPage
+│   ├── vite.config.ts                                  # Dev server; proxies /api to :8080
+│   └── package.json
 ├── .gitignore                                          # Excludes compiler build artifacts (bin/)
 └── README.md
 ```
@@ -116,14 +120,29 @@ scholarship_system_phase1_java/
 javac -d bin (Get-ChildItem -Path src -Filter *.java -Recurse | Select-Object -ExpandProperty FullName)
 ```
 
-### 2. Launch Modern Web UI Server (Phases 1–4 Visualizer)
+### 2. Build the portal frontend (once, and after any change in web/)
+```powershell
+cd web
+npm install
+npm run build
+cd ..
+```
+
+### 3. Launch the portal server (serves web/dist and /api)
 ```powershell
 java -cp bin com.scholarship.web.ScholarshipWebServer
 ```
-> Opens at `http://localhost:8080` (or `http://localhost:8081` if port 8080 is in use).  
-> Alternatively, you can directly open `ui/index.html` in any browser (supports self-contained offline simulation mode).
+> Opens at `http://localhost:8080` (or the next free port up to 8099). Pages: `/`, `/schemes`, `/apply`, `/track`, `/admin`.  
+> The server needs `web/dist`; if it is missing it exits and tells you to run the build.
 
-### 3. Run Interactive CLI Application (Options 0-23)
+### 4. Frontend dev server with hot reload (optional)
+```powershell
+cd web
+npm run dev
+```
+> Opens at `http://localhost:5173`. `/api` requests are proxied to the Java server on `:8080`, so start step 3 first.
+
+### 5. Run Interactive CLI Application (Options 0-23)
 ```powershell
 java -cp bin com.scholarship.Main
 ```
