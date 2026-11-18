@@ -53,10 +53,14 @@ public class ScholarshipWebServer {
             try { port = Integer.parseInt(args[0]); } catch (NumberFormatException ignored) {}
         }
 
-        Path uiPath = Paths.get("ui").toAbsolutePath();
+        Path uiPath = Paths.get("web", "dist").toAbsolutePath();
         if (!Files.exists(uiPath)) {
-            // Check relative to project root
-            uiPath = Paths.get("..", "ui").toAbsolutePath();
+            // Check relative to project root (repo root or bin/ working directory)
+            uiPath = Paths.get("..", "web", "dist").toAbsolutePath();
+        }
+        if (!Files.exists(uiPath)) {
+            System.err.println("Frontend build not found at " + uiPath + ". Run `npm run build` in web/ first.");
+            return;
         }
 
         ScholarshipWebServer webServer = new ScholarshipWebServer(port, uiPath);
@@ -98,9 +102,9 @@ public class ScholarshipWebServer {
             System.out.println("  EDUSCHOLAR — NATIONAL SCHOLARSHIP & GRANT PORTAL SERVER");
             System.out.println("------------------------------------------------------------------");
             System.out.printf("  Portal Home   : http://localhost:%d%n", currentPort);
-            System.out.printf("  Apply Online  : http://localhost:%d/apply.html%n", currentPort);
-            System.out.printf("  Track Status  : http://localhost:%d/track.html%n", currentPort);
-            System.out.printf("  Admin Portal  : http://localhost:%d/admin.html%n", currentPort);
+            System.out.printf("  Apply Online  : http://localhost:%d/apply%n", currentPort);
+            System.out.printf("  Track Status  : http://localhost:%d/track%n", currentPort);
+            System.out.printf("  Admin Portal  : http://localhost:%d/admin%n", currentPort);
             System.out.printf("  Static Assets : %s%n", uiDirectory);
             System.out.println("==================================================================");
             System.out.println("  Press Ctrl+C to stop the server.");
@@ -467,6 +471,11 @@ public class ScholarshipWebServer {
 
             // Prevent path traversal
             Path resolved = baseDir.resolve(pathStr.substring(1)).normalize();
+            // Client-side routes (no file extension, outside /api) fall back to the SPA entry point.
+            if (resolved.startsWith(baseDir) && (!Files.exists(resolved) || Files.isDirectory(resolved))
+                    && !pathStr.startsWith("/api/") && !pathStr.contains(".")) {
+                resolved = baseDir.resolve("index.html");
+            }
             if (!resolved.startsWith(baseDir) || !Files.exists(resolved) || Files.isDirectory(resolved)) {
                 String notFound = "<h1>404 Not Found</h1><p>File not found: " + pathStr + "</p>";
                 exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
